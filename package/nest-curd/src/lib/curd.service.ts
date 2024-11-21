@@ -71,7 +71,6 @@ export class CurdService<T extends ObjectLiteral = any> {
             orderBy,
             relations,
             relationSelect,
-            pageSize = 10, page = 1,
         } = body;
 
         const query = this._repository.createQueryBuilder('entity');
