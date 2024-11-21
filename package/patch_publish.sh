@@ -7,14 +7,14 @@ FILE_PATH=$(pwd)
 
 # 切换到 ./nest-curd 目录并执行 npm 命令
 cd "$FILE_PATH/nest-curd" || { echo "Failed to enter $FILE_PATH/nest-curd directory"; exit 1; }
-npm run patch && npm publish
+npm run patch && npm publish -access public
 
 # 切换到 ./generator 目录并执行 npm 命令
-cd "$FILE_PATH/generator" || { echo "Failed to enter $FILE_PATH/generator directory"; exit 1; }
-npm run patch && npm publish
+cd "$FILE_PATH/curd-generator" || { echo "Failed to enter $FILE_PATH/curd-generator directory"; exit 1; }
+npm run patch && npm publish -access public
 
 # 切换到 ./quasar-curd 目录并执行 npm 命令
-cd "$FILE_PATH/quasar-curd" || { echo "Failed to enter $FILE_PATH/generator directory"; exit 1; }
-npm run patch && npm publish
+cd "$FILE_PATH/quasar-curd" || { echo "Failed to enter $FILE_PATH/quasar-curd directory"; exit 1; }
+npm run patch && npm publish -access public
 
 echo "Build and publish completed successfully."
