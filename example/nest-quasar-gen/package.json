@@ -1,0 +1,20 @@
+{
+  "name": "nest-quasar-gen",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "gen": "ts-node node_modules/@stread/curd-generator/src/generator.ts ./config.json",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^22.9.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.6.3"
+  },
+  "dependencies": {
+    "typeorm": "^0.3.20"
+  }
+}

@@ -1,0 +1,5 @@
+{
+  "input": "./input",
+  "output_backend": "../nest-project/src/nest-quasar-curd",
+  "output_frontend": "../quasar-project/src/nest-quasar-curd"
+}
