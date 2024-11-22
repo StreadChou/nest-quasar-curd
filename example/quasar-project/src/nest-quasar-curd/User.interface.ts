@@ -6,6 +6,12 @@ export class UserInterface {
 	/** # */
 	id?: number;
 
+	/** 用户名 */
+	username?: string;
+
+	/** 密码 */
+	password?: string;
+
 	/** 创建时间 */
 	created_at?: Date;
 

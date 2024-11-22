@@ -21,6 +21,32 @@ export const define: EntityDefine = {
             },
         },
 
+        username: {
+            label: "用户名",
+            type: ColumnsType.String,
+            backend: {
+                decorator: [
+                    `@Column({comment: "__COLUMNS_LABEL__"})`
+                ],
+            },
+            frontend: {
+                show_at_home: true,
+            },
+        },
+
+        password: {
+            label: "密码",
+            type: ColumnsType.String,
+            backend: {
+                decorator: [
+                    `@Column({comment: "__COLUMNS_LABEL__"})`
+                ],
+            },
+            frontend: {
+                show_at_home: false,
+            },
+        },
+
 
         created_at: {
             label: "创建时间",

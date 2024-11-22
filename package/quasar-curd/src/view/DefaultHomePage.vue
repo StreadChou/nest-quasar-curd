@@ -1,50 +1,12 @@
 <script setup lang="ts">
-import {AxiosInstance} from "axios";
-import {AbstractViewData, FindAllBody, FindAllResponse} from "../index";
-import {ref, toRefs} from "vue";
+import {AbstractViewData, FindAllResponse, HomeProps} from "../index";
+import {onMounted, ref, toRefs} from "vue";
 
 type EntityType = any;
 
-/** Table 的绑定 */
-interface TableBind {
-  flat: boolean;
-  dense: boolean;
-  dark: boolean;
-  bordered: boolean;
-  square: boolean;
 
-  separator: 'horizontal' | 'vertical' | 'cell' | 'none',
-  "wrap-cells": boolean;
-
-  class: string,
-  style: Record<string, string>
-}
-
-/** Props 类型定义 */
-interface Props {
-  /** Ajax 实例 */
-  api: AxiosInstance;
-  /** 请求的参数 */
-  requestBody?: FindAllBody,
-  /** 使用的视图数据处理器 */
-  ViewData?: AbstractViewData,
-  /** 表格绑定 */
-  table_bind?: TableBind
-  /** 表格 head 绑定 */
-  thead_bind?: Record<string, any>
-  /** 表格 body 绑定 */
-  tbody_bind?: Record<string, any>
-  /** 表格 tr 绑定 */
-  tr_bind?: Record<string, any>
-  /** 表格 td 绑定 */
-  td_bind?: Record<string, any>
-  /** 表格 th 绑定 */
-  th_bind?: Record<string, any>
-
-}
-
-const props = withDefaults(defineProps<Props>(), {
-  requestBody: {},
+const props = withDefaults(defineProps<HomeProps>(), {
+  request_body: {},
   table_bind: () => ({
     class: "text-left",
     flat: true,
@@ -54,17 +16,25 @@ const props = withDefaults(defineProps<Props>(), {
   })
 })
 
-const {requestBody} = toRefs(props);
-const ViewData = ref<AbstractViewData<EntityType>>(props.ViewData)
+const {request_body} = toRefs(props);
+const ViewData = ref<AbstractViewData<EntityType>>(props.view_data ? new props.view_data(props.api) : undefined);
 
-const entityList = ref<FindAllResponse<EntityType>>({data: []});
+const EntityList = ref<FindAllResponse<EntityType>>({data: []});
 
 
 /** 请求数据 */
 const fetch_entity = async () => {
-  const axios_response = await ViewData.value.fetch_entity_list(requestBody.value);
-  entity_list.value = axios_response.data;
+  console.log(props)
+  if (!ViewData.value?.fetch_entity_list) return null;
+
+  const axios_response = await ViewData.value.fetch_entity_list(request_body.value);
+  EntityList.value = axios_response.data;
 }
+
+
+onMounted(() => {
+  fetch_entity();
+})
 
 </script>
 

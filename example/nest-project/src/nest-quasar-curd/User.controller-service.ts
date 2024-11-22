@@ -1,4 +1,4 @@
-import {CurdService, CurdController} from "@stread/nest-curd";
+import {CurdController, CurdService} from "@stread/nest-curd";
 import {Repository} from "typeorm";
 import {Controller, Injectable} from "@nestjs/common";
 import {InjectRepository} from "@nestjs/typeorm";
