@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {AbstractViewData, FormProps} from "../index";
+import {AbstractViewData, DefaultRemoveDialogVue, FormProps} from "../index";
 import {onMounted, ref} from "vue";
 import {useRoute, useRouter} from "vue-router";
 import {useQuasar} from "quasar";
@@ -37,6 +37,22 @@ const init_data = async () => {
 const click_restore = () => {
   entity.value = JSON.parse(JSON.stringify(_the_init_entity.value));
 };
+// 点击保存按钮
+const click_save = async () => {
+  const SaveAxiosResponse = await ViewData.value.save_entity(id.value, entity.value);
+};
+// 点击删除按钮
+const click_delete = async () => {
+  $q.dialog({
+    component: DefaultRemoveDialogVue,
+    componentProps: {
+      api: props.api,
+      view_data: ViewData.value,
+      delete_id: id.value,
+      options: _the_init_entity.value,
+    }
+  })
+}
 
 
 onMounted(async () => {
@@ -49,11 +65,35 @@ onMounted(async () => {
   <div class="full-width">
     <div class="current-row q-gutter-y-md" v-if="init">
       <template v-for="show_column of show_columns">
-        <div>
-          {{ show_column }}
+        <div class="col">
+          <div class="row q-gutter-x-md">
+            <div class="col">
+              <component :is="ViewData.columnsTypeHandler[show_column].form_component()"
+                         v-model="entity[show_column]"
+                         :create_or_update="create_or_update"
+                         :columns_key="show_column"
+                         :form="entity"
+                         :handler="ViewData.columnsTypeHandler[show_column]"
+              ></component>
+            </div>
+          </div>
         </div>
-
       </template>
+
+      <div class="col">
+        <div class="row justify-end q-mt-md q-gutter-x-md">
+          <slot name="handle_button">
+            <slot name="handle_button_before"></slot>
+
+            <q-btn color="negative" label="删除" v-if="id !== '0'" @click="click_delete"/>
+            <q-btn color="warning" label="还原" @click="click_restore"/>
+            <q-btn color="secondary" label="返回" @click="router.go(-1)"/>
+            <q-btn color="primary" label="保存" @click="click_save"/>
+
+            <slot name="handle_button_after"></slot>
+          </slot>
+        </div>
+      </div>
     </div>
   </div>
 </template>

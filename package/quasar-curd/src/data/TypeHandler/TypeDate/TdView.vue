@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import {ref} from "vue";
 import {HomeItemProps} from "../../../index";
+import moment from "moment";
 
 const props = defineProps<HomeItemProps>();
 const origin_data = ref(props.entity[props.columns_key])

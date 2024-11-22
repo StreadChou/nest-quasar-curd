@@ -80,6 +80,20 @@ export abstract class AbstractViewData<T = any> {
         return this.api.get<T>(url);
     }
 
+    /** 保存单个对象 */
+    async save_entity(id: string, form: T) {
+        const method = id === "0" ? 'post' : 'patch';
+        const url = id === "0"
+            ? `${this.restful}`
+            : `${this.restful}/${id}`;
+        return await this.api[method]<T>(url, form);
+    }
+
+    /** 删除单个对象 */
+    async delete_entity(delete_id: string) {
+        return this.api.delete(`${this.restful}/${delete_id}`)
+    }
+
     /** 初始化表单数据 */
     async init_form_data(form: object, entity?: T) {
         /** 展示出来的字段(会根据是编辑还是修改来给定不同的字段) */

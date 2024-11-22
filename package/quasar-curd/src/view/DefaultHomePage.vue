@@ -20,6 +20,7 @@ const {request_body} = toRefs(props);
 const ViewData = ref<AbstractViewData<EntityType>>(props.view_data ? new props.view_data(props.api) : undefined);
 
 const EntityList = ref<FindAllResponse<EntityType>>({data: []});
+const show_columns = ref<string[]>(ViewData.value.HomeShowColumns)
 
 
 /** 请求数据 */
@@ -43,19 +44,28 @@ onMounted(() => {
     <q-markup-table v-bind="table_bind || {}">
       <thead v-bind="thead_bind || {}">
       <tr v-bind="tr_bind || {}">
-        <th v-bind="th_bind || {}">
-          123
-        </th>
+        <template v-for="show_column of show_columns">
+          <th v-bind="th_bind || {}">
+            {{ ViewData.columns[show_column].label }}
+          </th>
+        </template>
+
       </tr>
 
       </thead>
       <tbody v-bind="tbody_bind || {}">
-      <template v-for="n in 10">
+      <template v-for="entity of EntityList.data">
         <tr v-bind="tr_bind || {}">
-          <td>1</td>
-          <td>12</td>
-          <td>12</td>
-          <td>12</td>
+          <template v-for="show_column of show_columns">
+            <td>
+              <component
+                  :is="ViewData.columnsTypeHandler[show_column].td_component()"
+                  :columns_key="show_column"
+                  :entity="entity"
+                  :handler="ViewData.columnsTypeHandler[show_column]"
+              ></component>
+            </td>
+          </template>
         </tr>
       </template>
 
