@@ -5,7 +5,7 @@ import {AbstractGenerator} from "./AbstractGenerator";
 import {ColumnsType, TypeExtensionForExtension} from "../../constant";
 
 
-export class GenerateClass extends AbstractGenerator {
+export class GenerateEntity extends AbstractGenerator {
     reply!: string;
 
     constructor(item: GenerateItem) {

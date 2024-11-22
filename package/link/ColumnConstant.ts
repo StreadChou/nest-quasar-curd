@@ -1,5 +1,5 @@
 /** 每一个字段的定义 */
-export interface ColumnsDefine<T extends ColumnsType> {
+export interface ColumnsDefine<T extends ColumnsType = any> {
     /** 字段的名字 */
     label?: string;
     /** 字段的备注 */
