@@ -3,6 +3,7 @@
   "version": "0.0.4",
   "description": "",
   "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "module": "src/index.ts",
   "scripts": {
     "build": "rm -rf dist && tsc --build",

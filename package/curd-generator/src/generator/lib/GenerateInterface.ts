@@ -2,14 +2,14 @@ import {GenerateItem} from "../GenerateItem";
 import * as fs from "fs";
 import * as  path from "path";
 import {AbstractGenerator} from "./AbstractGenerator";
-import {ColumnsType, TypeExtensionForExtension} from "../../constant";
+import {ColumnsType, TypeExtensionForExtension} from "../../link/index";
 
 export class GenerateInterface extends AbstractGenerator {
     reply!: string;
 
     constructor(item: GenerateItem) {
         super(item);
-        this.reply = fs.readFileSync(path.join(__dirname, "../../../../template/interface.temp")).toString();
+        this.reply = fs.readFileSync(path.join(__dirname, "../../../template/interface.temp")).toString();
     }
 
     start() {
@@ -22,8 +22,10 @@ export class GenerateInterface extends AbstractGenerator {
     /** 处理字段 */
     handleColumns() {
         const List: string[] = [];
-        for (const data of this.item.config.columns) {
-            if (data.type == ColumnsType.computed) continue;
+        for (const key in this.item.config.columns) {
+            const data = this.item.config.columns[key];
+
+            if (data.type == ColumnsType.Computed) continue;
 
             let string = "";
             // 处理备注
@@ -32,13 +34,16 @@ export class GenerateInterface extends AbstractGenerator {
             if (data.mark) string += `\t/** ${data.mark} */\n`;
 
 
-            if ([ColumnsType.extension, ColumnsType.relation, ColumnsType.Enum, ColumnsType.customer].includes(data.type)) {
+            if ([ColumnsType.Extension, ColumnsType.Relation, ColumnsType.Enum, ColumnsType.Customer].includes(data.type)) {
                 const type_extension = data.type_extension as TypeExtensionForExtension;
-                string += `\t${data.key}?: ${type_extension.type_string};\n`;
-                const import_path = type_extension.import_path;
-                if (import_path) this.addImport(import_path[0], import_path[1]);
-            }  else {
-                string += `\t${data.key}?: ${data.type};\n`;
+                string += `\t${key}?: ${type_extension.type_string};\n`;
+
+                const import_path = type_extension.import_path || [];
+                for (const [_string, _path] of import_path){
+                    this.addImport(_string, _path);
+                }
+            } else {
+                string += `\t${key}?: ${data.type};\n`;
             }
 
             string = this.replaceColumns(string, data);

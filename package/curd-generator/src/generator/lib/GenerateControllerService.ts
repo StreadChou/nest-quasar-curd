@@ -9,7 +9,7 @@ export class GenerateControllerService extends AbstractGenerator {
 
     constructor(item: GenerateItem) {
         super(item);
-        this.reply = fs.readFileSync(path.join(__dirname, "../../../../template/controller-service.temp")).toString();
+        this.reply = fs.readFileSync(path.join(__dirname, "../../../template/controller-service.temp")).toString();
     }
 
     start() {
@@ -25,8 +25,7 @@ export class GenerateControllerService extends AbstractGenerator {
         // 数据只计算一次, 可以缓存
         if (this.DataCache["CONTROLLER_SERVICE_NAME"]) return this.DataCache["CONTROLLER_SERVICE_NAME"];
         let CONTROLLER_SERVICE_NAME = GetFileBasenameNoExt(this.item.output_backend_target)
-        const Append = this.item.config.ControllerPathAppend || "controller-service";
-        this.DataCache["CONTROLLER_SERVICE_NAME"] = `${CONTROLLER_SERVICE_NAME}.${Append}.ts`;
+        this.DataCache["CONTROLLER_SERVICE_NAME"] = `${CONTROLLER_SERVICE_NAME}.controller-service.ts`;
         return this.DataCache["CONTROLLER_SERVICE_NAME"] as string;
     }
 

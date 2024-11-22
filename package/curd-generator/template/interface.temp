@@ -1,0 +1,8 @@
+__IMPORT__
+
+__TABLE_MARK__
+export class __CLASS_NAME__Interface {
+
+__INTERFACE_COLUMN__
+
+}

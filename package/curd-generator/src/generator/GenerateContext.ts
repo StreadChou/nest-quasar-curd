@@ -3,6 +3,8 @@ import * as path from "node:path";
 import {GenerateItem} from "./GenerateItem";
 
 export class GeneratorContext {
+    path_to_instance: Record<string, GenerateItem> = {};
+
     constructor
     (
         public readonly config_root: string,
@@ -67,6 +69,7 @@ export class GeneratorContext {
                 output_backend_target,
                 output_frontend_target,
             );
+            this.path_to_instance[input_target] = item;
             item.start()
         }
     }

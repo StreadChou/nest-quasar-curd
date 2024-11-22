@@ -2,7 +2,7 @@ import {GenerateItem} from "../GenerateItem";
 import * as fs from "fs";
 import * as  path from "path";
 import {AbstractGenerator} from "./AbstractGenerator";
-import {ColumnsType, TypeExtensionForExtension} from "../../constant";
+import {ColumnsType, TypeExtensionForExtension} from "../../link/index";
 
 
 export class GenerateEntity extends AbstractGenerator {
@@ -10,7 +10,7 @@ export class GenerateEntity extends AbstractGenerator {
 
     constructor(item: GenerateItem) {
         super(item);
-        this.reply = fs.readFileSync(path.join(__dirname, "../../../../template/class.temp")).toString();
+        this.reply = fs.readFileSync(path.join(__dirname, "../../../template/class.temp")).toString();
     }
 
     start() {
@@ -24,8 +24,9 @@ export class GenerateEntity extends AbstractGenerator {
     /** 处理字段 */
     handleColumns() {
         const List: string[] = [];
-        for (const data of this.item.config.columns) {
-            if (data.type == ColumnsType.computed) continue;
+        for (const key in this.item.config.columns) {
+            const data = this.item.config.columns[key]
+            if (data.type == ColumnsType.Computed) continue;
 
             let string = "";
 
@@ -41,20 +42,22 @@ export class GenerateEntity extends AbstractGenerator {
 
 
             // 如果有装饰器, 则先处理装饰器
-            if (data.decorator) {
-                for (const decorator of data.decorator) {
+            if (data.backend.decorator) {
+                for (const decorator of data.backend.decorator) {
                     string += `\t${this.handleDecorator(decorator)}\n`;
                 }
             }
 
-            if ([ColumnsType.extension, ColumnsType.relation, ColumnsType.Enum, ColumnsType.customer].includes(data.type)) {
+            if ([ColumnsType.Extension, ColumnsType.Relation, ColumnsType.Enum, ColumnsType.Customer].includes(data.type)) {
                 const type_extension = data.type_extension as TypeExtensionForExtension;
-                string += `\t${data.key}: ${type_extension.type_string};\n`;
+                string += `\t${key}: ${type_extension.type_string};\n`;
 
-                const import_path = type_extension.import_path;
-                if (import_path) this.addImport(import_path[0], import_path[1]);
+                const import_path = type_extension.import_path || [];
+                for (const [_string, _path] of import_path){
+                    this.addImport(_string, _path);
+                }
             } else {
-                string += `\t${data.key}: ${data.type};\n`;
+                string += `\t${key}: ${data.type};\n`;
             }
 
             string = this.replaceColumns(string, data);
@@ -65,9 +68,9 @@ export class GenerateEntity extends AbstractGenerator {
 
     /** 处理类的装饰器 */
     handleClassDecorator() {
-        if (this.item.config.ClassDecorator) {
+        if (this.item.config.backend.EntityDecorator) {
             const DecoratorList: string[] = [];
-            for (const data of this.item.config.ClassDecorator) {
+            for (const data of this.item.config.backend.EntityDecorator) {
                 DecoratorList.push(this.handleDecorator(data));
             }
             this.reply = this.reply.replace(/__CLASS_DECORATOR__/g, DecoratorList.join("/n"));

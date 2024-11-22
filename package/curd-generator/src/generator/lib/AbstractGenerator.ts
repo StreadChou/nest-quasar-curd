@@ -2,7 +2,7 @@ import {GenerateItem} from "../GenerateItem";
 import * as fs from "fs";
 import * as  path from "path";
 import {GetFileBasenameNoExt, toCamelCase} from "../../helper/PathHelper";
-import {ColumnsDefine} from "../../constant";
+import {ColumnsDefine} from "../../link/index";
 
 export class AbstractGenerator {
     protected DataCache: Record<string, any> = {};
@@ -17,8 +17,7 @@ export class AbstractGenerator {
         // 数据只计算一次, 可以缓存
         if (this.DataCache["ENTITY_FILE_NAME"]) return this.DataCache["ENTITY_FILE_NAME"];
         let ENTITY_FILE_NAME = GetFileBasenameNoExt(this.item.output_backend_target)
-        const Append = this.item.config.EntityPathAppend || "entity";
-        this.DataCache["ENTITY_FILE_NAME"] = `${ENTITY_FILE_NAME}.${Append}.ts`;
+        this.DataCache["ENTITY_FILE_NAME"] = `${ENTITY_FILE_NAME}.entity.ts`;
         return this.DataCache["ENTITY_FILE_NAME"] as string;
     }
 
@@ -27,8 +26,7 @@ export class AbstractGenerator {
         // 数据只计算一次, 可以缓存
         if (this.DataCache["ENTITY_FILE_NAME"]) return this.DataCache["ENTITY_FILE_NAME"];
         let ENTITY_FILE_NAME = GetFileBasenameNoExt(this.item.output_backend_target)
-        const Append = this.item.config.EntityPathAppend || "interface";
-        this.DataCache["ENTITY_FILE_NAME"] = `${ENTITY_FILE_NAME}.${Append}.ts`;
+        this.DataCache["ENTITY_FILE_NAME"] = `${ENTITY_FILE_NAME}.interface.ts`;
         return this.DataCache["ENTITY_FILE_NAME"] as string;
     }
 
@@ -37,8 +35,7 @@ export class AbstractGenerator {
         // 数据只计算一次, 可以缓存
         if (this.DataCache["VUE_DATA_FILE_NAME"]) return this.DataCache["VUE_DATA_FILE_NAME"];
         let VUE_DATA_FILE_NAME = GetFileBasenameNoExt(this.item.output_backend_target)
-        const Append = this.item.config.EntityPathAppend || "view.data";
-        this.DataCache["VUE_DATA_FILE_NAME"] = `${toCamelCase(`${VUE_DATA_FILE_NAME}.${Append}`)}.ts`;
+        this.DataCache["VUE_DATA_FILE_NAME"] = `${toCamelCase(`${VUE_DATA_FILE_NAME}.view.data`)}.ts`;
         return this.DataCache["VUE_DATA_FILE_NAME"] as string;
     }
 
