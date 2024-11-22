@@ -11,16 +11,18 @@ NEST_CURD_LINK="$FILE_PATH/nest-curd/src/link"
 if [ -d "$NEST_CURD_LINK" ]; then
   rm -rf "$NEST_CURD_LINK"
 fi
-ln -s "$LINK_DIR" "$NEST_CURD_LINK"
+cp -R "$LINK_DIR" "$NEST_CURD_LINK"
+
 
 GENERATOR_LINK="$FILE_PATH/curd-generator/src/link"
 if [ -d "$GENERATOR_LINK" ]; then
     rm -rf "$GENERATOR_LINK"
 fi
-ln -s "$LINK_DIR" "$GENERATOR_LINK"
+cp -R "$LINK_DIR" "$GENERATOR_LINK"
+
 
 QUASAR_CURD_LINK="$FILE_PATH/quasar-curd/src/link"
 if [ -d "$QUASAR_CURD_LINK" ]; then
     rm -rf "$QUASAR_CURD_LINK"  # 修正为删除 QUASAR_CURD_LINK
 fi
-ln -s "$LINK_DIR" "$QUASAR_CURD_LINK"
+cp -R "$LINK_DIR" "$QUASAR_CURD_LINK"
