@@ -19,7 +19,7 @@ const data = computed({
 
 <template>
   <q-input v-model="data"
-           standout :label="`${column.label}(${column.key})`"
+           standout :label="`${column.label}(${columns_key})`"
            :disable="handler.isDisable(create_or_update)"
   ></q-input>
 </template>

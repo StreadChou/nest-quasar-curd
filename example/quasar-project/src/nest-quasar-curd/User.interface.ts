@@ -12,6 +12,9 @@ export class UserInterface {
 	/** 密码 */
 	password?: string;
 
+	/** 直系领导 */
+	leader?: UserCurdEntity;
+
 	/** 创建时间 */
 	created_at?: Date;
 

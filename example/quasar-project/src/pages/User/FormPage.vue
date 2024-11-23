@@ -7,7 +7,10 @@
     <DefaultFormPageVue
       :api="api"
       :view_data="UserViewData"
-    ></DefaultFormPageVue>
+      :form_editor="form_editor"
+    >
+
+    </DefaultFormPageVue>
 
   </q-page>
 </template>
@@ -16,5 +19,11 @@
 import {DefaultFormPageVue} from "@stread/quasar-curd"
 import {api} from "boot/axios";
 import {UserViewData} from "src/nest-quasar-curd/UserViewData";
+import UserSelector from "src/nest-quasar-curd/UserSelector.vue";
+import {ref} from "vue";
+
+const form_editor = ref({
+  leader: UserSelector,
+})
 
 </script>

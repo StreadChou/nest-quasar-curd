@@ -1,6 +1,5 @@
 import {type AxiosInstance} from "axios";
-import {AbstractViewData} from "../data";
-import {AbstractTypeHandler} from "../data/TypeHandler/AbstractTypeHandler";
+import {AbstractTypeHandler, AbstractViewData} from "../data";
 import type {ViewDataOption} from "./constant";
 
 /** Props 类型定义 */
@@ -11,11 +10,16 @@ export interface FormProps {
     view_data: new (api: AxiosInstance, option?: ViewDataOption) => AbstractViewData,
     /** 编辑的资源ID */
     id?: string;
+    /** 表单编辑器 */
+    form_editor?: Record<string, any>;
 }
 
 
 /** 表单的单个字段的Props定义 */
 export interface FormItemProps {
+    /** Form 使用 v-model 绑定的内容 */
+    modelValue: any | undefined,
+
     /** 表单是在创建还是在更新 */
     create_or_update: "create" | "update",
     /** 编辑的是 实体的某个字段  */
@@ -24,12 +28,9 @@ export interface FormItemProps {
     form: object,
     /** 字段的处理器  */
     handler: AbstractTypeHandler,
+}
 
-    /** Form 使用 v-model 绑定的内容 */
-    modelValue?: any | undefined,
 
-    /** 使用 value 传值 */
-    value?: any | undefined,
-    /** 使用 value 传值 的 更新方法  */
-    update?: (key: string, value: any) => void;
+export class FormItemPropsClass {
+    
 }

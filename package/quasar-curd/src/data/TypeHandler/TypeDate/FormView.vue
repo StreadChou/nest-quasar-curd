@@ -21,7 +21,7 @@ const data = computed({
 </script>
 
 <template>
-  <q-input v-model="data" :label="`${column.label}(${column.key})`"
+  <q-input v-model="data" :label="`${column.label}(${columns_key})`"
            type="datetime-local" standout dense step="1"
            :disable="handler.isDisable(create_or_update)"
   ></q-input>

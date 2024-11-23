@@ -9,6 +9,10 @@ export interface FindAllBody<T = any> {
     select?: string[];
     /** where 查询 */
     where?: Record<keyof T, any>;
+    /** where not 查询, 多个之间使用and */
+    whereNot?: Record<keyof T, any>;
+    /** where like 查询, 多个like之间使用or */
+    whereLike?: { fields: Array<keyof T>, like: string };
     /** whereIn 查询 */
     whereIn?: Record<keyof T, any[]>;
     /** whereNull 查询 */
@@ -35,7 +39,6 @@ export interface FindAllResponse<T = any> {
         total?: number;
     };
 }
-
 
 
 export type CreateBody<T = any> = Partial<T>;

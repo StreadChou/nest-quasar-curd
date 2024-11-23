@@ -62,7 +62,6 @@ export type ColumnsTypeExtension<T extends ColumnsType> =
 
 /** 数据库关联的附加数据 */
 export interface TypeExtensionForRelation {
-    type: ColumnsType.Relation;
     /** 这个类型的定义-> a: b; 表示a的类型是b, type_string就是b */
     type_string: string;
     /** 字段导入: [名字, 从哪import] */
@@ -71,7 +70,6 @@ export interface TypeExtensionForRelation {
 
 /** 自定义类型的附加数据 */
 export interface TypeExtensionForCustomer {
-    type: ColumnsType.Customer;
     /** 这个类型的定义-> a: b; 表示a的类型是b, type_string就是b */
     type_string: string;
     /** 字段导入: [名字, 从哪import] */
@@ -81,7 +79,6 @@ export interface TypeExtensionForCustomer {
 
 /** 数据库关联的附加数据 */
 export interface TypeExtensionForEnum<T extends string | number | symbol = any> {
-    type: ColumnsType.Enum;
     /** 这个类型的定义-> a: b; 表示a的类型是b, type_string就是b */
     type_string: string;
     /** 字段导入: [名字, 从哪import] */
@@ -92,7 +89,6 @@ export interface TypeExtensionForEnum<T extends string | number | symbol = any> 
 
 /** 自定义类型的附加数据 */
 export interface TypeExtensionForExtension {
-    type: ColumnsType.Extension;
     /** 这个类型的定义-> a: b; 表示a的类型是b, type_string就是b */
     type_string: string;
     /** 字段导入: [名字, 从哪import] */

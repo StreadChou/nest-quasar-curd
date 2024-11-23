@@ -25,7 +25,7 @@ const typeExtension = ref<TypeExtensionForExtension>(column.value.type_extension
   <div class="row q-gutter-x-md">
     <div class="col">
       <q-input v-model="data" type="textarea"
-               standout :label="`${column.label}(${column.key})`"
+               standout :label="`${column.label}(${columns_key})`"
                :disable="handler.isDisable(create_or_update)"
       ></q-input>
     </div>

@@ -31,13 +31,13 @@ const data = computed({
 // 初始化数据
 if (!props.modelValue) {
   // 如果没有传入模型值，使用一个默认对象
-  emits('update:modelValue', { id: 1 });
+  emits('update:modelValue', { });
 }
 </script>
 
 <template>
   <q-input v-model="data"
-           standout :label="`${column.label} (${column.key})`"
+           standout :label="`${column.label} (${columns_key})`"
            clearable
            :disable="handler.isDisable(create_or_update)">
   </q-input>

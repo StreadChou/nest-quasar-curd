@@ -65,6 +65,8 @@ export class CurdService<T extends ObjectLiteral = any> {
         const {
             select,
             where,
+            whereLike,
+            whereNot,
             whereIn,
             whereNull,
             whereNotNull,
@@ -80,6 +82,25 @@ export class CurdService<T extends ObjectLiteral = any> {
             Object.keys(where).forEach(key => {
                 query.andWhere(`entity.${key} = :${key}`, {[key]: where[key]});
             });
+        }
+
+        if (whereNot){
+            Object.keys(whereNot).forEach(key => {
+                query.andWhere(`entity.${key} != :${key}`, {[key]: whereNot[key]});
+            });
+        }
+
+        if (whereLike) {
+            const {fields, like} = whereLike;
+            if (fields.length > 0) {
+                fields.forEach((f, index) => {
+                    if (index === 0) {
+                        query.andWhere(`entity.${f as string} LIKE :searchTerm`, {searchTerm: `%${like}%`});
+                    } else {
+                        query.orWhere(`entity.${f as string} LIKE :searchTerm`, {searchTerm: `%${like}%`});
+                    }
+                });
+            }
         }
 
         if (whereIn) {

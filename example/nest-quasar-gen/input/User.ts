@@ -1,4 +1,4 @@
-import {ColumnsType, EntityDefine} from "@stread/curd-generator";
+import {ColumnsType, EntityDefine, TypeExtensionForRelation} from "@stread/curd-generator";
 
 
 export const define: EntityDefine = {
@@ -45,6 +45,22 @@ export const define: EntityDefine = {
             frontend: {
                 show_at_home: false,
             },
+        },
+
+        leader: {
+            label: "直系领导",
+            type: ColumnsType.Relation,
+            type_extension: {
+                type_string: "UserCurdEntity"
+            } as TypeExtensionForRelation,
+            backend: {
+                decorator: [
+                    `@ManyToOne(()=> UserCurdEntity, {eager: true})`
+                ]
+            },
+            frontend: {
+                show_at_home: true,
+            }
         },
 
 

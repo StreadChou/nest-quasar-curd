@@ -1,4 +1,4 @@
-import {Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn} from "typeorm";
+import {Entity, PrimaryGeneratedColumn, Column, ManyToOne, CreateDateColumn, UpdateDateColumn} from "typeorm";
 
 /** 用户库 */
 @Entity({name : "User"})
@@ -15,6 +15,10 @@ export class UserCurdEntity {
 	/** 密码 */
 	@Column({comment: "密码"})
 	password: string;
+
+	/** 直系领导 */
+	@ManyToOne(()=> UserCurdEntity)
+	leader: UserCurdEntity;
 
 	/** 创建时间 */
 	@CreateDateColumn({comment: "创建时间"})

@@ -11,6 +11,7 @@ const route = useRoute();
 const router = useRouter()
 
 const props = withDefaults(defineProps<FormProps>(), {})
+
 // 数据源
 const ViewData = ref<AbstractViewData<EntityType>>(props.view_data ? new props.view_data(props.api) : undefined);
 // 编辑的资源ID
@@ -60,6 +61,12 @@ const click_delete = async () => {
 }
 
 
+const getFormItemComponent = (column: string) => {
+  if (props.form_editor && props.form_editor[column]) return props.form_editor[column];
+  return ViewData.value.columnsTypeHandler[column].form_component()
+}
+
+
 onMounted(async () => {
   await init_data();
 })
@@ -73,25 +80,17 @@ onMounted(async () => {
         <div class="col">
           <div class="row q-gutter-x-md">
             <div class="col">
-              <slot :name="`editor_${show_column}`"
-                    :value="entity[child_grid]"
-                    :update="updateEntity"
+              {{ entity[show_column] }}
+              <component :is="getFormItemComponent(show_column)"
+                         v-model="entity[show_column]"
 
-                    :create_or_update="create_or_update"
-                    :columns_key="show_column"
-                    :form="entity"
-                    :handler="ViewData.columnsTypeHandler[show_column]"
-              >
-                <component :is="ViewData.columnsTypeHandler[show_column].form_component()"
-                           v-model="entity[show_column]"
+                         :create_or_update="create_or_update"
+                         :columns_key="show_column"
+                         :form="entity"
+                         :handler="ViewData.columnsTypeHandler[show_column]"
 
-                           :create_or_update="create_or_update"
-                           :columns_key="show_column"
-                           :form="entity"
-                           :handler="ViewData.columnsTypeHandler[show_column]"
-                ></component>
-              </slot>
-
+                         :api="api"
+              ></component>
             </div>
           </div>
         </div>

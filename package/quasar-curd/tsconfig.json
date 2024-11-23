@@ -19,7 +19,6 @@
     "noFallthroughCasesInSwitch": false
   },
   "exclude": [
-    "node_modules",
-    "src/frontend",
+    "node_modules"
   ]
 }

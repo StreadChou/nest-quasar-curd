@@ -22,7 +22,7 @@ const options = ref(Object.values(typeExtension.option));
 
 <template>
   <q-select v-model="data" :options="options" emit-value map-options clearable
-            standout :label="`${column.label}(${column.key})`"
+            standout :label="`${column.label}(${columns_key})`"
             :disable="handler.isDisable(create_or_update)"
   >
 
