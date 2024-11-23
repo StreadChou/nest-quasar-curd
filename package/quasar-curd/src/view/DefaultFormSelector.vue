@@ -1,53 +1,48 @@
 <script setup lang="ts">
 import {computed, onMounted, ref} from "vue";
-import {AbstractTypeHandler, type FindAllBody} from "@stread/quasar-curd"
-import {UserViewData} from "./UserViewData";
-import type {UserInterface} from "./User.interface";
 import type {AxiosInstance} from "axios";
+import {FormItemProps} from "../define/FormPageDefine";
+import {AbstractTypeHandler, AbstractViewData} from "../data";
+import {ColumnsDefine, FindAllBody} from "../../../link";
 
-interface Props {
-  api: AxiosInstance,
-  /** Form 使用 v-model 绑定的内容 */
-  modelValue: any | undefined,
+type EntityType = any;
 
-  /** 表单是在创建还是在更新 */
-  create_or_update: "create" | "update",
-  /** 编辑的是 实体的某个字段  */
-  columns_key: string,
-  /** 表单的数据结构体  */
-  form: object,
-  /** 字段的处理器  */
-  handler: AbstractTypeHandler,
+interface Props extends FormItemProps {
+  /** 使用的数据处理器 */
+  view_data_instance: AbstractViewData,
 }
 
-const props = defineProps<Props>();
-const handler = ref<AbstractTypeHandler>(props.handler);
-const column = ref<ColumnsDefineInFrontend>(handler.value.column)
-
+const props = withDefaults(defineProps<Props>(), {})
 
 const emits = defineEmits<{ (e: 'update:modelValue', value: string | number): void; }>();
-
 const data = computed({
   get: () => props.modelValue,
   set: (value) => emits('update:modelValue', value),
 });
 
-const ViewData = ref(new UserViewData(props.api));
+const handler = ref<AbstractTypeHandler>(props.handler);
+const column = ref<ColumnsDefine>(handler.value.column)
+const editor_bind = ref(column.value.frontend?.editor_bind || {
+  "option-label": "id",
+  "map-options": true,
+  standout: true,
+  clearable: true,
+})
 
-const options = ref<UserInterface[]>([]);
+// 数据源
+const ViewData = ref<AbstractViewData<EntityType>>(props.view_data_instance);
+
+const options = ref<EntityType[]>([]);
+const total = ref(0);
+
+const loading = ref(false);
 const requestBody = ref<FindAllBody>({
   page: 1,
   pageSize: 30,
 })
+// 如果有初始值, 就不要再去获取这个值了(会优先获取)
+if (props?.modelValue?.id) requestBody.value.whereNot = {id: props.modelValue.id}
 
-// 如果有初始值, 就不要再去获取这个值了
-if (props?.modelValue?.id) {
-  requestBody.value.whereNot = {id: props.modelValue.id}
-}
-
-const total = ref(0);
-
-const loading = ref(false);
 
 const onScroll = ({to, ref}) => {
   const lastIndex = options.value.length - 1
@@ -85,14 +80,8 @@ onMounted(async () => {
 <template>
   <q-select v-model="data"
             :options="options"
+            v-bind="editor_bind"
             @virtual-scroll="onScroll"
-            map-options
-            option-label="id"
-
-
-            filled
-            clearable
-            standout
             :label="`${column.label}(${columns_key})(请直接输入以搜索)`"
             :disable="handler.isDisable(create_or_update)"
   >

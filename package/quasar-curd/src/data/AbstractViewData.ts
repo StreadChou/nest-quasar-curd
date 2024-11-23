@@ -1,5 +1,5 @@
 import type {AxiosInstance} from "axios";
-import {type EntityDefine, type FindAllBody, type ViewDataOption} from "../index";
+import {ColumnsType, type EntityDefine, type FindAllBody, FindOneQuery, type ViewDataOption} from "../index";
 import {AbstractTypeHandler} from "./TypeHandler/AbstractTypeHandler";
 import {Factory} from "./TypeHandler/Factory";
 
@@ -89,9 +89,11 @@ export abstract class AbstractViewData<T = any> {
     }
 
     /** 获取单个对象 */
-    async fetch_entity_one(id: string) {
+    async fetch_entity_one(id: string, query?: FindOneQuery) {
+        if (!query) query = {};
+        query.relations = Object.keys(this.columns).filter(ele => this.columns[ele].type == ColumnsType.Relation);
         const url = `${this.restful}/${id}`
-        return this.api.get<T>(url);
+        return this.api.get<T>(url, {params: query});
     }
 
     /** 保存单个对象 */

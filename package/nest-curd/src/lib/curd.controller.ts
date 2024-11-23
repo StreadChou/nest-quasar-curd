@@ -1,5 +1,5 @@
-import {Body, Delete, Get, HttpCode, HttpStatus, Param, Patch, Post} from "@nestjs/common";
-import {CreateBody, FindAllBody, FindAllResponse, UpdateBody} from "../link/index";
+import {Body, Delete, Get, HttpCode, HttpStatus, Param, Patch, Post, Query} from "@nestjs/common";
+import {CreateBody, FindAllBody, FindAllResponse, FindOneQuery, UpdateBody} from "../link/index";
 import {CurdService} from "./curd.service";
 
 export class CurdController<T = any> {
@@ -12,13 +12,13 @@ export class CurdController<T = any> {
 
     @Post("query")
     @HttpCode(HttpStatus.OK)
-    findAll(@Body() body: FindAllBody): Promise<FindAllResponse<T>>  {
+    findAll(@Body() body: FindAllBody): Promise<FindAllResponse<T>> {
         return this._services.CURD_FindAll(body);
     }
 
     @Get(':id')
-    findOne(@Param('id') id: string) {
-        return this._services.CURD_FindOne(id);
+    findOne(@Param('id') id: string, @Query() query?: FindOneQuery) {
+        return this._services.CURD_FindOne(id, query);
     }
 
     @Post("")

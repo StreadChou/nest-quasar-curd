@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import {computed, ref} from "vue";
-import {FormItemProps} from "../../../index";
+import {ColumnsDefine, FormItemProps} from "../../../index";
 import {AbstractTypeHandler} from "../AbstractTypeHandler";
 
 const props = defineProps<FormItemProps>();
 const handler = ref<AbstractTypeHandler>(props.handler);
-const column = ref<ColumnsDefineInFrontend>(handler.value.column)
+const column = ref<ColumnsDefine>(handler.value.column)
 
 const emits = defineEmits<{ (e: 'update:modelValue', value: string | number): void; }>();
 

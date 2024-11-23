@@ -16,14 +16,13 @@
 </template>
 
 <script setup lang="ts">
-import {DefaultFormPageVue} from "@stread/quasar-curd"
+import {DefaultFormPageVue, DefaultFormSelectorVue} from "@stread/quasar-curd"
 import {api} from "boot/axios";
 import {UserViewData} from "src/nest-quasar-curd/UserViewData";
-import UserSelector from "src/nest-quasar-curd/UserSelector.vue";
 import {ref} from "vue";
 
 const form_editor = ref({
-  leader: UserSelector,
+  leader: DefaultFormSelectorVue,
 })
 
 </script>

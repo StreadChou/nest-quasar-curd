@@ -25,6 +25,9 @@ export interface ColumnsDefine<T extends ColumnsType = any> {
         hidden_at_update?: boolean;
         /** 更新的时候禁止编辑 */
         disable_at_update?: boolean;
+
+        /** 编辑器绑定 */
+        editor_bind?: Record<string, any>;
     }
 }
 

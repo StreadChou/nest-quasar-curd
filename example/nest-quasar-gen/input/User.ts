@@ -55,11 +55,17 @@ export const define: EntityDefine = {
             } as TypeExtensionForRelation,
             backend: {
                 decorator: [
-                    `@ManyToOne(()=> UserCurdEntity, {eager: true})`
+                    `@ManyToOne(()=> UserCurdEntity)`
                 ]
             },
             frontend: {
                 show_at_home: true,
+                editor_bind: {
+                    "option-label": "username",
+                    "map-options": true,
+                    standout: true,
+                    clearable: true,
+                }
             }
         },
 

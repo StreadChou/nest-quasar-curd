@@ -1,6 +1,7 @@
-import {CreateBody, FindAllBody, FindAllResponse, UpdateBody} from "../link/index";
+import {CreateBody, FindAllBody, FindAllResponse, FindOneQuery, UpdateBody} from "../link/index";
 import {FindOptionsWhere, ObjectLiteral, Repository, SelectQueryBuilder, DeepPartial} from 'typeorm';
 import {HttpException, HttpStatus} from "@nestjs/common";
+import {FindOneOptions} from "typeorm/find-options/FindOneOptions";
 
 export class CurdService<T extends ObjectLiteral = any> {
     private _repository: Repository<T>;
@@ -33,12 +34,21 @@ export class CurdService<T extends ObjectLiteral = any> {
         };
     }
 
-    async CURD_FindOne(id: string): Promise<T> {
+    async CURD_FindOne(id: string, query?: FindOneQuery): Promise<T> {
         // @ts-ignore
         const findWhere: FindOptionsWhere<T> = {
             [this.primary_key]: this.primary_key_type == "string" ? id : parseInt(id),
         }
-        const entity = await this._repository.findOne({where: findWhere});
+        const options: FindOneOptions<T> = {where: findWhere}
+
+        if (query.select) {
+            options.select = query.select;
+        }
+        if (query.relations) {
+            options.relations = query.relations;
+        }
+
+        const entity = await this._repository.findOne(options);
         if (!entity) {
             throw new HttpException(`Entity with id ${id} not found`, HttpStatus.NOT_FOUND);
         }
@@ -84,7 +94,7 @@ export class CurdService<T extends ObjectLiteral = any> {
             });
         }
 
-        if (whereNot){
+        if (whereNot) {
             Object.keys(whereNot).forEach(key => {
                 query.andWhere(`entity.${key} != :${key}`, {[key]: whereNot[key]});
             });

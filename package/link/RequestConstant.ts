@@ -40,6 +40,13 @@ export interface FindAllResponse<T = any> {
     };
 }
 
+export interface FindOneQuery {
+    /** 选择哪些字段 */
+    select?: string[];
+    /** 关系 */
+    relations?: string[];
+}
+
 
 export type CreateBody<T = any> = Partial<T>;
 export type UpdateBody<T = any> = Partial<T>;

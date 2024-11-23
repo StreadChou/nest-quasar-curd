@@ -80,7 +80,6 @@ onMounted(async () => {
         <div class="col">
           <div class="row q-gutter-x-md">
             <div class="col">
-              {{ entity[show_column] }}
               <component :is="getFormItemComponent(show_column)"
                          v-model="entity[show_column]"
 
@@ -89,7 +88,7 @@ onMounted(async () => {
                          :form="entity"
                          :handler="ViewData.columnsTypeHandler[show_column]"
 
-                         :api="api"
+                         :view_data_instance="ViewData"
               ></component>
             </div>
           </div>
