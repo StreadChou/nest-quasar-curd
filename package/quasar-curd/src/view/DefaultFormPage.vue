@@ -41,6 +41,11 @@ const click_restore = () => {
 const click_save = async () => {
   const SaveAxiosResponse = await ViewData.value.save_entity(id.value, entity.value);
 };
+
+const updateEntity = async (key: string, value: any) => {
+  entity.value[key] = value;
+}
+
 // 点击删除按钮
 const click_delete = async () => {
   $q.dialog({
@@ -68,13 +73,25 @@ onMounted(async () => {
         <div class="col">
           <div class="row q-gutter-x-md">
             <div class="col">
-              <component :is="ViewData.columnsTypeHandler[show_column].form_component()"
-                         v-model="entity[show_column]"
-                         :create_or_update="create_or_update"
-                         :columns_key="show_column"
-                         :form="entity"
-                         :handler="ViewData.columnsTypeHandler[show_column]"
-              ></component>
+              <slot :name="`editor_${show_column}`"
+                    :value="entity[child_grid]"
+                    :update="updateEntity"
+
+                    :create_or_update="create_or_update"
+                    :columns_key="show_column"
+                    :form="entity"
+                    :handler="ViewData.columnsTypeHandler[show_column]"
+              >
+                <component :is="ViewData.columnsTypeHandler[show_column].form_component()"
+                           v-model="entity[show_column]"
+
+                           :create_or_update="create_or_update"
+                           :columns_key="show_column"
+                           :form="entity"
+                           :handler="ViewData.columnsTypeHandler[show_column]"
+                ></component>
+              </slot>
+
             </div>
           </div>
         </div>

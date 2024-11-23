@@ -15,8 +15,7 @@ export class GenerateVueData extends AbstractGenerator {
 
     start() {
         this.addImport("__CLASS_NAME__Interface", `./${GetFileBasenameNoExt(this.INTERFACE_FILE_NAME)}`)
-
-        this.reply = this.reply.replace(/__COLUMNS_DEFINE__/g, JSON.stringify(this.item.config.columns,))
+        this.reply = this.reply.replace(/__FULL_CONFIG__/g, JSON.stringify(this.item.config))
 
         // this.reply = this.reply.replace(/__COLUMNS_GRIDS__/g, JSON.stringify(this.COLUMNS_GRIDS))
         // this.reply = this.reply.replace(/__HOME_SHOW_COLUMNS__/g, JSON.stringify(this.HOME_SHOW_COLUMNS,))

@@ -1,5 +1,5 @@
 import type {AxiosInstance} from "axios";
-import {type ColumnsDefine, type FindAllBody, type ViewDataOption} from "../index";
+import {type EntityDefine, type FindAllBody, type ViewDataOption} from "../index";
 import {AbstractTypeHandler} from "./TypeHandler/AbstractTypeHandler";
 import {Factory} from "./TypeHandler/Factory";
 
@@ -7,8 +7,8 @@ import {Factory} from "./TypeHandler/Factory";
 export abstract class AbstractViewData<T = any> {
     /** restful api 的前缀 */
     abstract restful: string;
-    /** 字段定义 */
-    abstract columns: Record<string, ColumnsDefine>
+    /** 配置表 */
+    abstract define: EntityDefine;
 
     /** axios 实例 */
     api: AxiosInstance;
@@ -22,13 +22,10 @@ export abstract class AbstractViewData<T = any> {
     protected constructor(api: AxiosInstance, option?: ViewDataOption) {
         this.api = api;
         this.option = option;
-        this.initColumnsTypeHandler();
     }
 
-    initColumnsTypeHandler() {
-        for (const key in this.columns) {
-            this.columnsTypeHandler[key] = Factory(this.columns[key], this);
-        }
+    get columns() {
+        return this.define.columns;
     }
 
     get HomeShowColumns(): Array<string> {
@@ -41,6 +38,23 @@ export abstract class AbstractViewData<T = any> {
         }
         return reply;
     }
+
+    getHomePage() {
+        return this.define?.frontend?.home_page;
+    }
+
+    getFormPage(id: string) {
+        const form_page = this.define?.frontend?.form_page;
+        if (!form_page) return form_page;
+        return form_page.replace(":id", id);
+    }
+
+    initColumnsTypeHandler() {
+        for (const key in this.columns) {
+            this.columnsTypeHandler[key] = Factory(this.columns[key], this);
+        }
+    }
+
 
     getFormShowColumns(id?: string): Array<string> {
         return (id && id !== "0") ? this.UpdateShowColumns : this.CreateShowColumns;

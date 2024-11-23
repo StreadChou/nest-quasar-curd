@@ -10,6 +10,13 @@ export interface EntityDefine {
     /** 每个字段 */
     columns: Record<string, ColumnsDefine<any>>;
 
+    /** 是否导出 controller 和 services, 默认true */
+    with_controller_services?: boolean;
+    /** 是否导出前端的interface */
+    with_interface?: boolean;
+    /** 是否导出前端的数据请求器 */
+    with_view_data?: boolean;
+
     /** 后端表现 */
     backend?: {
         /** 类的装饰器 */
@@ -17,7 +24,9 @@ export interface EntityDefine {
     },
     /** 前端表现 */
     frontend?: {
-        /** 表单页布局 */
-        form_grid?: Array<string | Array<string>>;
+        /** 列表页Url */
+        home_page?: string;
+        /** 表单页Url */
+        form_page?: string;
     }
 }

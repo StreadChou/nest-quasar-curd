@@ -2,6 +2,7 @@
 import {computed, ref} from "vue";
 import {FormItemProps} from "../../../index";
 import {AbstractTypeHandler} from "../AbstractTypeHandler";
+import moment from "moment";
 
 const props = defineProps<FormItemProps>();
 const handler = ref<AbstractTypeHandler>(props.handler);

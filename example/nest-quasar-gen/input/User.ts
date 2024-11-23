@@ -82,6 +82,10 @@ export const define: EntityDefine = {
         EntityDecorator: [
             `@Entity({name : "User"})`
         ],
+    },
+    frontend: {
+        home_page: "/User/Home",
+        form_page: "/User/Form/:id"
     }
 
 }
