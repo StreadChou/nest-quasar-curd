@@ -41,10 +41,10 @@ export class CurdService<T extends ObjectLiteral = any> {
         }
         const options: FindOneOptions<T> = {where: findWhere}
 
-        if (query.select) {
+        if (query?.select && query.select.length > 0) {
             options.select = query.select;
         }
-        if (query.relations) {
+        if (query?.relations && query.relations.length > 0) {
             options.relations = query.relations;
         }
 
