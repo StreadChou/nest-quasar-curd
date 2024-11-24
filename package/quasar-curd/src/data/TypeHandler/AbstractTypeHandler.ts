@@ -19,6 +19,11 @@ export abstract class AbstractTypeHandler {
         return false;
     }
 
+
+    editor_bind() {
+        return this.column?.frontend?.editor_bind || {}
+    }
+
     abstract td_component(): any;
 
     abstract form_component(): any;

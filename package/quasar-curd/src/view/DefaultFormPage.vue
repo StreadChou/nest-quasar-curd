@@ -10,7 +10,7 @@ const $q = useQuasar();
 const route = useRoute();
 const router = useRouter()
 
-const props = withDefaults(defineProps<FormProps>(), {})
+const props = withDefaults(defineProps<FormProps>(), {from_editor_props: {}})
 
 // 数据源
 const ViewData = ref<AbstractViewData<EntityType>>(props.view_data ? new props.view_data(props.api) : undefined);
@@ -89,6 +89,8 @@ onMounted(async () => {
                          :handler="ViewData.columnsTypeHandler[show_column]"
 
                          :view_data_instance="ViewData"
+
+                         v-bind="from_editor_props[show_column]"
               ></component>
             </div>
           </div>

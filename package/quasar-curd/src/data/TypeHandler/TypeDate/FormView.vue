@@ -7,6 +7,11 @@ import moment from "moment";
 const props = defineProps<FormItemProps>();
 const handler = ref<AbstractTypeHandler>(props.handler);
 const column = ref<ColumnsDefine>(handler.value.column)
+const editor_bind = ref(Object.assign({
+  standout: true,
+  type: "datetime-local",
+  step: "1"
+}, handler.value.editor_bind(),))
 
 
 const emits = defineEmits<{ (e: 'update:modelValue', value: string | number): void; }>();
@@ -21,8 +26,9 @@ const data = computed({
 </script>
 
 <template>
-  <q-input v-model="data" :label="`${column.label}(${columns_key})`"
-           type="datetime-local" standout dense step="1"
+  <q-input v-model="data"
+           v-bind="editor_bind"
+           :label="`${column.label}(${columns_key})`"
            :disable="handler.isDisable(create_or_update)"
   ></q-input>
 </template>

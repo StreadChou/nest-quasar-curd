@@ -1,6 +1,7 @@
 import {type AxiosInstance} from "axios";
 import {AbstractTypeHandler, AbstractViewData} from "../data";
 import type {ViewDataOption} from "./constant";
+import {FindAllBody} from "../../../link";
 
 /** Props 类型定义 */
 export interface FormProps {
@@ -12,6 +13,11 @@ export interface FormProps {
     id?: string;
     /** 表单编辑器 */
     form_editor?: Record<string, any>;
+    /** 给editor传参 */
+    from_editor_props?: Record<string, {
+        /** 请求参数, 这个selector将会特别好用 */
+        request_body?: FindAllBody,
+    }>;
 }
 
 
@@ -32,5 +38,5 @@ export interface FormItemProps {
 
 
 export class FormItemPropsClass {
-    
+
 }

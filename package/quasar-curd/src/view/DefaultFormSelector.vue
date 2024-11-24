@@ -10,9 +10,11 @@ type EntityType = any;
 interface Props extends FormItemProps {
   /** 使用的数据处理器 */
   view_data_instance: AbstractViewData,
+  /** 请求结构体 */
+  request_body?: FindAllBody,
 }
 
-const props = withDefaults(defineProps<Props>(), {})
+const props = withDefaults(defineProps<Props>(), {request_body: {},});
 
 const emits = defineEmits<{ (e: 'update:modelValue', value: string | number): void; }>();
 const data = computed({
@@ -22,12 +24,15 @@ const data = computed({
 
 const handler = ref<AbstractTypeHandler>(props.handler);
 const column = ref<ColumnsDefine>(handler.value.column)
-const editor_bind = ref(column.value.frontend?.editor_bind || {
-  "option-label": "id",
-  "map-options": true,
-  standout: true,
-  clearable: true,
-})
+const editor_bind = ref(Object.assign(
+        {
+          "option-label": "id",
+          "map-options": true,
+          standout: true,
+        },
+        handler.value.editor_bind(),
+    )
+)
 
 // 数据源
 const ViewData = ref<AbstractViewData<EntityType>>(props.view_data_instance);
@@ -36,10 +41,7 @@ const options = ref<EntityType[]>([]);
 const total = ref(0);
 
 const loading = ref(false);
-const requestBody = ref<FindAllBody>({
-  page: 1,
-  pageSize: 30,
-})
+const requestBody = ref<FindAllBody>(Object.assign({page: 1, pageSize: 30,}, props.request_body))
 // 如果有初始值, 就不要再去获取这个值了(会优先获取)
 if (props?.modelValue?.id) requestBody.value.whereNot = {id: props.modelValue.id}
 

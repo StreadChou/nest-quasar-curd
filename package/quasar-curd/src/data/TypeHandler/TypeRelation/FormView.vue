@@ -6,6 +6,7 @@ import {AbstractTypeHandler} from "../AbstractTypeHandler";
 const props = defineProps<FormItemProps>();
 const handler = ref<AbstractTypeHandler>(props.handler);
 const column = ref<ColumnsDefine>(handler.value.column)
+const editor_bind = ref(Object.assign({standout: true, clearable: true}, handler.value.editor_bind(),))
 
 
 const emits = defineEmits<{ (e: 'update:modelValue', value: object): void; }>();
@@ -31,14 +32,14 @@ const data = computed({
 // 初始化数据
 if (!props.modelValue) {
   // 如果没有传入模型值，使用一个默认对象
-  emits('update:modelValue', { });
+  emits('update:modelValue', {});
 }
 </script>
 
 <template>
   <q-input v-model="data"
-           standout :label="`${column.label} (${columns_key})`"
-           clearable
+           v-bind="editor_bind"
+           :label="`${column.label} (${columns_key})`"
            :disable="handler.isDisable(create_or_update)">
   </q-input>
 </template>

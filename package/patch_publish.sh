@@ -6,6 +6,7 @@ export https_proxy=http://127.0.0.1:7890 http_proxy=http://127.0.0.1:7890 all_pr
 FILE_PATH=$(pwd)
 
 # 先把共享的内容复制过去
+cd "$FILE_PATH"
 sh "$FILE_PATH/cp.sh"
 
 # 切换到 ./nest-curd 目录并执行 npm 命令
@@ -21,6 +22,7 @@ cd "$FILE_PATH/quasar-curd" || { echo "Failed to enter $FILE_PATH/quasar-curd di
 npm run patch && npm publish -access public
 
 # 重新建立共享内容的软连接
+cd "$FILE_PATH"
 sh "$FILE_PATH/link.sh"
 
 echo "Build and publish completed successfully."

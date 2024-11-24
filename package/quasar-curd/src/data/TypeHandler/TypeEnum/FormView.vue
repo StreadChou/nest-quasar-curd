@@ -6,6 +6,11 @@ import {AbstractTypeHandler} from "../AbstractTypeHandler";
 const props = defineProps<FormItemProps>();
 const handler = ref<AbstractTypeHandler>(props.handler);
 const column = ref<ColumnsDefine>(handler.value.column)
+const editor_bind = ref(Object.assign({
+  standout: true,
+  "emit-value": true,
+  "map-options": true
+}, handler.value.editor_bind(),))
 
 
 const emits = defineEmits<{ (e: 'update:modelValue', value: string | number): void; }>();
@@ -21,8 +26,9 @@ const options = ref(Object.values(typeExtension.option));
 </script>
 
 <template>
-  <q-select v-model="data" :options="options" emit-value map-options clearable
-            standout :label="`${column.label}(${columns_key})`"
+  <q-select v-model="data" :options="options"
+            v-bind="editor_bind"
+            :label="`${column.label}(${columns_key})`"
             :disable="handler.isDisable(create_or_update)"
   >
 
