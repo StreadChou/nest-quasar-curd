@@ -32,8 +32,11 @@ const typeExtension = ref<TypeExtensionForExtension>(column.value.type_extension
                :disable="handler.isDisable(create_or_update)"
       ></q-input>
     </div>
-    <div class="col bg-grey-3 q-pa-md rounded-borders">
-      <!--      <div>{{ typeExtension.editor_mark }}</div>-->
+    <div class="col bg-grey-3 q-pa-md rounded-borders" v-if="typeExtension.editor_mark">
+      <div v-html="typeExtension.editor_mark">
+
+      </div>
+      <!--            <div>{{ typeExtension.editor_mark }}</div>-->
       <!--      <div class="q-mt-md">-->
       <!--        <q-markup-table flat dense class="text-left" style="background: none" bordered separator="cell">-->
       <!--          <tbody>-->

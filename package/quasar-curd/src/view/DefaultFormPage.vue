@@ -10,7 +10,22 @@ const $q = useQuasar();
 const route = useRoute();
 const router = useRouter()
 
-const props = withDefaults(defineProps<FormProps>(), {from_editor_props: {}})
+const props = withDefaults(defineProps<FormProps>(), {
+  from_editor_props: {},
+})
+
+const beforeSave = props.before_save || (async () => {
+  return false;
+});
+
+const afterSave = props.after_save || (async () => {
+  $q.notify({
+    message: "操作成功",
+    position: "top-right",
+    color: "positive"
+  })
+});
+
 
 // 数据源
 const ViewData = ref<AbstractViewData<EntityType>>(props.view_data ? new props.view_data(props.api) : undefined);
@@ -40,12 +55,13 @@ const click_restore = () => {
 };
 // 点击保存按钮
 const click_save = async () => {
+  const beforeSaveError = await beforeSave(entity.value);
+  if (beforeSaveError) return null;
   const SaveAxiosResponse = await ViewData.value.save_entity(id.value, entity.value);
-};
 
-const updateEntity = async (key: string, value: any) => {
-  entity.value[key] = value;
-}
+  const afterSaveError = await afterSave(entity.value, SaveAxiosResponse);
+  if (afterSaveError) return null;
+};
 
 // 点击删除按钮
 const click_delete = async () => {

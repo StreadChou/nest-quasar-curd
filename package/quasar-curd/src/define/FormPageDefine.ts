@@ -1,4 +1,4 @@
-import {type AxiosInstance} from "axios";
+import {type AxiosInstance, type AxiosResponse} from "axios";
 import {AbstractTypeHandler, AbstractViewData} from "../data";
 import type {ViewDataOption} from "./constant";
 import {FindAllBody} from "../../../link";
@@ -18,6 +18,16 @@ export interface FormProps {
         /** 请求参数, 这个selector将会特别好用 */
         request_body?: FindAllBody,
     }>;
+
+    /** 保存之前 */
+    before_save?: (form?: object) => Error | false;
+    /** 保存之后 */
+    after_save?: (form?: object, response?: AxiosResponse) => Error | false;
+
+    /** 删除之前 */
+    before_delete?: (form?: object) => Error | false;
+    /** 删除之后 */
+    after_delete?: (form?: object, response?: AxiosResponse) => Error | false;
 }
 
 

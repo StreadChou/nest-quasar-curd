@@ -25,7 +25,6 @@ const show_columns = ref<string[]>(ViewData.value.HomeShowColumns)
 
 /** 请求数据 */
 const fetch_entity = async () => {
-  console.log(props)
   if (!ViewData.value?.fetch_entity_list) return null;
 
   const axios_response = await ViewData.value.fetch_entity_list(request_body.value);

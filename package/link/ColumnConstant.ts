@@ -96,4 +96,6 @@ export interface TypeExtensionForExtension {
     type_string: string;
     /** 字段导入: [名字, 从哪import] */
     import_path: Array<[string, string]>;
+    /** 输入指引 */
+    editor_mark?: string;
 }
