@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {AbstractViewData, DefaultRemoveDialogVue, FindAllResponse, HomeProps} from "../index";
-import {onMounted, ref, toRefs} from "vue";
+import {onMounted, ref, toRefs, watch} from "vue";
 
 type EntityType = any;
 
@@ -30,6 +30,7 @@ const fetch_entity = async () => {
   const axios_response = await ViewData.value.fetch_entity_list(request_body.value);
   EntityList.value = axios_response.data;
 }
+watch(request_body, () => fetch_entity(), {deep: true, immediate: true})
 
 /** 点击删除 */
 const click_delete = async (entity: EntityType) => {
