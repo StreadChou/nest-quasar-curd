@@ -1,0 +1,7 @@
+.idea
+node_modules
+dist
+.env.example
+
+tsconfig.tsbuildinfo
+yarn.lock
