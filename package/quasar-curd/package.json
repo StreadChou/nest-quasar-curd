@@ -1,6 +1,6 @@
 {
   "name": "@stread/quasar-curd",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "description": "",
   "module": "src/index.ts",
   "scripts": {
@@ -10,7 +10,7 @@
     "major": "npm version major --no-git-tag-version",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "stread.chou@gmail.com",
   "license": "ISC",
   "dependencies": {
     "moment": "^2.30.1"

@@ -79,7 +79,7 @@ onMounted(() => {
 
       </thead>
       <tbody v-bind="tbody_bind || {}">
-      <template v-for="entity of EntityList.data">
+      <template v-for="entity of EntityList.data" :key="entity.id">
         <tr v-bind="tr_bind || {}">
 
           <template v-for="show_column of show_columns">

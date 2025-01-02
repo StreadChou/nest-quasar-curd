@@ -12,7 +12,7 @@
     "major": "npm run build && npm version major --no-git-tag-version",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "stread.chou@gmail.com",
   "license": "ISC",
   "devDependencies": {
     "@nestjs/common": "^10.4.8",
