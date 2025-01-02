@@ -1,6 +1,6 @@
 {
   "name": "@stread/quasar-curd",
-  "version": "0.0.14",
+  "version": "0.0.15",
   "description": "",
   "module": "src/index.ts",
   "scripts": {

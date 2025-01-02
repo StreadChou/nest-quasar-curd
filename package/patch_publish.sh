@@ -1,7 +1,5 @@
 #!/bin/bash
 
-export https_proxy=http://127.0.0.1:7890 http_proxy=http://127.0.0.1:7890 all_proxy=socks5://127.0.0.1:7890
-
 # 获取当前脚本所在的目录
 FILE_PATH=$(pwd)
 
