@@ -6,7 +6,10 @@ type EntityType = any;
 
 
 const props = withDefaults(defineProps<HomeProps>(), {
-  request_body: {},
+  request_body: {
+    pageSize: 10,
+    page: 1,
+  },
   table_bind: () => ({
     class: "text-left",
     flat: true,
@@ -48,6 +51,12 @@ const click_delete = async (entity: EntityType) => {
     fetch_entity();
   })
 }
+
+const now_page = ref(1);
+watch(now_page, async () => {
+  request_body.value.page = now_page.value
+  await fetch_entity();
+})
 
 
 onMounted(() => {
@@ -109,6 +118,11 @@ onMounted(() => {
 
       </tbody>
     </q-markup-table>
+
+    <q-pagination
+        v-model="now_page"
+        :max="EntityList.pagination ? (Math.ceil(EntityList.pagination.total / EntityList.pagination.pageSize) ) : 1"
+    ></q-pagination>
   </div>
 </template>
 
