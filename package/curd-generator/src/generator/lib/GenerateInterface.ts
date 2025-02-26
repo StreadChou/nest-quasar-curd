@@ -33,18 +33,26 @@ export class GenerateInterface extends AbstractGenerator {
             // 处理备注
             if (data.mark) string += `\t/** ${data.mark} */\n`;
 
-
-            if ([ColumnsType.Extension, ColumnsType.Relation, ColumnsType.Enum, ColumnsType.Customer].includes(data.type)) {
-                const type_extension = data.type_extension as TypeExtensionForExtension;
-                string += `\t${key}?: ${type_extension.type_string};\n`;
-
-                const import_path = type_extension.import_path || [];
-                for (const [_string, _path] of import_path){
+            if (data.frontend?.type_string) {
+                string += `\t${key}?: ${data.frontend.type_string};\n`;
+                const import_path = data.frontend?.import_path || [];
+                for (const [_string, _path] of import_path) {
                     this.addImport(_string, _path);
                 }
             } else {
-                string += `\t${key}?: ${data.type};\n`;
+                if ([ColumnsType.Extension, ColumnsType.Relation, ColumnsType.Enum, ColumnsType.Customer].includes(data.type)) {
+                    const type_extension = data.type_extension as TypeExtensionForExtension;
+                    string += `\t${key}?: ${type_extension.type_string};\n`;
+
+                    const import_path = type_extension.import_path || [];
+                    for (const [_string, _path] of import_path) {
+                        this.addImport(_string, _path);
+                    }
+                } else {
+                    string += `\t${key}?: ${data.type};\n`;
+                }
             }
+
 
             string = this.replaceColumns(string, data);
             List.push(string);

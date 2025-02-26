@@ -10,11 +10,20 @@ export interface ColumnsDefine<T extends ColumnsType = any> {
     type_extension?: ColumnsTypeExtension<T>;
     /** 后端导出 */
     backend?: {
+        /** 后端标记的类型 */
+        type_string?: string;
+        /** 后端需要导入的内容 */
+        import_path?: Array<[string, string]>;
         /** 装饰器 */
         decorator?: Array<string>;
     }
     /** 前端表现 */
     frontend?: {
+        /** 前端标记的类型 */
+        type_string?: string;
+        /** 前端需要导入的内容 */
+        import_path?: Array<[string, string]>;
+
         /** 在列表页显示 */
         show_at_home?: boolean;
         /** 创建的时候隐藏 */
@@ -66,36 +75,36 @@ export type ColumnsTypeExtension<T extends ColumnsType> =
 /** 数据库关联的附加数据 */
 export interface TypeExtensionForRelation {
     /** 这个类型的定义-> a: b; 表示a的类型是b, type_string就是b */
-    type_string: string;
+    type_string?: string;
     /** 字段导入: [名字, 从哪import] */
-    import_path: Array<[string, string]>;
+    import_path?: Array<[string, string]>;
 }
 
 /** 自定义类型的附加数据 */
 export interface TypeExtensionForCustomer {
     /** 这个类型的定义-> a: b; 表示a的类型是b, type_string就是b */
-    type_string: string;
+    type_string?: string;
     /** 字段导入: [名字, 从哪import] */
-    import_path: Array<[string, string]>;
+    import_path?: Array<[string, string]>;
 }
 
 
 /** 数据库关联的附加数据 */
 export interface TypeExtensionForEnum<T extends string | number | symbol = any> {
     /** 这个类型的定义-> a: b; 表示a的类型是b, type_string就是b */
-    type_string: string;
+    type_string?: string;
     /** 字段导入: [名字, 从哪import] */
-    import_path: Array<[string, string]>;
+    import_path?: Array<[string, string]>;
     /** 枚举的选项 */
-    option: Record<T, { value: T, label: string }>,
+    option?: Record<T, { value: T, label: string }>,
 }
 
 /** 自定义类型的附加数据 */
 export interface TypeExtensionForExtension {
     /** 这个类型的定义-> a: b; 表示a的类型是b, type_string就是b */
-    type_string: string;
+    type_string?: string;
     /** 字段导入: [名字, 从哪import] */
-    import_path: Array<[string, string]>;
+    import_path?: Array<[string, string]>;
     /** 输入指引 */
     editor_mark?: string;
 }

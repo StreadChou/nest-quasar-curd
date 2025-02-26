@@ -47,18 +47,27 @@ export class GenerateEntity extends AbstractGenerator {
                     string += `\t${this.handleDecorator(decorator)}\n`;
                 }
             }
-
-            if ([ColumnsType.Extension, ColumnsType.Relation, ColumnsType.Enum, ColumnsType.Customer].includes(data.type)) {
-                const type_extension = data.type_extension as TypeExtensionForExtension;
-                string += `\t${key}: ${type_extension.type_string};\n`;
-
-                const import_path = type_extension.import_path || [];
-                for (const [_string, _path] of import_path){
+            if (data.backend?.type_string) {
+                string += `\t${key}?: ${data.backend.type_string};\n`;
+                const import_path = data.backend?.import_path || [];
+                for (const [_string, _path] of import_path) {
                     this.addImport(_string, _path);
                 }
             } else {
-                string += `\t${key}: ${data.type};\n`;
+                if ([ColumnsType.Extension, ColumnsType.Relation, ColumnsType.Enum, ColumnsType.Customer].includes(data.type)) {
+                    const type_extension = data.type_extension as TypeExtensionForExtension;
+                    string += `\t${key}: ${type_extension.type_string};\n`;
+
+                    const import_path = type_extension.import_path || [];
+                    for (const [_string, _path] of import_path) {
+                        this.addImport(_string, _path);
+                    }
+                } else {
+                    string += `\t${key}: ${data.type};\n`;
+                }
             }
+
+
 
             string = this.replaceColumns(string, data);
             List.push(string);
