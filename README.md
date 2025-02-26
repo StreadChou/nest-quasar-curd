@@ -22,7 +22,7 @@
 1. 创建文件夹 ```` mkdir nest-quasar-gen && cd nest-quasar-gen ````
 2. 初始化 ```` yarn init ```` 然后按照步骤创建package.json
 3. 安装必要依赖
-    * Node支持: ```` yarn add @stread/curd-generator ````
+    * 基础包: ```` yarn add @stread/curd-generator ````
     * Node支持: ```` yarn add -D @types/node ````
     * Ts支持 ```` yarn add -D typescript ````
     * TSNode(用于直接构建不编译): ```` yarn add -D ts-node ````
