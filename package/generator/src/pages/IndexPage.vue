@@ -1,43 +1,35 @@
 <template>
-  <q-page class="row items-center justify-evenly">
-    <example-component
-      title="Example component"
-      active
-      :todos="todos"
-      :meta="meta"
-    ></example-component>
+  <q-page class="full-width full-height row q-gutter-x-md q-py-md">
+    <div class="column bg-white" style="min-width: 200px">
+      <q-scroll-area class="col">
+        <TableList></TableList>
+      </q-scroll-area>
+      <div>
+        <q-btn class="full-width" color="primary" label="增加表" @click="openAddTableDialog"></q-btn>
+      </div>
+    </div>
+    <div class="col" v-if="Object.keys(tableStore.nowEditTable).length > 0">
+      <TableView></TableView>
+    </div>
   </q-page>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
-import type { Todo, Meta } from 'components/models';
-import ExampleComponent from 'components/ExampleComponent.vue';
+import TableList from "components/Table/TableList.vue";
+import {useTableStore} from "stores/table-store";
+import AddTableDialog from "components/Table/AddTableDialog.vue";
+import {useQuasar} from "quasar";
+import TableView from "components/Table/TableView.vue";
 
-const todos = ref<Todo[]>([
-  {
-    id: 1,
-    content: 'ct1'
-  },
-  {
-    id: 2,
-    content: 'ct2'
-  },
-  {
-    id: 3,
-    content: 'ct3'
-  },
-  {
-    id: 4,
-    content: 'ct4'
-  },
-  {
-    id: 5,
-    content: 'ct5'
-  }
-]);
 
-const meta = ref<Meta>({
-  totalCount: 1200
-});
+const $q = useQuasar();
+const tableStore = useTableStore();
+
+
+const openAddTableDialog = () => {
+  $q.dialog({
+    component: AddTableDialog,
+  })
+}
+
 </script>
