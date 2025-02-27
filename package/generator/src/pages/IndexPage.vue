@@ -20,16 +20,26 @@ import {useTableStore} from "stores/table-store";
 import AddTableDialog from "components/Table/AddTableDialog.vue";
 import {useQuasar} from "quasar";
 import TableView from "components/Table/TableView.vue";
+import {api} from "boot/axios";
+import {onMounted} from "vue";
 
 
 const $q = useQuasar();
 const tableStore = useTableStore();
 
+const test = async () => {
+  const data = await api.post("_GET_JSON_FILE", {a: 1})
+  console.log(data.data);
+}
 
 const openAddTableDialog = () => {
   $q.dialog({
     component: AddTableDialog,
   })
 }
+
+onMounted(() => {
+  test()
+})
 
 </script>

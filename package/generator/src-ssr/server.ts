@@ -39,6 +39,11 @@ export const create = defineSsrCreate((/* { ... } */) => {
     app.use(compression());
   }
 
+  app.post('/_GET_JSON_FILE', (req, res) => {
+    console.log(req);
+    res.send(req.body);
+  });
+
   return app;
 });
 
