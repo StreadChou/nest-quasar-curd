@@ -1,8 +1,6 @@
 import {GeneratorCtx} from "app/src-ssr/generator/GeneratorCtx";
 import {AbstractTableGenerator} from "app/src-ssr/generator/instance/AbstractGenerator/AbstractTableGenerator";
 import {TableColumns, TableColumnsExtension} from "app/src-ssr/types/Table";
-import {EntityGeneratorCxt} from "app/src-ssr/generator/instance/TableGenerator/EntityGeneratorCxt";
-import {InterfaceGeneratorCxt} from "app/src-ssr/generator/instance/TableGenerator/InterfaceGeneratorCxt";
 
 export abstract class AbstractColumnsGeneratorCtx {
   ctx: GeneratorCtx;
@@ -25,11 +23,11 @@ export abstract class AbstractColumnsGeneratorCtx {
   }
 
   get isBackend() {
-    return this.parent instanceof EntityGeneratorCxt;
+   return this.parent.isBackend();
   }
 
   get isFrontend() {
-    return this.parent instanceof InterfaceGeneratorCxt;
+    return this.parent.isFrontend()
   }
 
 

@@ -1,16 +1,20 @@
 import {AbstractTableGenerator} from "app/src-ssr/generator/instance/AbstractGenerator/AbstractTableGenerator";
-import {Table} from "app/src-ssr/types/Table";
+import {Table, TableColumns} from "app/src-ssr/types/Table";
 import {GeneratorCtx} from "app/src-ssr/generator/GeneratorCtx";
 import path from "node:path";
 import {writeToFile} from "app/src-ssr/app/PathHelper";
-
+import {AbstractColumnsGeneratorCtx} from "app/src-ssr/generator/columns/AbstractGenerator/AbstractColumnsGeneratorCtx";
 
 export class InterfaceGeneratorCxt extends AbstractTableGenerator {
+  columnsGenerator: AbstractColumnsGeneratorCtx[] = [];
   /** 主体内容 */
   content_string_list: Array<string> = [];
 
   constructor(ctx: GeneratorCtx, config: Table) {
     super(ctx, config);
+
+    this.addColumnsGenerator();
+
     this.start();
   }
 
@@ -46,4 +50,12 @@ export class InterfaceGeneratorCxt extends AbstractTableGenerator {
     return [];
   }
 
+
+  override isBackend(): boolean {
+    return false;
+  }
+
+  override isFrontend(): boolean {
+    return true;
+  }
 }

@@ -1,14 +1,12 @@
 import {AbstractTableGenerator} from "app/src-ssr/generator/instance/AbstractGenerator/AbstractTableGenerator";
-import {Table, TableColumns} from "app/src-ssr/types/Table";
+import {Table} from "app/src-ssr/types/Table";
 import {GeneratorCtx} from "app/src-ssr/generator/GeneratorCtx";
 import path from "node:path";
 import {writeToFile} from "app/src-ssr/app/PathHelper";
 import {AbstractColumnsGeneratorCtx} from "app/src-ssr/generator/columns/AbstractGenerator/AbstractColumnsGeneratorCtx";
-import {ColumnsGeneratorFactory} from "app/src-ssr/generator/columns/ColumnsGeneratorFactory";
 
 export class EntityGeneratorCxt extends AbstractTableGenerator {
-  public readonly columnsGenerator: AbstractColumnsGeneratorCtx[] = [];
-
+  columnsGenerator: AbstractColumnsGeneratorCtx[] = [];
   /** 从包里的导入的内容 */
   importFromPackage: Record<string, Set<string>> = {};
 
@@ -17,11 +15,7 @@ export class EntityGeneratorCxt extends AbstractTableGenerator {
 
   constructor(ctx: GeneratorCtx, config: Table) {
     super(ctx, config);
-
-    for (const key in this.config.columns) {
-      const instance = ColumnsGeneratorFactory(ctx, this, key, this.config.columns[key] as TableColumns)
-      if (instance) this.columnsGenerator.push(instance)
-    }
+    this.addColumnsGenerator();
 
     this.start();
   }
@@ -93,6 +87,14 @@ export class EntityGeneratorCxt extends AbstractTableGenerator {
     this.importFromPackage[pkg] = this.importFromPackage[pkg] || new Set();
     const item = typeof items === "string" ? [items] : items;
     item.forEach(e => this.importFromPackage[pkg]?.add(e))
+  }
+
+  override isBackend(): boolean {
+    return true;
+  }
+
+  override isFrontend(): boolean {
+    return false;
   }
 
 

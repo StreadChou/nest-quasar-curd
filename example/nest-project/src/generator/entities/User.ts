@@ -1,4 +1,4 @@
-import {PrimaryGeneratedColumn, Column, Entity} from "typeorm";
+import {PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, Entity} from "typeorm";
 
 /** 用户表 */
 @Entity({name: "__System__Task"})
@@ -6,12 +6,32 @@ export class User {
 
 
     /** 自增ID */
-    @PrimaryGeneratedColumn('uuid')
-    id: string;
+    @PrimaryGeneratedColumn()
+    id?: number;
 
-    /** 名字 */
-    @Column({comment: "名字", nullable: false, unique: false, length: 30,})
-    name: string;
+    /** 用户名 */
+    @Column({comment: "用户名", nullable: true, unique: false,})
+    name?: string;
+
+    /** 年龄 */
+    @Column({comment: "年龄", nullable: false, unique: false, default: 0,})
+    age: number;
+
+    /** 活跃 */
+    @Column({comment: "活跃", nullable: true, unique: false,})
+    active?: boolean;
+
+    /** 生日 */
+    @Column({comment: "生日", nullable: true, unique: false, type: "date",})
+    birth?: Date;
+
+    /** 创建时间 */
+    @CreateDateColumn()
+    created_at?: Date;
+
+    /** 更新时间 */
+    @UpdateDateColumn()
+    updated_at?: Date;
 
 
 }

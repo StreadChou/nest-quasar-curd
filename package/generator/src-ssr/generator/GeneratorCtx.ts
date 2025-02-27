@@ -1,10 +1,13 @@
-import {EntityGeneratorCxt} from "app/src-ssr/generator/instance/TableGenerator/EntityGeneratorCxt";
+
 import {InterfaceGeneratorCxt} from "app/src-ssr/generator/instance/TableGenerator/InterfaceGeneratorCxt";
+import {EntityGeneratorCxt} from "app/src-ssr/generator/instance/TableGenerator/EntityGeneratorCxt";
+
 import {AbstractGenerator} from "app/src-ssr/generator/instance/AbstractGenerator/AbstractGenerator";
 import {getConfigJson, getGeneratorJson} from "app/src-ssr/app/JsonFileHelper";
 import {ExportConfig} from "app/src-ssr/types/ExportConfig";
 import {AbstractCollect} from "app/src-ssr/generator/collect/AbstractCollect";
 import {EntityCollect} from "app/src-ssr/generator/collect/EntityCollect";
+
 
 export class GeneratorCtx {
   public readonly tablesGenerator: AbstractGenerator[] = [];
@@ -18,8 +21,8 @@ export class GeneratorCtx {
 
 
     for (const table of tables) {
-      this.tablesGenerator.push(new EntityGeneratorCxt(this, table))
       this.tablesGenerator.push(new InterfaceGeneratorCxt(this, table))
+      this.tablesGenerator.push(new EntityGeneratorCxt(this, table))
     }
 
     this.tablesCollect.push(new EntityCollect(this))

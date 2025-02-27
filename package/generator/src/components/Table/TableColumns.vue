@@ -101,7 +101,7 @@ const downColumns = (key: string) => {
 
     <template
       v-for="item in tableStore.nowEditTableFormKeys"
-      :key="`${ tableStore.nowEditTableForm.ClassName}_${key_item}`"
+      :key="`${ tableStore.nowEditTableForm.ClassName}_${item.key}`"
     >
       <tr>
         <td>{{ item.key }}</td>
