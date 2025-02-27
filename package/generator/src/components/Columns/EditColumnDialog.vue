@@ -48,6 +48,7 @@
             <template v-if="form.dataType == ColumnType.String">
               <StringExtension v-model="form.extension as TableColumnsExtension"/>
             </template>
+
             <template v-if="form.dataType == ColumnType.Json">
               <template v-if="form.splitExtension">
                 <div class="row">
@@ -67,6 +68,31 @@
 
 
             </template>
+
+            <template v-if="form.dataType == ColumnType.RelationManyToMany">
+              <template v-if="form.splitExtension">
+                <div class="row">
+                  <div class="col">
+                    <RelationManyToManyExtension
+                      :title="'后端多对多扩展编辑'"
+                      :to-env="'backend'"
+                      v-model="form.extension_backend as TableColumnsExtension"/>
+                  </div>
+                  <div class="col">
+                    <RelationManyToManyExtension
+                      title="前端多对多扩展编辑"
+                      to-env="frontend"
+                      v-model="form.extension_frontend as TableColumnsExtension"/>
+                  </div>
+                </div>
+              </template>
+              <template v-else>
+                <RelationManyToManyExtension v-model="form.extension as TableColumnsExtension"/>
+              </template>
+
+
+            </template>
+
             <template
               v-if="[ColumnType.Boolean, ColumnType.CreatedTime, ColumnType.UpdatedTime].includes(form.dataType as ColumnType)">
               <DefaultExtension v-model="form.extension as TableColumnsExtension"/>
@@ -100,6 +126,7 @@ import DateExtension from "components/Columns/DataTypeExtension/DateExtension.vu
 import StringExtension from "components/Columns/DataTypeExtension/StringExtension.vue";
 import DefaultExtension from "components/Columns/DataTypeExtension/DefaultExtension.vue";
 import JsonExtension from "components/Columns/DataTypeExtension/JsonExtension.vue";
+import RelationManyToManyExtension from "components/Columns/DataTypeExtension/RelationManyToManyExtension.vue";
 
 
 const $q = useQuasar();
