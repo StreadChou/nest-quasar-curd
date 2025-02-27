@@ -78,7 +78,7 @@ export class ColumnsGeneratorContext {
 
 
   private importFromTypeOrm(name: string) {
-    this.backendImportFiledList.push(["PrimaryGeneratedColumn", "typeorm"]);
+    // this.backendImportFiledList.push(["PrimaryGeneratedColumn", "typeorm"]);
   }
 
 

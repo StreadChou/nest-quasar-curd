@@ -18,6 +18,9 @@ import {
   defineSsrServeStaticContent,
   defineSsrRenderPreloadTag
 } from '#q-app/wrappers';
+import fs from "node:fs";
+import {getConfigJson, getGeneratorJson} from "app/src-ssr/app/JsonFileHelper";
+import {GeneratorCtx} from "app/src-ssr/generator/GeneratorCtx";
 
 /**
  * Create your webserver and return its instance.
@@ -28,6 +31,8 @@ import {
  */
 export const create = defineSsrCreate((/* { ... } */) => {
   const app = express();
+  app.use(express.json());
+  app.use(express.urlencoded({extended: true}));
 
   // attackers can use this header to detect apps running Express
   // and then launch specifically-targeted attacks
@@ -40,8 +45,22 @@ export const create = defineSsrCreate((/* { ... } */) => {
   }
 
   app.post('/_GET_JSON_FILE', (req, res) => {
-    console.log(req);
-    res.send(req.body);
+    const content = getGeneratorJson();
+    res.send({code: 0, data: {content}});
+  });
+
+  app.post('/_UPDATE_JSON_FILE', (req, res) => {
+    const {content} = req.body;
+    const config = getConfigJson();
+    fs.writeFileSync(config.input, JSON.stringify(content));
+    const theNewContent = getGeneratorJson();
+    res.send({code: 0, data: {content: theNewContent}});
+  });
+
+  app.post('/_ExportTable', (req, res) => {
+    const ctx = new GeneratorCtx();
+
+    res.send({code: 0, data: {}});
   });
 
   return app;
@@ -60,7 +79,7 @@ export const create = defineSsrCreate((/* { ... } */) => {
  *
  * Can be async: defineSsrListen(async ({ app, devHttpsApp, port }) => { ... })
  */
-export const listen = defineSsrListen(({ app, devHttpsApp, port }) => {
+export const listen = defineSsrListen(({app, devHttpsApp, port}) => {
   const server = devHttpsApp || app;
   return server.listen(port, () => {
     if (process.env.PROD) {
@@ -79,7 +98,7 @@ export const listen = defineSsrListen(({ app, devHttpsApp, port }) => {
  *
  * Can be async: defineSsrClose(async ({ listenResult }) => { ... }))
  */
-export const close = defineSsrClose(({ listenResult }) => {
+export const close = defineSsrClose(({listenResult}) => {
   return listenResult.close();
 });
 
@@ -94,9 +113,9 @@ const maxAge = process.env.DEV ? 0 : 1000 * 60 * 60 * 24 * 30;
  * Can be async: defineSsrServeStaticContent(async ({ app, resolve }) => {
  * Can return an async function: return async ({ urlPath = '/', pathToServe = '.', opts = {} }) => {
  */
-export const serveStaticContent = defineSsrServeStaticContent(({ app, resolve }) => {
-  return ({ urlPath = '/', pathToServe = '.', opts = {} }) => {
-    const serveFn = express.static(resolve.public(pathToServe), { maxAge, ...opts });
+export const serveStaticContent = defineSsrServeStaticContent(({app, resolve}) => {
+  return ({urlPath = '/', pathToServe = '.', opts = {}}) => {
+    const serveFn = express.static(resolve.public(pathToServe), {maxAge, ...opts});
     app.use(resolve.urlPath(urlPath), serveFn);
   };
 });

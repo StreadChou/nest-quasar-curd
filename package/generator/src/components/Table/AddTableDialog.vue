@@ -57,16 +57,14 @@ const form = ref<Table>({
 const tableStore = useTableStore();
 
 
-function onOKClick() {
+async function onOKClick() {
   const exist = tableStore.tableList.some(ele => ele.ClassName == form.value.ClassName)
   if (exist) {
     return $q.notify({message: "错误: 存在相同表名"})
   }
 
-  for (let i = 0; i <= 100; i++) {
-    tableStore.tableList.push(JSON.parse(JSON.stringify(form.value)));
-  }
-
+  tableStore.tableList.push(JSON.parse(JSON.stringify(form.value)));
+  await tableStore.saveTableView();
 
   onDialogOK()
 }

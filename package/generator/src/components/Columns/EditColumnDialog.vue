@@ -19,9 +19,6 @@
               <div class="col">
                 <q-input v-model="form.name" standout dense label="名称"/>
               </div>
-              <div class="col">
-                <q-input v-model="form.name" standout dense label="名称"/>
-              </div>
             </div>
             <div class="row">
               <q-checkbox v-model="form.nullable" label="是否可选(非必填项)"/>
@@ -127,16 +124,21 @@ if (!("splitExtension" in form.value)) form.value.splitExtension = false;
 const tableStore = useTableStore();
 
 const addNewColumns = () => {
-  tableStore.nowEditTableForm.columns[key.value] = form.value;
+  if (!tableStore.nowEditTableForm.columns) tableStore.nowEditTableForm.columns = {};
+  tableStore.nowEditTableForm.columns[key.value as string] = form.value as TableColumns;
 }
 
 const editorColumns = () => {
-  if (props.columns_key != key.value) {
-    // 如果是改变了key值, 则删除原先的key , 走增加逻辑
+  if (!tableStore.nowEditTableForm.columns) tableStore.nowEditTableForm.columns = {}
+
+  // 如果是改变了key值, 则删除原先的key , 走增加逻辑
+  if (props.columns_key && props.columns_key != key.value) {
     delete tableStore.nowEditTableForm.columns[props.columns_key]
-    return addNewColumns();
+    addNewColumns();
+  } else {
+    // 如果没有修改, 则直接走正常的逻辑
+    tableStore.nowEditTableForm.columns[key.value] = form.value as TableColumns;
   }
-  tableStore.nowEditTableForm.columns[key.value] = form.value;
 }
 
 const showColumnPreview = () => {
@@ -149,14 +151,15 @@ const showColumnPreview = () => {
   })
 }
 
-function onOKClick() {
-  // 如果不是编辑
-  if (!props.columns_key) {
-    addNewColumns()
-    return onDialogOK()
-  }
+async function onOKClick() {
+  if (props.columns_key) editorColumns();
+  else addNewColumns();
 
-  editorColumns();
+  if (tableStore.nowEditTable.columns) {
+    tableStore.nowEditTable.columns = tableStore.nowEditTableForm.columns as Record<string, TableColumns>;
+  }
+  await tableStore.saveTableView();
+
   return onDialogOK()
 }
 </script>

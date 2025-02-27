@@ -49,6 +49,9 @@ export interface TableColumnsExtension {
   type_string?: string; // 类型定义, 这个key是什么类型, 默认是any,
   interface_string?: string; // 如果 type_string 是interface, 则会使用  interface_string 作为类型
   type_import?: Array<[string, string]>; // 导入,
+
+  relation?: string; // 关联到哪个表;
+  joinColumn?: string; // 是否使用 JoinColumn;
 }
 
 
@@ -75,22 +78,34 @@ export enum ColumnType {
   Json = "Json",
   /** 枚举 */
   Enum = "Enum",
-  /** 关系 */
-  Relation = "Relation",
+
+  /** 关系: 多对多 */
+  RelationManyToMany = "RelationManyToMany",
+  /** 关系: 多对一 */
+  RelationManyToOne = "RelationManyToOne",
+  /** 关系: 一对多 */
+  RelationOneToMany = "RelationOneToMany",
+  /** 关系: 一对一 */
+  RelationOneToOne = "RelationOneToOne",
 }
 
 
 export const ColumnTypeOptions: Record<ColumnType, { value: ColumnType, label: string, type_string?: string }> = {
-  [ColumnType.IncrementId]: {value: ColumnType.IncrementId, label: "自增ID"},
-  [ColumnType.CreatedTime]: {value: ColumnType.CreatedTime, label: "创建时间", type_string: "Date"},
-  [ColumnType.UpdatedTime]: {value: ColumnType.UpdatedTime, label: "更新时间", type_string: "Date"},
+  [ColumnType.Number]: {value: ColumnType.Number, label: "基础:数字", type_string: "number"},
+  [ColumnType.Date]: {value: ColumnType.Date, label: "基础:日期", type_string: "Date"},
+  [ColumnType.String]: {value: ColumnType.String, label: "基础:字符串", type_string: "string"},
+  [ColumnType.Boolean]: {value: ColumnType.Boolean, label: "基础:布尔值", type_string: "boolean"},
 
-  [ColumnType.Number]: {value: ColumnType.Number, label: "数字", type_string: "number"},
-  [ColumnType.Date]: {value: ColumnType.Date, label: "日期", type_string: "Date"},
-  [ColumnType.String]: {value: ColumnType.String, label: "字符串", type_string: "string"},
-  [ColumnType.Boolean]: {value: ColumnType.Boolean, label: "布尔值", type_string: "boolean"},
+  [ColumnType.Json]: {value: ColumnType.Json, label: "扩展:JSON"},
+  [ColumnType.Enum]: {value: ColumnType.Enum, label: "扩展:枚举"},
 
-  [ColumnType.Json]: {value: ColumnType.Json, label: "JSON"},
-  [ColumnType.Enum]: {value: ColumnType.Enum, label: "枚举"},
-  [ColumnType.Relation]: {value: ColumnType.Relation, label: "关系"},
+  [ColumnType.RelationManyToMany]: {value: ColumnType.RelationManyToMany, label: "关系: 多对多"},
+  [ColumnType.RelationManyToOne]: {value: ColumnType.RelationManyToOne, label: "关系: 多对一"},
+  [ColumnType.RelationOneToMany]: {value: ColumnType.RelationOneToMany, label: "关系: 一对多"},
+  [ColumnType.RelationOneToOne]: {value: ColumnType.RelationOneToOne, label: "关系: 一对一"},
+
+  [ColumnType.IncrementId]: {value: ColumnType.IncrementId, label: "类型:自增ID"},
+  [ColumnType.CreatedTime]: {value: ColumnType.CreatedTime, label: "类型:创建时间", type_string: "Date"},
+  [ColumnType.UpdatedTime]: {value: ColumnType.UpdatedTime, label: "类型:更新时间", type_string: "Date"},
+
 }

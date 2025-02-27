@@ -27,11 +27,6 @@ import {onMounted} from "vue";
 const $q = useQuasar();
 const tableStore = useTableStore();
 
-const test = async () => {
-  const data = await api.post("_GET_JSON_FILE", {a: 1})
-  console.log(data.data);
-}
-
 const openAddTableDialog = () => {
   $q.dialog({
     component: AddTableDialog,
@@ -39,7 +34,7 @@ const openAddTableDialog = () => {
 }
 
 onMounted(() => {
-  test()
+  tableStore.getServerData();
 })
 
 </script>

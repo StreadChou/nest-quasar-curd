@@ -55,8 +55,8 @@
           <a href="javascript:void(0)" class="text-white">
             Marketplace
           </a>
-          <a href="javascript:void(0)" class="text-white">
-            Explore
+          <a href="javascript:void(0)" class="text-white" @click="runExport">
+            导出
           </a>
         </div>
 
@@ -153,71 +153,63 @@
   </q-layout>
 </template>
 
-<script>
+<script lang="ts" setup>
 import {ref} from 'vue'
 import {fabGithub} from '@quasar/extras/fontawesome-v6'
+import {useTableStore} from "stores/table-store";
 
 const stringOptions = [
   'quasarframework/quasar',
   'quasarframework/quasar-awesome'
 ]
 
-export default {
-  name: 'MyLayout',
 
-  setup() {
-    const text = ref('')
-    const options = ref(null)
-    const filteredOptions = ref([])
-    const search = ref(null) // $refs.search
+const tableStore = useTableStore();
 
-    function filter(val, update) {
-      if (options.value === null) {
-        // load data
-        setTimeout(() => {
-          options.value = stringOptions
-          search.value.filter('')
-        }, 2000)
-        update()
-        return
-      }
+const text = ref('')
+const options = ref(null)
+const filteredOptions = ref([])
+const search = ref(null) // $refs.search
 
-      if (val === '') {
-        update(() => {
-          filteredOptions.value = options.value.map(op => ({label: op}))
-        })
-        return
-      }
-
-      update(() => {
-        filteredOptions.value = [
-          {
-            label: val,
-            type: 'In this repository'
-          },
-          {
-            label: val,
-            type: 'All GitHub'
-          },
-          ...options.value
-            .filter(op => op.toLowerCase().includes(val.toLowerCase()))
-            .map(op => ({label: op}))
-        ]
-      })
-    }
-
-    return {
-      fabGithub,
-
-      text,
-      options,
-      filteredOptions,
-      search,
-
-      filter
-    }
+function filter(val, update) {
+  if (options.value === null) {
+    // load data
+    setTimeout(() => {
+      options.value = stringOptions
+      search.value.filter('')
+    }, 2000)
+    update()
+    return
   }
+
+  if (val === '') {
+    update(() => {
+      filteredOptions.value = options.value.map(op => ({label: op}))
+    })
+    return
+  }
+
+  update(() => {
+    filteredOptions.value = [
+      {
+        label: val,
+        type: 'In this repository'
+      },
+      {
+        label: val,
+        type: 'All GitHub'
+      },
+      ...options.value
+        .filter(op => op.toLowerCase().includes(val.toLowerCase()))
+        .map(op => ({label: op}))
+    ]
+  })
 }
+
+function runExport() {
+  tableStore.exportTableView()
+}
+
 </script>
 
 <style lang="sass">
