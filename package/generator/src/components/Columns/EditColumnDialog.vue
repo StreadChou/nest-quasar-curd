@@ -82,7 +82,6 @@
 
         <q-card-actions align="right">
           <q-btn flat label="关闭" color="dark" v-close-popup/>
-          <q-btn flat label="预览" color="dark" @click="showColumnPreview"/>
           <q-btn flat label="保存" color="primary" type="submit"/>
         </q-card-actions>
       </q-form>
@@ -101,7 +100,6 @@ import DateExtension from "components/Columns/DataTypeExtension/DateExtension.vu
 import StringExtension from "components/Columns/DataTypeExtension/StringExtension.vue";
 import DefaultExtension from "components/Columns/DataTypeExtension/DefaultExtension.vue";
 import JsonExtension from "components/Columns/DataTypeExtension/JsonExtension.vue";
-import ColumnShowDialog from "components/Columns/ColumnShowDialog.vue";
 
 
 const $q = useQuasar();
@@ -141,15 +139,6 @@ const editorColumns = () => {
   }
 }
 
-const showColumnPreview = () => {
-  $q.dialog({
-    component: ColumnShowDialog,
-    componentProps: {
-      columns_key: key.value,
-      columns_form: form.value,
-    }
-  })
-}
 
 async function onOKClick() {
   if (props.columns_key) editorColumns();

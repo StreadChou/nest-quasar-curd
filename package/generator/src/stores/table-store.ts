@@ -1,5 +1,5 @@
 import {defineStore, acceptHMRUpdate} from 'pinia';
-import {Table} from "app/src-ssr/types/Table";
+import {Table, TableColumns} from "app/src-ssr/types/Table";
 import {api} from "boot/axios";
 
 export const useTableStore = defineStore('table', {
@@ -11,7 +11,25 @@ export const useTableStore = defineStore('table', {
     nowEditTableForm: {} as Partial<Table>,
   }),
 
-  getters: {},
+  getters: {
+    nowEditTableFormKeys: (state) => {
+      let temp: Array<{ key: string, value: TableColumns }> = [];
+      const columns = state.nowEditTableForm?.columns || {};
+      const keys = Object.keys(columns);
+      for (let i in keys) {
+        const index = parseInt(i);
+        const key = keys[index] as string;
+
+        const value = columns[key] as TableColumns
+        if (!("sort" in value)) value.sort = index;
+        temp.push({key, value: value});
+      }
+      temp.sort((A, B) => (A.value?.sort || 0) - (B.value?.sort || 0))
+
+      return temp;
+
+    },
+  },
 
   actions: {
     changeEditTable(table: Partial<Table>) {
@@ -30,6 +48,7 @@ export const useTableStore = defineStore('table', {
         return null;
       }
       const {content} = AxiosResponse.data.data;
+
       this.loadServerData(content)
     },
 
@@ -51,8 +70,14 @@ export const useTableStore = defineStore('table', {
         }
       })
       if (AxiosResponse.data.code == 0) return null;
-    }
+    },
 
+    async updateColumns() {
+      if (!this.nowEditTableForm || !this.nowEditTableForm.columns) return null;
+      if (!this.nowEditTable) return null;
+      this.nowEditTable.columns = this.nowEditTableForm.columns;
+      await this.saveTableView();
+    }
 
   },
 });

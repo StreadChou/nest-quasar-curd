@@ -28,15 +28,17 @@ export interface TableColumns {
   /** 数据类型 */
   dataType: ColumnType;
 
+  /** 展示排序 */
+  sort?: number;
 
   /** 数据扩展 */
-  extension: TableColumnsExtension;
+  extension?: TableColumnsExtension;
   /** 是否分离数据扩展 */
-  splitExtension: boolean;
+  splitExtension?: boolean;
   /** 数据扩展-后端 */
   extension_backend?: TableColumnsExtension;
   /** 数据扩展-前端 */
-  extension_frontend: TableColumnsExtension;
+  extension_frontend?: TableColumnsExtension;
 }
 
 
@@ -108,4 +110,44 @@ export const ColumnTypeOptions: Record<ColumnType, { value: ColumnType, label: s
   [ColumnType.CreatedTime]: {value: ColumnType.CreatedTime, label: "类型:创建时间", type_string: "Date"},
   [ColumnType.UpdatedTime]: {value: ColumnType.UpdatedTime, label: "类型:更新时间", type_string: "Date"},
 
+}
+
+
+export const defaultIdColumn: TableColumns = {
+  /** 字段名称 */
+  name: "自增ID",
+
+  /** 是否必填 */
+  nullable: true,
+  /** 文档不可重复 */
+  unique: true,
+
+  /** 数据类型 */
+  dataType: ColumnType.IncrementId,
+}
+
+
+export const defaultCreatedColumns: TableColumns = {
+  /** 字段名称 */
+  name: "创建时间",
+
+  /** 是否必填 */
+  nullable: true,
+  /** 文档不可重复 */
+  unique: false,
+  /** 数据类型 */
+  dataType: ColumnType.CreatedTime,
+}
+
+
+export const defaultUpdatedColumns: TableColumns = {
+  /** 字段名称 */
+  name: "更新时间",
+
+  /** 是否必填 */
+  nullable: true,
+  /** 文档不可重复 */
+  unique: false,
+  /** 数据类型 */
+  dataType: ColumnType.UpdatedTime,
 }
