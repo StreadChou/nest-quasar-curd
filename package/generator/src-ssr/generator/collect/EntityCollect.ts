@@ -11,7 +11,6 @@ export class EntityCollect extends AbstractCollect {
 
   constructor(ctx: GeneratorCtx) {
     super(ctx);
-    this.start();
   }
 
   get fileName() {

@@ -11,7 +11,6 @@ export class UpdatedTimeGenerator extends AbstractColumnsGeneratorCtx {
 
   constructor(ctx: GeneratorCtx, parent: AbstractTableGenerator, key: string, config: TableColumns) {
     super(ctx, parent, key, config);
-    this.start();
   }
 
 

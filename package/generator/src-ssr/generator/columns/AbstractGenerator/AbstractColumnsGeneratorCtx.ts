@@ -23,13 +23,14 @@ export abstract class AbstractColumnsGeneratorCtx {
   }
 
   get isBackend() {
-   return this.parent.isBackend();
+    return this.parent.isBackend();
   }
 
   get isFrontend() {
     return this.parent.isFrontend()
   }
 
+  abstract start();
 
   abstract getString(prefix: string): string;
 }

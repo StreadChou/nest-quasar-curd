@@ -14,8 +14,6 @@ export class InterfaceGeneratorCxt extends AbstractTableGenerator {
     super(ctx, config);
 
     this.addColumnsGenerator();
-
-    this.start();
   }
 
   /** Interface的类名: export出去的类名 */

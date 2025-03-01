@@ -7,7 +7,6 @@ export class BooleanGenerator extends AbstractBaseTypeGenerator {
 
   constructor(ctx: GeneratorCtx, parent: AbstractTableGenerator, key: string, config: TableColumns) {
     super(ctx, parent, key, config);
-    this.start();
   }
 
 

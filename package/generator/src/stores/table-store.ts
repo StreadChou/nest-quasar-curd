@@ -1,6 +1,8 @@
 import {defineStore, acceptHMRUpdate} from 'pinia';
 import {Table, TableColumns} from "app/src-ssr/types/Table";
 import {api} from "boot/axios";
+import * as ts from 'typescript';
+
 
 export const useTableStore = defineStore('table', {
   state: () => ({
@@ -12,6 +14,30 @@ export const useTableStore = defineStore('table', {
   }),
 
   getters: {
+    importOptions(state) {
+      let reply: Array<{ value: string, label: string, child: string[] }> = [];
+      for (const table of state.tableList) {
+        reply.push({value: table.ClassName, label: `${table.Name}#${table.ClassName}`, child: [table.ClassName]})
+        const constants = table.Constants;
+        if (!constants || !constants.trim()) continue;
+
+        const child: string[] = [];
+        const namedExportPattern = /export\s+(const|let|var|function|class|interface|type|enum|declare\s+(class|function|var|const|let))\s+([a-zA-Z_][a-zA-Z0-9_]*)/g;
+        const defaultExportPattern = /export\s+default\s+([a-zA-Z_][a-zA-Z0-9_]*|\{([^}]+)\})/g;
+        const namedExports = [];
+        const defaultExports = [];
+        let match;
+        while ((match = namedExportPattern.exec(constants)) !== null) {
+          child.push(match[3]);
+        }
+
+        while ((match = defaultExportPattern.exec(constants)) !== null) {
+          child.push(match[1] || match[2].trim());
+        }
+        reply.push({value: `${table.ClassName}.Constants`, label: `${table.Name}#Constants`, child: child})
+      }
+      return reply;
+    },
     nowEditTableFormKeys: (state) => {
       let temp: Array<{ key: string, value: TableColumns }> = [];
       const columns = state.nowEditTableForm?.columns || {};
@@ -70,6 +96,12 @@ export const useTableStore = defineStore('table', {
         }
       })
       if (AxiosResponse.data.code == 0) return null;
+    },
+
+    async saveNowEditor() {
+      if (!this.nowEditTableForm || !this.nowEditTable) return null;
+      Object.assign(this.nowEditTable, this.nowEditTableForm);
+      return this.saveTableView();
     },
 
     async updateColumns() {

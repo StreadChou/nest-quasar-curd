@@ -1,4 +1,5 @@
-import {PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, Entity} from "typeorm";
+import {Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn} from "typeorm";
+import {UserConfig} from "../constants/UserConstants";
 
 /** 用户表 */
 @Entity({name: "__System__Task"})
@@ -24,6 +25,10 @@ export class User {
     /** 生日 */
     @Column({comment: "生日", nullable: true, unique: false, type: "date",})
     birth?: Date;
+
+    /** 配置 */
+    @CreateDateColumn()
+    config: UserConfig;
 
     /** 创建时间 */
     @CreateDateColumn()

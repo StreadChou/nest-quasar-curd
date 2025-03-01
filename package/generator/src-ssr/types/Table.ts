@@ -48,9 +48,9 @@ export interface TableColumnsExtension {
   length?: number; // 长度
   default?: string | number | null;
 
-  type_string?: string; // 类型定义, 这个key是什么类型, 默认是any,
-  interface_string?: string; // 如果 type_string 是interface, 则会使用  interface_string 作为类型
-  type_import?: Array<[string, string]>; // 导入,
+  type_string?: string; // 类型定义, 这个key是什么类型, 默认是any;
+  need_import?: boolean; // 是否需要导入;
+  type_import?: Array<ImportConfigInterface>;
 
   relation?: string; // 关联到哪个表;
   joinColumn?: string; // 是否使用 JoinColumn;
@@ -110,6 +110,13 @@ export const ColumnTypeOptions: Record<ColumnType, { value: ColumnType, label: s
   [ColumnType.CreatedTime]: {value: ColumnType.CreatedTime, label: "类型:创建时间", type_string: "Date"},
   [ColumnType.UpdatedTime]: {value: ColumnType.UpdatedTime, label: "类型:更新时间", type_string: "Date"},
 
+}
+
+export interface ImportConfigInterface {
+  type: "generator" | "url" | "customer";
+  from?: string;
+  value?: string;
+  default?: boolean;
 }
 
 

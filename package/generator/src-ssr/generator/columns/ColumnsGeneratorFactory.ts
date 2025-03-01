@@ -9,6 +9,7 @@ import {BooleanGenerator} from "app/src-ssr/generator/columns/BaseTypeGenerator/
 import {DateGenerator} from "app/src-ssr/generator/columns/BaseTypeGenerator/DateGenerator";
 import {CreatedTimeGenerator} from "app/src-ssr/generator/columns/OrmTypeGenerator/CreatedTimeGenerator";
 import {UpdatedTimeGenerator} from "app/src-ssr/generator/columns/OrmTypeGenerator/UpdatedTimeGenerator";
+import {JsonGenerator} from "app/src-ssr/generator/columns/ExtensionTypeGenerator/JsonGenerator";
 
 export function ColumnsGeneratorFactory(ctx: GeneratorCtx, parent: AbstractTableGenerator, key: string, config: TableColumns): AbstractColumnsGeneratorCtx | null {
   switch (config.dataType) {
@@ -23,7 +24,9 @@ export function ColumnsGeneratorFactory(ctx: GeneratorCtx, parent: AbstractTable
     case ColumnType.Date:
       return new DateGenerator(ctx, parent, key, config);
     case ColumnType.Enum:
+      return null;
     case ColumnType.Json:
+      return new JsonGenerator(ctx, parent, key, config);
     case ColumnType.CreatedTime:
       return new CreatedTimeGenerator(ctx, parent, key, config);
     case ColumnType.UpdatedTime:

@@ -6,4 +6,6 @@ export abstract class AbstractGenerator {
   protected constructor(ctx: GeneratorCtx) {
     this.ctx = ctx;
   }
+
+  abstract start(): void;
 }

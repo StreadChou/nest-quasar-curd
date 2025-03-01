@@ -1,16 +1,19 @@
 <script setup lang="ts">
-import {TableColumnsExtension} from "app/src-ssr/types/Table";
+import {ImportConfigInterface, TableColumnsExtension} from "app/src-ssr/types/Table";
 import {onMounted, ref, watch} from "vue";
 import {
   WhenColumnIsComplexTypeList,
 } from "app/src-ssr/types/SimpleColumnType";
+import {useQuasar} from "quasar";
+import ImportEditorDialog from "components/Columns/ImportExtension/ImportEditorDialog.vue";
 
+const $q = useQuasar();
 const props = defineProps<{
   title?: string,
   toEnv?: "frontend" | "backend"
   modelValue?: TableColumnsExtension
 }>()
-console.log(props)
+
 const emit = defineEmits(["update:modelValue"])
 const model = ref<TableColumnsExtension>(props.modelValue || {});
 
@@ -19,10 +22,23 @@ watch(model, () => {
 }, {deep: true})
 
 
+const openImportDialog = (item?: ImportConfigInterface) => {
+  $q.dialog({
+    component: ImportEditorDialog,
+    componentProps: {item}
+  }).onOk((data: ImportConfigInterface) => {
+    if (item) return Object.assign(item, data)
+    model.value.type_import = model.value.type_import || []
+    model.value.type_import.push(data);
+  })
+}
+
+
 onMounted(() => {
-  model.value = {};
+  model.value = model.value || {};
   if (!("dbType" in model.value)) model.value.dbType = "json";
   if (!("type_string" in model.value)) model.value.type_string = "any";
+  if (!("need_import" in model.value)) model.value.need_import = false;
   if (!("type_import" in model.value)) model.value.type_import = [];
 })
 
@@ -39,37 +55,45 @@ onMounted(() => {
       <q-input v-model="model.type_string" clearable standout type="text" dense label="字段类型">
         <template #append>
           <q-btn label="使用any" no-caps flat dense @click="model.type_string = 'any'"></q-btn>
-          <q-btn label="使用interface" no-caps flat dense @click="model.type_string = 'interface'"></q-btn>
         </template>
       </q-input>
 
-      <template v-if="model.type_string == 'interface'">
-        <q-input v-model="model.interface_string" clearable standout type="text" dense label="interface名字"/>
+      <div>
+        <q-checkbox v-model="model.need_import" label="是否需要从外部导入"/>
+      </div>
+
+
+      <template v-if="model.need_import">
         <q-markup-table flat dense bordered separator="cell">
           <thead>
           <tr>
-            <th colspan="2">导入类型</th>
+            <th>导入方式</th>
+            <th>导入路径</th>
+            <th>导入对象</th>
+            <th>是否default</th>
+            <th>操作</th>
           </tr>
           </thead>
           <tbody>
           <template v-for="item of model.type_import">
             <tr>
-              <td>{{ item[0] }}</td>
-              <td>{{ item[1] }}</td>
+              <td>{{ item.type }}</td>
+              <td>{{ item.from }}</td>
+              <td>{{ item.value }}</td>
+              <td>{{ item.default }}</td>
+              <td>
+                <q-btn flat color="primary" label="编辑" @click="openImportDialog(item)"/>
+                <q-btn flat color="primary" label="删除" @click="openImportDialog(item)"/>
+              </td>
             </tr>
           </template>
 
           <tr>
-            <td>TestInterface</td>
-            <td>Table_UserIndex</td>
+            <td colspan="4">
+              <q-btn flat dense class="full-width" label="添加" @click="openImportDialog()"/>
+            </td>
           </tr>
-          <tr>
-            <td>TestInterface</td>
-            <td>Table_UserConstant</td>
-          </tr>
-          <tr>
 
-          </tr>
 
           </tbody>
 

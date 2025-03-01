@@ -1,4 +1,4 @@
-import {PrimaryGeneratedColumn, UpdateDateColumn, CreateDateColumn, Entity} from "typeorm";
+import {Entity, PrimaryGeneratedColumn, UpdateDateColumn, CreateDateColumn} from "typeorm";
 
 /** 文章表 */
 @Entity({name: "__System__Task"})

@@ -1,1 +1,122 @@
-{"modules":[],"tables":[{"Name":"用户表","ClassName":"User","Restful":"User","columns":{"id":{"name":"自增ID","nullable":true,"unique":true,"dataType":"IncrementId","sort":0},"created_at":{"name":"创建时间","nullable":true,"unique":false,"dataType":"CreatedTime","sort":5},"updated_at":{"name":"更新时间","nullable":true,"unique":false,"dataType":"UpdatedTime","sort":6},"name":{"nullable":true,"unique":false,"splitExtension":false,"name":"用户名","dataType":"string","extension":{},"sort":1},"age":{"nullable":false,"unique":false,"splitExtension":false,"name":"年龄","dataType":"number","extension":{"default":0},"sort":2},"active":{"nullable":true,"unique":false,"splitExtension":false,"name":"活跃","dataType":"boolean","extension":{},"sort":3},"birth":{"nullable":true,"unique":false,"splitExtension":false,"dataType":"Date","extension":{"dbType":"date"},"name":"生日","sort":4}}},{"Name":"文章表","ClassName":"Post","Restful":"Post","columns":{"id":{"name":"自增ID","nullable":true,"unique":true,"dataType":"IncrementId","sort":0},"created_at":{"name":"创建时间","nullable":true,"unique":false,"dataType":"CreatedTime","sort":1},"updated_at":{"name":"更新时间","nullable":true,"unique":false,"dataType":"UpdatedTime"}}}]}
+{
+  "modules": [],
+  "tables": [
+    {
+      "Name": "用户表",
+      "ClassName": "User",
+      "Restful": "User",
+      "columns": {
+        "id": {
+          "name": "自增ID",
+          "nullable": true,
+          "unique": true,
+          "dataType": "IncrementId",
+          "sort": 0
+        },
+        "created_at": {
+          "name": "创建时间",
+          "nullable": true,
+          "unique": false,
+          "dataType": "CreatedTime",
+          "sort": 6
+        },
+        "updated_at": {
+          "name": "更新时间",
+          "nullable": true,
+          "unique": false,
+          "dataType": "UpdatedTime",
+          "sort": 7
+        },
+        "name": {
+          "nullable": true,
+          "unique": false,
+          "splitExtension": false,
+          "name": "用户名",
+          "dataType": "string",
+          "extension": {},
+          "sort": 1
+        },
+        "age": {
+          "nullable": false,
+          "unique": false,
+          "splitExtension": false,
+          "name": "年龄",
+          "dataType": "number",
+          "extension": {
+            "default": 0
+          },
+          "sort": 2
+        },
+        "active": {
+          "nullable": true,
+          "unique": false,
+          "splitExtension": false,
+          "name": "活跃",
+          "dataType": "boolean",
+          "extension": {},
+          "sort": 3
+        },
+        "birth": {
+          "nullable": true,
+          "unique": false,
+          "splitExtension": false,
+          "dataType": "Date",
+          "extension": {
+            "dbType": "date"
+          },
+          "name": "生日",
+          "sort": 4
+        },
+        "config": {
+          "nullable": false,
+          "unique": false,
+          "splitExtension": false,
+          "dataType": "Json",
+          "extension": {
+            "dbType": "json",
+            "type_string": "UserConfig",
+            "need_import": true,
+            "type_import": [
+              {
+                "type": "generator",
+                "default": false,
+                "from": "User.Constants",
+                "value": "UserConfig"
+              }
+            ]
+          },
+          "name": "配置",
+          "sort": 5
+        }
+      },
+      "Constants": "export interface UserConfig{\n    a: string;\n}\n\nexport enum TestEnum{\n    a = \"a\"\n}"
+    },
+    {
+      "Name": "文章表",
+      "ClassName": "Post",
+      "Restful": "Post",
+      "columns": {
+        "id": {
+          "name": "自增ID",
+          "nullable": true,
+          "unique": true,
+          "dataType": "IncrementId",
+          "sort": 0
+        },
+        "created_at": {
+          "name": "创建时间",
+          "nullable": true,
+          "unique": false,
+          "dataType": "CreatedTime",
+          "sort": 1
+        },
+        "updated_at": {
+          "name": "更新时间",
+          "nullable": true,
+          "unique": false,
+          "dataType": "UpdatedTime"
+        }
+      }
+    }
+  ]
+}
