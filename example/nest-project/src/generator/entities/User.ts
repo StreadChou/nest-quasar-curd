@@ -1,5 +1,6 @@
-import {Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn} from "typeorm";
+import {Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, OneToMany, UpdateDateColumn} from "typeorm";
 import {UserConfig} from "../constants/UserConstants";
+import {Post} from "./Post";
 
 /** 用户表 */
 @Entity({name: "__System__Task"})
@@ -29,6 +30,10 @@ export class User {
     /** 配置 */
     @CreateDateColumn()
     config: UserConfig;
+
+    /** 文章列表 */
+    @OneToMany(() => Post, (target) => target.auth)
+    posts: Array<Post>;
 
     /** 创建时间 */
     @CreateDateColumn()

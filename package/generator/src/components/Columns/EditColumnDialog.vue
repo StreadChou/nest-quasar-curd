@@ -93,6 +93,26 @@
 
             </template>
 
+            <template v-if="form.dataType == ColumnType.RelationOneToMany">
+              <template v-if="form.splitExtension">
+                <div class="row">
+                  <div class="col">
+                    <RelationOneToManyExtension :title="'后端一对多扩展编辑'" :to-env="'backend'"
+                                                v-model="form.extension_backend as TableColumnsExtension"/>
+                  </div>
+                  <div class="col">
+                    <RelationOneToManyExtension title="前端一对多扩展编辑" to-env="frontend"
+                                   v-model="form.extension_frontend as TableColumnsExtension"/>
+                  </div>
+                </div>
+              </template>
+              <template v-else>
+                <RelationOneToManyExtension v-model="form.extension as TableColumnsExtension"/>
+              </template>
+
+
+            </template>
+
             <template
               v-if="[ColumnType.Boolean, ColumnType.CreatedTime, ColumnType.UpdatedTime].includes(form.dataType as ColumnType)">
               <DefaultExtension v-model="form.extension as TableColumnsExtension"/>
@@ -127,6 +147,7 @@ import StringExtension from "components/Columns/DataTypeExtension/StringExtensio
 import DefaultExtension from "components/Columns/DataTypeExtension/DefaultExtension.vue";
 import JsonExtension from "components/Columns/DataTypeExtension/JsonExtension.vue";
 import RelationManyToManyExtension from "components/Columns/DataTypeExtension/RelationManyToManyExtension.vue";
+import RelationOneToManyExtension from "components/Columns/DataTypeExtension/RelationOneToManyExtension.vue";
 
 
 const $q = useQuasar();

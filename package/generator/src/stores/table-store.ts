@@ -14,6 +14,13 @@ export const useTableStore = defineStore('table', {
   }),
 
   getters: {
+    tableOptions(state) {
+      let reply: Array<{ value: string, label: string }> = [];
+      for (const table of state.tableList) {
+        reply.push({value: table.ClassName, label: `${table.Name}#${table.ClassName}`, child: [table.ClassName]})
+      }
+      return reply;
+    },
     importOptions(state) {
       let reply: Array<{ value: string, label: string, child: string[] }> = [];
       for (const table of state.tableList) {

@@ -10,6 +10,7 @@ import {DateGenerator} from "app/src-ssr/generator/columns/BaseTypeGenerator/Dat
 import {CreatedTimeGenerator} from "app/src-ssr/generator/columns/OrmTypeGenerator/CreatedTimeGenerator";
 import {UpdatedTimeGenerator} from "app/src-ssr/generator/columns/OrmTypeGenerator/UpdatedTimeGenerator";
 import {JsonGenerator} from "app/src-ssr/generator/columns/ExtensionTypeGenerator/JsonGenerator";
+import {OneManyToGenerator} from "app/src-ssr/generator/columns/RelationTypeGenerator/OneManyToGenerator";
 
 export function ColumnsGeneratorFactory(ctx: GeneratorCtx, parent: AbstractTableGenerator, key: string, config: TableColumns): AbstractColumnsGeneratorCtx | null {
   switch (config.dataType) {
@@ -31,6 +32,8 @@ export function ColumnsGeneratorFactory(ctx: GeneratorCtx, parent: AbstractTable
       return new CreatedTimeGenerator(ctx, parent, key, config);
     case ColumnType.UpdatedTime:
       return new UpdatedTimeGenerator(ctx, parent, key, config);
+    case ColumnType.RelationOneToMany:
+      return new OneManyToGenerator(ctx, parent, key, config);
     default:
       console.log("Factory", config)
       return null;

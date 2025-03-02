@@ -1,4 +1,4 @@
-import {Entity, PrimaryGeneratedColumn, UpdateDateColumn, CreateDateColumn} from "typeorm";
+import {Entity, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, Column} from "typeorm";
 
 /** 文章表 */
 @Entity({name: "__System__Task"})
@@ -9,13 +9,17 @@ export class Post {
     @PrimaryGeneratedColumn()
     id?: number;
 
+    /** 创建时间 */
+    @CreateDateColumn()
+    created_at?: Date;
+
     /** 更新时间 */
     @UpdateDateColumn()
     updated_at?: Date;
 
-    /** 创建时间 */
-    @CreateDateColumn()
-    created_at?: Date;
+    /** 作者 */
+    @Column({comment: "作者", nullable: false, unique: false,})
+    auth: number;
 
 
 }

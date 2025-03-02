@@ -54,6 +54,12 @@ export interface TableColumnsExtension {
 
   relation?: string; // 关联到哪个表;
   joinColumn?: string; // 是否使用 JoinColumn;
+
+  relation_entity?: string; // 关系关联的实体
+  relation_in_generator?: boolean; // 是否来自本系统
+  relation_import_string?: string; // 如果不是来自本系统, 从那里导入
+  relation_entity_key?: string; // 对方的外键
+
 }
 
 
