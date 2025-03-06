@@ -1,9 +1,0 @@
-__IMPORT__
-
-__TABLE_MARK__
-__CLASS_DECORATOR__
-export class __CLASS_NAME__CurdEntity {
-
-__ClASS_COLUMN__
-
-}
