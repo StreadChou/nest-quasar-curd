@@ -1,8 +1,7 @@
 import path from "node:path";
 import fs from "node:fs";
 import {ExportConfig} from "app/src-ssr/types/ExportConfig";
-import {Module} from "app/src-ssr/types/Module";
-import {Table} from "app/src-ssr/types/Table";
+import {InputJson} from "app/src-ssr/types/InputJson";
 
 // 配置文件所在的目录, 主要配置导出和导入目录
 export const config_json_path = path.join(process.cwd(), 'test/config.json')
@@ -28,7 +27,7 @@ export function getConfigJson(): ExportConfig {
 
 
 /** 获取数据JSON的内容 */
-export function getGeneratorJson(): { modules: Array<Module>, tables: Array<Table> } {
+export function getGeneratorJson(): InputJson {
   const config = getConfigJson();
   const generator_json_path = config.input;
 
@@ -36,10 +35,14 @@ export function getGeneratorJson(): { modules: Array<Module>, tables: Array<Tabl
     const defaultConfig = {
       modules: [],
       tables: [],
+      templates: {},
     }
     fs.writeFileSync(generator_json_path, JSON.stringify(defaultConfig));
   }
   const content = JSON.parse(fs.readFileSync(generator_json_path).toString());
-  return content as { modules: any, tables: any }
+  content.modules = content.modules || [];
+  content.tables = content.tables || [];
+  content.templates = content.templates || {};
+  return content;
 
 }

@@ -41,7 +41,7 @@ export const create = defineSsrCreate((/* { ... } */) => {
   // place here any middlewares that
   // absolutely need to run before anything else
   if (process.env.PROD) {
-    app.use(compression());
+    app.use(compression() as any);
   }
 
   app.post('/_GET_JSON_FILE', (req, res) => {

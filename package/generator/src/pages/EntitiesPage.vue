@@ -33,8 +33,4 @@ const openAddTableDialog = () => {
   })
 }
 
-onMounted(() => {
-  tableStore.getServerData();
-})
-
 </script>

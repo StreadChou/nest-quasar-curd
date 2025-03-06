@@ -1,13 +1,16 @@
 import {defineStore, acceptHMRUpdate} from 'pinia';
 import {Table, TableColumns} from "app/src-ssr/types/Table";
 import {api} from "boot/axios";
-import * as ts from 'typescript';
+import {Template} from "app/src-ssr/types/Template";
+import {InputJson} from "app/src-ssr/types/InputJson";
+import {Module} from "app/src-ssr/types/Module";
 
 
 export const useTableStore = defineStore('table', {
   state: () => ({
-    moduleList: [] as Array<any>,
+    moduleList: [] as Array<Module>,
     tableList: [] as Array<Table>,
+    templates: {} as Template,
 
     nowEditTable: {} as Partial<Table>,
     nowEditTableForm: {} as Partial<Table>,
@@ -65,25 +68,41 @@ export const useTableStore = defineStore('table', {
   },
 
   actions: {
-    changeEditTable(table: Partial<Table>) {
-      this.nowEditTable = table;
-      this.nowEditTableForm = JSON.parse(JSON.stringify(table));
-    },
-
-
-    loadServerData(body: { modules: any, tables: any }) {
+    /** 将JSON的附加到本地 */
+    loadJsonData(body: InputJson) {
+      this.moduleList = body.modules;
       this.tableList = body.tables;
+      this.templates = body.templates;
     },
 
+    /** 从服务器保存数据 */
     async getServerData() {
       const AxiosResponse = await api.post("_GET_JSON_FILE",)
       if (AxiosResponse.data.code != 0) {
         return null;
       }
       const {content} = AxiosResponse.data.data;
-
-      this.loadServerData(content)
+      this.loadJsonData(content)
     },
+
+    /** 将数据回写给server */
+    async saveDataToServer() {
+      const AxiosResponse = await api.post("_UPDATE_JSON_FILE", {
+        content: {
+          modules: this.moduleList,
+          tables: this.tableList,
+          templates: this.templates,
+        }
+      })
+      if (AxiosResponse.data.code == 0) return null;
+    },
+
+
+    changeEditTable(table: Partial<Table>) {
+      this.nowEditTable = table;
+      this.nowEditTableForm = JSON.parse(JSON.stringify(table));
+    },
+
 
     async saveTableView() {
       const AxiosResponse = await api.post("_UPDATE_JSON_FILE", {

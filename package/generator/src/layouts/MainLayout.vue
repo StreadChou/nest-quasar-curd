@@ -7,12 +7,14 @@
         <div class="q-ml-xs q-gutter-md text-body2 text-weight-bold row items-center no-wrap">
           <q-btn label="实体 - Entities" no-caps flat dense to="/Entities"/>
           <q-btn label="模块 - Modules" no-caps flat dense to="/Modules"/>
+          <q-btn label="模板 - Templates" no-caps flat dense to="/Templates"/>
         </div>
 
         <q-space/>
 
         <div class="q-pl-sm q-gutter-sm row items-center no-wrap">
-          <q-btn label="导出" flat dense @click="runExport"/>
+          <q-btn label="保存" flat dense @click="tableStore.saveDataToServer()"/>
+          <q-btn label="导出" flat dense @click="tableStore.exportTableView()"/>
         </div>
       </q-toolbar>
     </q-header>
@@ -25,13 +27,14 @@
 
 <script lang="ts" setup>
 import {useTableStore} from "stores/table-store";
+import {onMounted} from "vue";
 
 const tableStore = useTableStore();
 
 
-function runExport() {
-  tableStore.exportTableView()
-}
+onMounted(() => {
+  tableStore.getServerData()
+})
 
 </script>
 

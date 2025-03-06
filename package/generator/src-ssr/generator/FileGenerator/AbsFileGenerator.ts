@@ -22,7 +22,9 @@ export abstract class AbsFileGenerator {
 
   public writeToFile() {
     const file_path = this.getFilePath();
+    if (!file_path) return null;
     const content = this.getFileContent();
+    if (!content) return null;
     return writeToFile(file_path, content);
   }
 
