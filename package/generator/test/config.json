@@ -1,5 +1,5 @@
 {
   "input": "/Volumes/Project/003_Stread/nest-quasar-curd/package/generator/test/input.json",
-  "backend": "/Volumes/Project/003_Stread/nest-quasar-curd/example/nest-project/src/generator",
-  "frontend": "/Volumes/Project/003_Stread/nest-quasar-curd/package/generator/test/frontend"
+  "backend": "/Volumes/Project/003_Stread/nest-quasar-curd/example/nest/src/generator",
+  "frontend": "/Volumes/Project/003_Stread/nest-quasar-curd/example/quasar/generator"
 }
