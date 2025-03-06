@@ -7,7 +7,6 @@ export interface Table {
   ClassName: string;
   /** restful 接口 */
   Restful: string;
-
   /** 数据表内容 */
   Constants: string;
 

@@ -19,7 +19,7 @@ import {
   defineSsrRenderPreloadTag
 } from '#q-app/wrappers';
 import fs from "node:fs";
-import {getConfigJson, getGeneratorJson} from "app/src-ssr/app/JsonFileHelper";
+import {getConfigJson, getGeneratorJson} from "app/src-ssr/helper/JsonFileHelper";
 import {GeneratorCtx} from "app/src-ssr/generator/GeneratorCtx";
 
 /**
