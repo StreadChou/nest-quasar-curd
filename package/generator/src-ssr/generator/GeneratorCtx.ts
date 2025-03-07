@@ -11,6 +11,9 @@ import {RequestConstantGenerator} from "app/src-ssr/generator/FileGenerator/Pack
 import {CurdServiceGenerator} from "app/src-ssr/generator/FileGenerator/PackageGenerator/CurdServicesGenerator";
 import {InputJson} from "app/src-ssr/types/InputJson";
 import {CurdControllerGenerator} from "app/src-ssr/generator/FileGenerator/PackageGenerator/CurdControllerGenerator";
+import {AbsModuleGenerator} from "app/src-ssr/generator/FileGenerator/ModuleGenerator/AbsModuleGenerator";
+import {ModuleGenerator} from "app/src-ssr/generator/FileGenerator/ModuleGenerator/ModuleGenerator";
+import {ModuleCollect} from "app/src-ssr/generator/FileGenerator/CollectGenerator/ModuleCollect";
 
 
 export class GeneratorCtx {
@@ -20,6 +23,7 @@ export class GeneratorCtx {
   public readonly EntityGenerator: AbsEntityGenerator[] = [];
   public readonly DataTableGenerator: AbsDataTableGenerator[] = [];
   public readonly CollectGenerator: AbsCollectGenerator[] = [];
+  public readonly ModuleGenerator: AbsModuleGenerator[] = [];
 
   /** 客户端和服务器的请求结构体定义 */
   public readonly RequestConstantGenerator: RequestConstantGenerator[] = [
@@ -49,7 +53,12 @@ export class GeneratorCtx {
       this.DataTableGenerator.push(new DataTableGenerator(this, table, "frontend"))
     }
 
+    for (const module of this.jsonData.modules) {
+      this.ModuleGenerator.push(new ModuleGenerator(this, module))
+    }
+
     this.CollectGenerator.push(new EntityCollect(this))
+    this.CollectGenerator.push(new ModuleCollect(this))
 
     this.start();
   }
@@ -70,11 +79,13 @@ export class GeneratorCtx {
     this.EntityGenerator.forEach(ele => ele.start());
     this.DataTableGenerator.forEach(ele => ele.start());
     this.CollectGenerator.forEach(ele => ele.start());
+    this.ModuleGenerator.forEach(ele => ele.start());
 
 
     this.EntityGenerator.forEach(ele => ele.writeToFile());
     this.DataTableGenerator.forEach(ele => ele.writeToFile());
     this.CollectGenerator.forEach(ele => ele.writeToFile());
+    this.ModuleGenerator.forEach(ele => ele.writeToFile());
 
     // 写入模板
     this.RequestConstantGenerator.map(ele => ele.writeToFile());
