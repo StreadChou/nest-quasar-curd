@@ -36,7 +36,7 @@ for (const item of options.value) {
       </template>
 
       <template v-slot:after>
-        <q-tab-panels v-model="table" animated swipeable vertical transition-prev="jump-up" transition-next="jump-up">
+        <q-tab-panels v-model="table" swipeable vertical keep-alive>
           <template v-for="item of options">
             <q-tab-panel :name="item.value" style="height: 80vh">
               <MonacoEditor

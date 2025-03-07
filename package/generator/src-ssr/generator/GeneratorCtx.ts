@@ -69,13 +69,17 @@ export class GeneratorCtx {
   start() {
     this.EntityGenerator.forEach(ele => ele.start());
     this.DataTableGenerator.forEach(ele => ele.start());
+    this.CollectGenerator.forEach(ele => ele.start());
 
-    this.RequestConstantGenerator.map(ele => ele.writeToFile());
-    this.CurdServicesGenerator.map(ele => ele.writeToFile());
-    this.CurdControllerGenerator.map(ele => ele.writeToFile());
 
     this.EntityGenerator.forEach(ele => ele.writeToFile());
     this.DataTableGenerator.forEach(ele => ele.writeToFile());
+    this.CollectGenerator.forEach(ele => ele.writeToFile());
+
+    // 写入模板
+    this.RequestConstantGenerator.map(ele => ele.writeToFile());
+    this.CurdServicesGenerator.map(ele => ele.writeToFile());
+    this.CurdControllerGenerator.map(ele => ele.writeToFile());
   }
 
   /** 获取table的实体生成器 */
