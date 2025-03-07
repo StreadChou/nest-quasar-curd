@@ -3,19 +3,15 @@ import {Table} from "app/src-ssr/types/Table";
 import {AbsDataTableGenerator} from "app/src-ssr/generator/FileGenerator/DataTableGenerator/AbsDataTableGenerator";
 
 export class DataTableGenerator extends AbsDataTableGenerator {
-  root: string;
 
-  constructor(ctx: GeneratorCtx, config: Table, root: string) {
-    super(ctx, config)
-    this.root = root;
+
+  constructor(ctx: GeneratorCtx, config: Table, env: "backend" | "frontend") {
+    super(ctx, config, env)
   }
 
-  getFileContent(): string {
-    return "";
-  }
-
-  getFilePath(): string {
-    return "";
+  /** 导出的文件名字 */
+  getFileName() {
+    return `${this.config.ClassName}Constants.ts`
   }
 
   start() {

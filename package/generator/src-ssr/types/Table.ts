@@ -9,6 +9,8 @@ export interface Table {
   Restful: string;
   /** 数据表内容 */
   Constants: string;
+  /** 数据库的表名 */
+  DbTableName?: string;
 
   /** 字段列表 */
   columns: Record<string, TableColumns>,

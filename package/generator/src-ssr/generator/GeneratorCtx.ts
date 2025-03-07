@@ -45,8 +45,8 @@ export class GeneratorCtx {
       this.EntityGenerator.push(new BackendGenerator(this, table))
       this.EntityGenerator.push(new FrontendGenerator(this, table))
 
-      this.DataTableGenerator.push(new DataTableGenerator(this, table, this.backend_root))
-      this.DataTableGenerator.push(new DataTableGenerator(this, table, this.frontend_root))
+      this.DataTableGenerator.push(new DataTableGenerator(this, table, "backend"))
+      this.DataTableGenerator.push(new DataTableGenerator(this, table, "frontend"))
     }
 
     this.CollectGenerator.push(new EntityCollect(this))
@@ -67,39 +67,35 @@ export class GeneratorCtx {
   }
 
   start() {
+    this.EntityGenerator.forEach(ele => ele.start());
+    this.DataTableGenerator.forEach(ele => ele.start());
+
     this.RequestConstantGenerator.map(ele => ele.writeToFile());
     this.CurdServicesGenerator.map(ele => ele.writeToFile());
     this.CurdControllerGenerator.map(ele => ele.writeToFile());
 
-    // this.tablesGenerator.forEach(ele => ele.start());
-    // this.tableConstGenerator.forEach(ele => ele.start());
-    // this.tablesCollect.forEach(ele => ele.start());
+    this.EntityGenerator.forEach(ele => ele.writeToFile());
+    this.DataTableGenerator.forEach(ele => ele.writeToFile());
   }
 
   /** 获取table的实体生成器 */
-  findTableEntityCtx(tableName: string) {
-    // for (const generator of this.tablesGenerator) {
-    //   if (!(generator instanceof EntityGeneratorCxt)) continue;
-    //   if (generator.config.ClassName == tableName) return generator;
-    // }
-    // return null;
+  findEntity(tableName: string, env: "backend" | "frontend") {
+    return this.EntityGenerator.find(ele => {
+      if (env == "backend") {
+        return ele instanceof BackendGenerator && ele.config.ClassName == tableName;
+      }
+      if (env == "frontend") {
+        return ele instanceof FrontendGenerator && ele.config.ClassName == tableName;
+      }
+      return false;
+    })
   }
 
-  findTableBackConstCtx(tableName: string) {
-    // for (const generator of this.tableConstGenerator) {
-    //   if (!(generator instanceof ConstantBackendGenerator)) continue;
-    //   if (generator.config.ClassName == tableName) return generator;
-    // }
-    // return null;
+  findDataTable(tableName: string, env: "backend" | "frontend") {
+    return this.DataTableGenerator.find(ele => {
+      return ele instanceof DataTableGenerator && ele.config.ClassName == tableName && ele.env == env;
+    })
   }
 
-  /** 获取table的接口生成器 */
-  findTableInterfaceCtx(tableName: string) {
-    // for (const generator of this.tablesGenerator) {
-    //   if (!(generator instanceof InterfaceGeneratorCxt)) continue;
-    //   if (generator.config.ClassName == tableName) return generator;
-    // }
-    // return null;
-  }
 
 }

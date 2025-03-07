@@ -2,10 +2,8 @@ import {AbsFileGenerator} from "app/src-ssr/generator/FileGenerator/AbsFileGener
 import {GeneratorCtx} from "app/src-ssr/generator/GeneratorCtx";
 
 export abstract class AbsPackageGenerator extends AbsFileGenerator {
-  ctx: GeneratorCtx
-
   constructor(ctx: GeneratorCtx) {
-    super();
+    super(ctx);
     this.ctx = ctx;
   }
 }
