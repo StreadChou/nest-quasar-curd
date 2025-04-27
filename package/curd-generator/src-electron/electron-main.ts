@@ -1,7 +1,8 @@
-import { app, BrowserWindow } from 'electron';
+import {app, BrowserWindow} from 'electron';
 import path from 'path';
 import os from 'os';
-import { fileURLToPath } from 'url'
+import {fileURLToPath} from 'url'
+import {initAllHandler} from "app/src-electron/handler/HandlerLoader";
 
 // needed in case process is undefined under Linux
 const platform = process.platform || os.platform();
@@ -21,6 +22,7 @@ async function createWindow() {
     useContentSize: true,
     webPreferences: {
       contextIsolation: true,
+      nodeIntegration: true,
       // More info: https://v2.quasar.dev/quasar-cli-vite/developing-electron-apps/electron-preload-script
       preload: path.resolve(
         currentDir,
@@ -50,7 +52,10 @@ async function createWindow() {
   });
 }
 
-void app.whenReady().then(createWindow);
+app.whenReady().then(() => {
+  createWindow();
+  initAllHandler();
+});
 
 app.on('window-all-closed', () => {
   if (platform !== 'darwin') {

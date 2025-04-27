@@ -1,43 +1,31 @@
 <template>
-  <q-page class="row items-center justify-evenly">
-    <example-component
-      title="Example component"
-      active
-      :todos="todos"
-      :meta="meta"
-    ></example-component>
+  <q-page class="q-pa-md">
+    <div>
+      <q-input standout dense :model-value="dataStore.json_file_path" label="JSON文件位置">
+        <template v-slot:after>
+          <q-btn color="primary" @click="openJsonFileSelectDialog()" label="选择"></q-btn>
+        </template>
+      </q-input>
+    </div>
+    <q-separator class="q-my-md"></q-separator>
+    <div v-if="dataStore.json_file_path">
+      <ModulesList></ModulesList>
+    </div>
   </q-page>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
-import type { Todo, Meta } from 'components/models';
-import ExampleComponent from 'components/ExampleComponent.vue';
+import ModulesList from "components/modules/ModulesList.vue";
+import {useDataStore} from "stores/data-store";
+import {InvokeProxy} from "src/library/InvokeProxy";
 
-const todos = ref<Todo[]>([
-  {
-    id: 1,
-    content: 'ct1'
-  },
-  {
-    id: 2,
-    content: 'ct2'
-  },
-  {
-    id: 3,
-    content: 'ct3'
-  },
-  {
-    id: 4,
-    content: 'ct4'
-  },
-  {
-    id: 5,
-    content: 'ct5'
-  }
-]);
 
-const meta = ref<Meta>({
-  totalCount: 1200
-});
+const dataStore = useDataStore()
+
+
+const openJsonFileSelectDialog = async () => {
+  dataStore.json_file_path = await InvokeProxy("FileHandler.openFileDialog")
+  await dataStore.loadData();
+}
+
 </script>
