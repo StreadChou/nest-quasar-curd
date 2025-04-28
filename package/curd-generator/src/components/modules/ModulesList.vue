@@ -1,6 +1,11 @@
 <script setup lang="ts">
 
 import ModuleListItem from "components/modules/ModuleListItem.vue";
+import {useDataStore} from "stores/data-store";
+
+
+const dataStore = useDataStore();
+
 </script>
 
 <template>
@@ -11,11 +16,14 @@ import ModuleListItem from "components/modules/ModuleListItem.vue";
       ></q-btn>
     </div>
 
-    <template v-for="i in 10">
-      <div class="col-3">
-        <ModuleListItem></ModuleListItem>
-      </div>
+    <template v-if="dataStore.data.modules">
+      <template v-for="(item, key) in dataStore.data.modules" :key="key">
+        <div class="col-3">
+          <ModuleListItem :module="item.name"></ModuleListItem>
+        </div>
+      </template>
     </template>
+
 
   </div>
 </template>

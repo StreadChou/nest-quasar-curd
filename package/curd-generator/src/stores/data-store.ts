@@ -17,6 +17,11 @@ export const useDataStore = defineStore('data', {
       const data = await InvokeProxy("FileHandler.loadJsonFile")
       this.initData(data)
     },
+    async saveData() {
+      const data_string = JSON.stringify(this.data, null, 2)
+      const data = await InvokeProxy("FileHandler.saveJsonFile", this.json_file_path, data_string)
+      console.log(data);
+    },
     initData(data: JsonFile) {
       data.modules = data.modules || {};
       this.data = data;

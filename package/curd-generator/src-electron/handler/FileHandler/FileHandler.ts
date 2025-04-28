@@ -3,6 +3,8 @@ import fs from 'fs'
 import {IpcMainRegister} from "app/src-electron/handler/HandlerLoader";
 
 
+const defaultJsonPath = "/Volumes/Project/003_Stread/nest-quasar-curd/package/data/test.json";
+
 export class FileHandler {
 
   // 打开文件选择框
@@ -36,7 +38,7 @@ export class FileHandler {
     type: ipcMain.handle
   })
   public async loadJsonFile(event: IpcMainInvokeEvent, _p: string) {
-    _p = _p || "/Volumes/Project/003_Stread/nest-quasar-curd/package/data/test.json";
+    _p = _p || defaultJsonPath;
     const str = fs.readFileSync(_p).toString();
     return JSON.parse(str);
   }
@@ -46,8 +48,10 @@ export class FileHandler {
     name: "FileHandler.saveJsonFile",
     type: ipcMain.handle
   })
-  public async saveJsonFile() {
-
+  public async saveJsonFile(event: IpcMainInvokeEvent, _p: string, string: string) {
+    _p = _p || defaultJsonPath;
+    fs.writeFileSync(_p, string);
+    return true;
   }
 
 

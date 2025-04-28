@@ -1,1 +1,10 @@
-{}
+{
+  "modules": {
+    "User": {
+      "isExport": true,
+      "toList": true,
+      "isGlobal": false,
+      "name": "User"
+    }
+  }
+}
