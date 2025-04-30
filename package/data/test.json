@@ -4,7 +4,12 @@
       "isExport": true,
       "toList": true,
       "isGlobal": false,
-      "name": "User"
+      "name": "User",
+      "models": {
+        "UserModel": {
+          "name": "UserModel"
+        }
+      }
     }
   }
 }

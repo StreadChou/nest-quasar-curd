@@ -1,11 +1,15 @@
 <script setup lang="ts">
 import ModelListItem from "components/modules/ModelListItem.vue";
+import {useDataStore} from "stores/data-store";
+import {ref} from "vue";
+import {ModulesItem} from "app/type/JsonFileDefine/Index";
 
 const props = defineProps<{
   module: string;
 }>()
 
-
+const dataStore = useDataStore();
+const moduleData = ref<ModulesItem>(JSON.parse(JSON.stringify(dataStore.data.modules[props.module])));
 
 
 </script>
@@ -14,15 +18,18 @@ const props = defineProps<{
   <div class="row q-col-gutter-sm">
     <div class="col-3">
       <q-btn class="full-height full-width" icon="add" label="增加Model" color="primary"
-             to="/model/form/0"
+             :to="`/model/form/${module}/0`"
       ></q-btn>
     </div>
 
-    <template v-for="i in 10">
-      <div class="col-3">
-        <ModelListItem></ModelListItem>
-      </div>
+    <template v-if="moduleData.models">
+      <template v-for="(item, key) in moduleData.models" :key="key">
+        <div class="col-3">
+          <ModelListItem :module="module" :model="item.name"></ModelListItem>
+        </div>
+      </template>
     </template>
+
 
   </div>
 </template>

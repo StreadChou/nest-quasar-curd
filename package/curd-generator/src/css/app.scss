@@ -1,1 +1,34 @@
 // app global css in SCSS form
+
+
+.border-title-box {
+  position: relative;
+  border: 1px dashed #787878;
+  padding: 20px;
+  margin-top: 40px;
+}
+
+.border-title-box .title {
+  position: absolute;
+  top: -0.7em;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 0 10px;
+  font-weight: bold;
+  font-size: 14px;
+  background: inherit; /* 自动继承背景 */
+}
+
+.border-title-box::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  border-top: 1px dashed #333;
+  z-index: 0;
+}
+
+.border-title-box .title {
+  z-index: 1;
+}

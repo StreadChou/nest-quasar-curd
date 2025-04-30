@@ -18,7 +18,7 @@ const routes: RouteRecordRaw[] = [
         path: '/model',
         children: [
           {path: 'home', component: () => import('pages/IndexPage.vue')},
-          {path: 'form/:module/:name', component: () => import('pages/ModuleFormPage.vue')},
+          {path: 'form/:module/:model', component: () => import('pages/ModelFormPage.vue')},
         ],
       },
     ],

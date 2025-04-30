@@ -14,7 +14,6 @@ const dataStore = useDataStore();
 const canEditorName = ref(false);
 
 const save = async () => {
-  dataStore.data.modules = dataStore.data.modules || {};
   if (!form.value.name) {
     $q.notify({
       message: "请填写模块名称",
@@ -24,7 +23,7 @@ const save = async () => {
     });
     throw new Error("请填写模块名称")
   }
-  dataStore.data.modules[form.value.name] = form.value
+  dataStore.setModule(form.value)
   await dataStore.saveData()
 }
 

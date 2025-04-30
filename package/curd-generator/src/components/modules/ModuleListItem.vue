@@ -59,7 +59,7 @@ const data = ref<ModulesItem>(dataStore.data.modules[props.module]);
 
     <q-card-actions align="right">
       <q-btn flat dense color="primary" label="编辑" :to="`/module/form/${data.name}`"></q-btn>
-      <q-btn flat dense color="primary" label="改名" :to="`/module/form/${data.name}`"></q-btn>
+      <q-btn flat dense color="primary" label="改名"></q-btn>
       <q-btn flat dense color="primary" label="处理Model" :to="`/module/model/${data.name}`"></q-btn>
     </q-card-actions>
   </q-card>

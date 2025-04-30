@@ -1,10 +1,15 @@
 <script setup lang="ts">
-
 import {useDataStore} from "stores/data-store";
-import {computed} from "vue";
-import {ModulesItem} from "app/type/JsonFileDefine/Index";
+import {ref} from "vue";
+import {ModelsItem} from "app/type/JsonFileDefine/Index";
 
+const props = defineProps<{
+  module: string;
+  model: string;
+}>()
 
+const dataStore = useDataStore();
+const data = ref<ModelsItem>(dataStore.getModel(props.module, props.model));
 
 </script>
 
@@ -12,25 +17,14 @@ import {ModulesItem} from "app/type/JsonFileDefine/Index";
   <q-card>
     <q-card-section>
       <div class="text-h5 text-grey-9">
-
-        <span class="text-subtitle1">Modules</span>
+        {{ data.name }}
+        <span class="text-subtitle1">模型</span>
       </div>
     </q-card-section>
     <q-separator/>
 
     <q-card-section>
       <q-list>
-
-        <q-item clickable class="q-pa-none">
-          <q-item-section>
-            <q-item-label>模型: 123</q-item-label>
-            <q-item-label caption>
-              <q-icon name="exit_to_app" size="xs" color="positive">
-                <q-tooltip>将会导出</q-tooltip>
-              </q-icon>
-            </q-item-label>
-          </q-item-section>
-        </q-item>
 
         <q-item clickable class="q-pa-none">
           <q-item-section class="q-gutter-y-sm">
@@ -65,7 +59,9 @@ import {ModulesItem} from "app/type/JsonFileDefine/Index";
     <q-separator/>
 
     <q-card-actions align="right">
-      <q-btn flat dense color="primary" label="编辑"></q-btn>
+      <q-btn flat dense color="primary" label="编辑"
+             :to="`/model/form/${module}/${model}`"
+      ></q-btn>
     </q-card-actions>
   </q-card>
 </template>

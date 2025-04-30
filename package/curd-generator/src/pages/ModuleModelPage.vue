@@ -8,15 +8,9 @@ import ModelList from "components/modules/ModelList.vue";
 const route = useRoute();
 
 const dataStore = useDataStore();
+const module = ref<string>(route.params.module as string);
+const moduleData = ref<ModulesItem>(JSON.parse(JSON.stringify(dataStore.data.modules[module.value])));
 
-
-const form = ref<ModulesItem>({})
-
-onMounted(() => {
-  const module = route.params.module;
-  const data = dataStore.data.modules[module];
-  form.value = JSON.parse(JSON.stringify(data));
-})
 </script>
 
 <template>
@@ -29,7 +23,7 @@ onMounted(() => {
       </template>
     </q-banner>
     <div>
-      <ModelList></ModelList>
+      <ModelList :module="module"></ModelList>
     </div>
   </q-page>
 </template>

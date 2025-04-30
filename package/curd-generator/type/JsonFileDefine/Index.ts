@@ -5,7 +5,7 @@ export interface JsonFile {
 
 
 export interface ModulesItem {
-  /** 模型名字 */
+  /** 模块名字 */
   name?: string;
   /** 是否导出 */
   isExport?: boolean;
@@ -20,5 +20,23 @@ export interface ModulesItem {
 
 
 export interface ModelsItem {
+  /** 模型名字 */
+  name?: string;
+
+  /** 数据库的表名 */
+  dbName?: string;
+
+  /** 是否导出controller */
+  exportController?: boolean;
+  /** controller的名字 */
+  controllerName?: string;
+  /** curd的路径 */
+  curdPath?: string;
+
+
+  /** 是否导出service */
+  exportService?: boolean;
+  /** service的名字 */
+  serviceName?: string;
 
 }
