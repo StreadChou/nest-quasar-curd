@@ -1,6 +1,7 @@
 import {ipcMain, dialog, type IpcMainInvokeEvent} from 'electron'
 import fs from 'fs'
 import {IpcMainRegister} from "app/src-electron/handler/HandlerLoader";
+import {Generator} from "app/src-electron/app/Generator";
 
 
 const defaultJsonPath = "/Volumes/Project/003_Stread/nest-quasar-curd/package/data/test.json";
@@ -52,6 +53,18 @@ export class FileHandler {
     _p = _p || defaultJsonPath;
     fs.writeFileSync(_p, string);
     return true;
+  }
+
+
+  @IpcMainRegister({
+    name: "FileHandler.startExport",
+    type: ipcMain.handle
+  })
+  public async startExport(event: IpcMainInvokeEvent, info: string) {
+    const data: { json_file_path: string, backend_path: string, frontend_path: string } = JSON.parse(info);
+    const generator = new Generator(data);
+    generator.start();
+    generator.writeToFile();
   }
 
 

@@ -43,9 +43,32 @@ const init = () => {
   if (!form.value.name) canEditorName.value = true;
 }
 
-watch(form, (old, after) => {
-  console.log({old, after})
-}, {deep: true})
+
+const getModelName = () => {
+  let name: string = form.value.name || "";
+  name = name.replace("Model", "")
+  name = name.replace("model", "")
+  name = name.trim();
+  return name || "";
+}
+
+const autoCalcControllerName = () => {
+  let name: string = getModelName();
+  if (!name) return null;
+  form.value.controllerName = `${name}Controller`;
+}
+
+const autoCalcCurdPath = () => {
+  let name: string = getModelName();
+  if (!name) return null;
+  form.value.curdPath = `curd/${name}`;
+}
+
+const autoCalcServiceName = () => {
+  let name: string = getModelName();
+  if (!name) return null;
+  form.value.serviceName = `${name}Service`;
+}
 
 
 onMounted(() => {
@@ -68,7 +91,12 @@ onMounted(() => {
         <div>
           <q-input standout v-model="form.name" label="Model名称" :disable="!canEditorName"/>
         </div>
+
         <div>
+          <q-input standout v-model="form.entityClassName" label="Entity Class Name"/>
+        </div>
+
+        <div class="bg-grey-2 q-py-sm">
           <q-checkbox v-model="form.exportController" label="是否导出controller"></q-checkbox>
           <q-checkbox v-model="form.exportService" label="是否导出service"></q-checkbox>
         </div>
@@ -84,15 +112,29 @@ onMounted(() => {
         <div class="bg-white border-title-box" v-if="form.exportController">
           <div class="title">Controller定义</div>
           <div class="q-gutter-y-md">
-            <q-input standout v-model="form.controllerName" label="controller名称"/>
-            <q-input standout v-model="form.curdPath" label="Curd的路径"/>
+
+            <q-input dense standout v-model="form.controllerName" label="controller名称">
+              <template #after>
+                <q-btn class="full-height" color="primary" label="自动推算" @click="autoCalcControllerName"></q-btn>
+              </template>
+            </q-input>
+
+            <q-input dense standout v-model="form.curdPath" label="Curd的路径">
+              <template #after>
+                <q-btn class="full-height" color="primary" label="自动推算" @click="autoCalcCurdPath"></q-btn>
+              </template>
+            </q-input>
           </div>
         </div>
 
         <div class="bg-white border-title-box" v-if="form.exportService">
           <div class="title">Service定义</div>
           <div class="q-gutter-y-md">
-            <q-input standout v-model="form.serviceName" label="service的名字"/>
+            <q-input standout dense v-model="form.serviceName" label="service的名字">
+              <template #after>
+                <q-btn class="full-height" color="primary" label="自动推算" @click="autoCalcServiceName"></q-btn>
+              </template>
+            </q-input>
           </div>
         </div>
 

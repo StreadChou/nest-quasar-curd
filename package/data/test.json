@@ -3,11 +3,17 @@
     "User": {
       "isExport": true,
       "toList": true,
-      "isGlobal": false,
+      "isGlobal": true,
       "name": "User",
       "models": {
-        "UserModel": {
-          "name": "UserModel"
+        "User": {
+          "exportController": true,
+          "exportService": true,
+          "name": "User",
+          "controllerName": "UserController",
+          "curdPath": "curd/User",
+          "serviceName": "UserService",
+          "entityClassName": "UserEntity"
         }
       }
     }

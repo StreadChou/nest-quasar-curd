@@ -1,12 +1,19 @@
 export interface JsonFile {
   /** 模块 */
   modules?: Record<string, ModulesItem>
+  /** 是否导出 ModulesList */
+  toModulesList?: boolean;
+  /** 是否导出 ModelList */
+  toModelList?: boolean;
 }
 
 
 export interface ModulesItem {
-  /** 模块名字 */
+  /** 唯一标识/名字 */
   name?: string;
+  /** 模块名字 */
+  moduleName?: string;
+
   /** 是否导出 */
   isExport?: boolean;
   /** 是否加入到 ModuleList 中 */
@@ -20,8 +27,11 @@ export interface ModulesItem {
 
 
 export interface ModelsItem {
-  /** 模型名字 */
+  /** 唯一标识/名字 */
   name?: string;
+  /** 模型名字 */
+  entityClassName?: string;
+
 
   /** 数据库的表名 */
   dbName?: string;

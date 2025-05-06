@@ -1,0 +1,47 @@
+import fs from "fs";
+import {JsonFile, ModulesItem} from "app/type/JsonFileDefine/Index";
+import {ModulesGenerator} from "app/src-electron/app/ModulesGenerator";
+
+export class Generator {
+  json_file_path: string
+  backend_path: string
+  frontend_path: string
+  data: JsonFile;
+
+  /** 所有的模块 */
+  modules: Record<string, ModulesGenerator> = {};
+
+  constructor(data: { json_file_path: string, backend_path: string, frontend_path: string }) {
+    this.json_file_path = data.json_file_path
+    this.backend_path = data.backend_path
+    this.frontend_path = data.frontend_path
+    this.data = JSON.parse(fs.readFileSync(this.json_file_path, "utf-8").toString());
+    this.initInstance();
+  }
+
+
+  initInstance() {
+    this.data = this.data || {};
+    this.data.modules = this.data.modules || {};
+    for (const module_name in this.data.modules) {
+      const module = this.data.modules[module_name] as ModulesItem;
+      const instance = new ModulesGenerator(this, module);
+      this.modules[instance.moduleData.name as string] = instance;
+    }
+  }
+
+  start() {
+    for (const module_name in this.modules) {
+      const instance = this.modules[module_name] as ModulesGenerator;
+      instance.start();
+    }
+  }
+
+  writeToFile() {
+    for (const module_name in this.modules) {
+      const instance = this.modules[module_name] as ModulesGenerator;
+      instance.writeToFile();
+    }
+  }
+
+}
