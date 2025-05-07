@@ -8,7 +8,7 @@ import {getTwoTsFileImportPath} from "app/src-electron/helper/PathHelper";
 export class ModuleListFileGeneratorBackend extends AbstractFileGenerator {
   generator: Generator;
   /** module 列表 */
-  moduleStringList: string[] = [];
+  MODULE_LIST_CONTENT: string[] = [];
 
   constructor(generator: Generator) {
     super();
@@ -41,7 +41,7 @@ export class ModuleListFileGeneratorBackend extends AbstractFileGenerator {
       const filePath = moduleFileGeneratorBackend.getFilePath();
       const importPath = getTwoTsFileImportPath(this.getFilePath(), filePath);
       this.addImport(importPath, ImportType.ImportItem, baseName);
-      this.moduleStringList.push(baseName)
+      this.MODULE_LIST_CONTENT.push(baseName)
     }
   }
 
@@ -51,10 +51,10 @@ export class ModuleListFileGeneratorBackend extends AbstractFileGenerator {
     let content = this.getTemplate();
     content = content.replace(/__BASE_NAME__/g, this.getBaseName())
 
-    if (this.moduleStringList.length <= 0) {
-      content = content.replace(/__MODULE_LIST__/g, "")
+    if (this.MODULE_LIST_CONTENT.length <= 0) {
+      content = content.replace(/__MODULE_LIST_CONTENT__/g, "")
     } else {
-      content = content.replace(/__MODULE_LIST__/g, this.moduleStringList.map(ele=> `  ${ele}`).join("\n"));
+      content = content.replace(/__MODULE_LIST_CONTENT__/g, this.MODULE_LIST_CONTENT.map(ele=> `  ${ele}`).join("\n"));
     }
 
     const import_string = this.getImportStringList();
@@ -72,7 +72,7 @@ export class ModuleListFileGeneratorBackend extends AbstractFileGenerator {
     return `
 
 export const __BASE_NAME__ = [
-    __MODULE_LIST__
+    __MODULE_LIST_CONTENT__
 ]
 `
   }
