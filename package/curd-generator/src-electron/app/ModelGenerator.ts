@@ -1,7 +1,7 @@
 import {Generator} from "app/src-electron/app/Generator";
 import {ModelsItem} from "app/type/JsonFileDefine/Index";
 import {ModulesGenerator} from "app/src-electron/app/ModulesGenerator";
-import {ModelFileGeneratorBackend} from "app/src-electron/app/generator/FileGenerator/ModelFileGeneratorBackend";
+import {EntityFileGeneratorBackend} from "app/src-electron/app/generator/FileGenerator/EntityFileGeneratorBackend";
 import {
   ControllerFileGeneratorBackend
 } from "app/src-electron/app/generator/FileGenerator/ControllerFileGeneratorBackend";
@@ -13,9 +13,9 @@ export class ModelGenerator {
   modelData: ModelsItem
 
   /** Entity 文件生成器 */
-  modelFileGeneratorBackend!: ModelFileGeneratorBackend;
+  entityFileGeneratorBackend!: EntityFileGeneratorBackend;
   /** Controller 文件生成器 */
-  controllerFileGeneratorBackend!: ModelFileGeneratorBackend;
+  controllerFileGeneratorBackend!: EntityFileGeneratorBackend;
   /** Service 文件生成器 */
   serviceFileGeneratorBackend!: ServiceFileGeneratorBackend;
 
@@ -29,20 +29,20 @@ export class ModelGenerator {
 
 
   initInstance() {
-    this.modelFileGeneratorBackend = new ModelFileGeneratorBackend(this.generator, this);
+    this.entityFileGeneratorBackend = new EntityFileGeneratorBackend(this.generator, this);
     this.controllerFileGeneratorBackend = new ControllerFileGeneratorBackend(this.generator, this);
     this.serviceFileGeneratorBackend = new ServiceFileGeneratorBackend(this.generator, this);
   }
 
   start() {
 
-    this.modelFileGeneratorBackend.start();
+    this.entityFileGeneratorBackend.start();
     this.controllerFileGeneratorBackend.start();
     this.serviceFileGeneratorBackend.start();
   }
 
   writeToFile() {
-    this.modelFileGeneratorBackend.writeToFile();
+    this.entityFileGeneratorBackend.writeToFile();
     this.controllerFileGeneratorBackend.writeToFile();
     this.serviceFileGeneratorBackend.writeToFile();
 

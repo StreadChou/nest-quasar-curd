@@ -3,8 +3,8 @@ export interface JsonFile {
   modules?: Record<string, ModulesItem>
   /** 是否导出 ModulesList */
   toModulesList?: boolean;
-  /** 是否导出 ModelList */
-  toModelList?: boolean;
+  /** 是否导出 toEntityList */
+  toEntityList?: boolean;
 }
 
 

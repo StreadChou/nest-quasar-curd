@@ -2,11 +2,10 @@ import {Generator} from "app/src-electron/app/Generator";
 import {AbstractFileGenerator} from "app/src-electron/app/generator/FileGenerator/AbstractFileGenerator";
 import {ModelsItem, ModulesItem} from "app/type/JsonFileDefine/Index";
 import path from "path";
-import fs from "fs";
 import {ModelGenerator} from "app/src-electron/app/ModelGenerator";
 
 /** model文件生成 */
-export class ModelFileGeneratorBackend extends AbstractFileGenerator {
+export class EntityFileGeneratorBackend extends AbstractFileGenerator {
   generator: Generator;
   modelGenerator: ModelGenerator;
 

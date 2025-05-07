@@ -1,9 +1,9 @@
 import {Module} from '@nestjs/common';
 import {AppController} from './app.controller';
 import {AppService} from './app.service';
-import {ModuleList} from "./generator/collect/module.collect";
 import {TypeOrmModule} from "@nestjs/typeorm";
-import {EntityList} from "./generator/collect/entity.collect";
+import {EntityList} from "./curd/EntityList";
+import {ModuleList} from "./curd/ModuleList";
 
 @Module({
     imports: [

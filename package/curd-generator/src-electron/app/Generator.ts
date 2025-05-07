@@ -4,6 +4,9 @@ import {ModulesGenerator} from "app/src-electron/app/ModulesGenerator";
 import {
   ModuleListFileGeneratorBackend
 } from "app/src-electron/app/generator/FileGenerator/ModuleListFileGeneratorBackend";
+import {
+  EntityListFileGeneratorBackend
+} from "app/src-electron/app/generator/FileGenerator/EntityListFileGeneratorBackend";
 
 export class Generator {
   json_file_path: string
@@ -15,6 +18,8 @@ export class Generator {
   modules: Record<string, ModulesGenerator> = {};
   /** module 列表生成 */
   moduleListFileGeneratorBackend!: ModuleListFileGeneratorBackend;
+  /** entity 列表生成 */
+  entityListFileGeneratorBackend!: EntityListFileGeneratorBackend;
 
   constructor(data: { json_file_path: string, backend_path: string, frontend_path: string }) {
     this.json_file_path = data.json_file_path
@@ -35,6 +40,7 @@ export class Generator {
     }
 
     this.moduleListFileGeneratorBackend = new ModuleListFileGeneratorBackend(this);
+    this.entityListFileGeneratorBackend = new EntityListFileGeneratorBackend(this);
   }
 
   start() {
@@ -43,6 +49,7 @@ export class Generator {
       instance.start();
     }
     this.moduleListFileGeneratorBackend.start();
+    this.entityListFileGeneratorBackend.start();
   }
 
   writeToFile() {
@@ -51,6 +58,7 @@ export class Generator {
       instance.writeToFile();
     }
     this.moduleListFileGeneratorBackend.writeToFile();
+    this.entityListFileGeneratorBackend.writeToFile();
   }
 
 }
