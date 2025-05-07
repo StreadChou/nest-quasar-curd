@@ -93,33 +93,33 @@ export abstract class AbstractFileGenerator {
   }
 
   /** 增加一个导入, 如果对方是TS文件, 则是TS的绝对路径, 如果对方是 package 包, 则是包的名字 */
-  public addImport(targetAbsPath: string, importTpe: ImportType, name: string) {
+  public addImport(targetPathString: string, importTpe: ImportType, name: string) {
     switch (importTpe) {
       case ImportType.ImportAnyAs: {
-        if (!this.ImportAnyAsRecord[targetAbsPath]) {
-          this.ImportAnyAsRecord[targetAbsPath] = name;
+        if (!this.ImportAnyAsRecord[targetPathString]) {
+          this.ImportAnyAsRecord[targetPathString] = name;
           break;
         }
         // 如果多次导入, 并且name不一致, 就报错
-        if (this.ImportAnyAsRecord[targetAbsPath] !== name) {
-          throw new Error(`多次通过${importTpe}从${targetAbsPath}导入, 但是 name 不一致`);
+        if (this.ImportAnyAsRecord[targetPathString] !== name) {
+          throw new Error(`多次通过${importTpe}从${targetPathString}导入, 但是 name 不一致`);
         }
         break;
       }
       case ImportType.ImportDefault: {
-        if (!this.ImportDefaultRecord[targetAbsPath]) {
-          this.ImportDefaultRecord[targetAbsPath] = name;
+        if (!this.ImportDefaultRecord[targetPathString]) {
+          this.ImportDefaultRecord[targetPathString] = name;
           break;
         }
         // 如果多次导入, 并且name不一致, 就报错
-        if (this.ImportDefaultRecord[targetAbsPath] !== name) {
-          throw new Error(`多次通过${importTpe}从${targetAbsPath}导入, 但是 name 不一致`);
+        if (this.ImportDefaultRecord[targetPathString] !== name) {
+          throw new Error(`多次通过${importTpe}从${targetPathString}导入, 但是 name 不一致`);
         }
         break;
       }
       case ImportType.ImportItem: {
-        this.ImportItemRecord[targetAbsPath] = this.ImportItemRecord[targetAbsPath] || new Set();
-        this.ImportItemRecord[targetAbsPath].add(name);
+        this.ImportItemRecord[targetPathString] = this.ImportItemRecord[targetPathString] || new Set();
+        this.ImportItemRecord[targetPathString].add(name);
         break;
       }
 

@@ -1,6 +1,9 @@
 import fs from "fs";
 import {JsonFile, ModulesItem} from "app/type/JsonFileDefine/Index";
 import {ModulesGenerator} from "app/src-electron/app/ModulesGenerator";
+import {
+  ModuleListFileGeneratorBackend
+} from "app/src-electron/app/generator/FileGenerator/ModuleListFileGeneratorBackend";
 
 export class Generator {
   json_file_path: string
@@ -10,6 +13,8 @@ export class Generator {
 
   /** 所有的模块 */
   modules: Record<string, ModulesGenerator> = {};
+  /** module 列表生成 */
+  moduleListFileGeneratorBackend!: ModuleListFileGeneratorBackend;
 
   constructor(data: { json_file_path: string, backend_path: string, frontend_path: string }) {
     this.json_file_path = data.json_file_path
@@ -28,6 +33,8 @@ export class Generator {
       const instance = new ModulesGenerator(this, module);
       this.modules[instance.moduleData.name as string] = instance;
     }
+
+    this.moduleListFileGeneratorBackend = new ModuleListFileGeneratorBackend(this);
   }
 
   start() {
@@ -35,6 +42,7 @@ export class Generator {
       const instance = this.modules[module_name] as ModulesGenerator;
       instance.start();
     }
+    this.moduleListFileGeneratorBackend.start();
   }
 
   writeToFile() {
@@ -42,6 +50,7 @@ export class Generator {
       const instance = this.modules[module_name] as ModulesGenerator;
       instance.writeToFile();
     }
+    this.moduleListFileGeneratorBackend.writeToFile();
   }
 
 }
