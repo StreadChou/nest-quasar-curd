@@ -39,7 +39,7 @@ export interface ModelsItem {
   /** 是否导出controller */
   exportController?: boolean;
   /** controller的名字 */
-  controllerName?: string;
+  controllerClassName?: string;
   /** curd的路径 */
   curdPath?: string;
 

@@ -55,7 +55,7 @@ const getModelName = () => {
 const autoCalcControllerName = () => {
   let name: string = getModelName();
   if (!name) return null;
-  form.value.controllerName = `${name}Controller`;
+  form.value.controllerClassName = `${name}Controller`;
 }
 
 const autoCalcCurdPath = () => {
@@ -113,7 +113,7 @@ onMounted(() => {
           <div class="title">Controller定义</div>
           <div class="q-gutter-y-md">
 
-            <q-input dense standout v-model="form.controllerName" label="controller名称">
+            <q-input dense standout v-model="form.controllerClassName" label="controller名称">
               <template #after>
                 <q-btn class="full-height" color="primary" label="自动推算" @click="autoCalcControllerName"></q-btn>
               </template>

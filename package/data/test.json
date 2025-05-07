@@ -10,7 +10,7 @@
           "exportController": true,
           "exportService": true,
           "name": "User",
-          "controllerName": "UserController",
+          "controllerClassName": "UserController",
           "curdPath": "curd/User",
           "serviceName": "UserService",
           "entityClassName": "UserEntity"
