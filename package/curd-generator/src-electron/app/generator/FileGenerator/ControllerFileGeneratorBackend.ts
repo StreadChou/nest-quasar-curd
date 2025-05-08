@@ -119,15 +119,17 @@ export class ControllerFileGeneratorBackend extends AbstractFileGenerator {
 // CUSTOMER DECORATOR START
 // CUSTOMER DECORATOR END
 export class __BASE_NAME__ __INS_EXTENDS__{
-  constructor(
+    constructor(
 __INS_CONSTRUCTOR__
-      // CUSTOMER CONSTRUCTOR START
-      // CUSTOMER CONSTRUCTOR END
-  ) {
+        // CUSTOMER CONSTRUCTOR START
+        // CUSTOMER CONSTRUCTOR END
+    ) {
 __INS_CONSTRUCTOR_CONTENT__
+        // CUSTOMER CONTENT_CONTENT START
+        // CUSTOMER CONTENT_CONTENT END
+    }
     // CUSTOMER CONTENT START
     // CUSTOMER CONTENT END
-  }
 }
 `
   }
