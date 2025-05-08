@@ -7,11 +7,12 @@ import {Injectable} from '@nestjs/common'
 // CUSTOMER DECORATOR END
 export class UserService {
   constructor(
-
+__CONSTRUCTOR__
       // CUSTOMER CONSTRUCTOR START
       // CUSTOMER CONSTRUCTOR END
-
-  ) {}
+  ) {
+__CONSTRUCTOR_CONTENT__
+  }
 
     // CUSTOMER CONTENT START
     // CUSTOMER CONTENT END

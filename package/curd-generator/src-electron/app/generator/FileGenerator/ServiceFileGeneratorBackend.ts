@@ -41,7 +41,13 @@ export class ServiceFileGeneratorBackend extends AbstractFileGenerator {
 
   start() {
     this.addImportFromNestjsCommon("Injectable")
-    //
+
+    const entityFileGeneratorBackend = this.modelGenerator.entityFileGeneratorBackend;
+    if (entityFileGeneratorBackend.isExport()) {
+
+    }
+
+
     // if (this.moduleData.isGlobal) {
     //   this.addImportFromNestjsCommon("Global")
     // }
@@ -81,11 +87,12 @@ export class ServiceFileGeneratorBackend extends AbstractFileGenerator {
 // CUSTOMER DECORATOR END
 export class __BASE_NAME__ {
   constructor(
-
+__CONSTRUCTOR__
       // CUSTOMER CONSTRUCTOR START
       // CUSTOMER CONSTRUCTOR END
-
-  ) {}
+  ) {
+__CONSTRUCTOR_CONTENT__
+  }
 
     // CUSTOMER CONTENT START
     // CUSTOMER CONTENT END
