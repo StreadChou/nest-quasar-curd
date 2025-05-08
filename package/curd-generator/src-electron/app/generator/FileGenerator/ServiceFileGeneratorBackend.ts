@@ -99,6 +99,7 @@ export class ServiceFileGeneratorBackend extends AbstractFileGenerator {
     } else {
       content = content.replace(/__INS_CONSTRUCTOR_CONTENT__/g, this.__INS_CONSTRUCTOR_CONTENT__.map(ele => `        ${ele}`).join(",\n"));
     }
+
     if (this.__INS_EXTENDS__.length <= 0) {
       content = content.replace(/__INS_EXTENDS__/g, "")
     } else {

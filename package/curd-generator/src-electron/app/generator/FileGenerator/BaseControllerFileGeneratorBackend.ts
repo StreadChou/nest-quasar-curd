@@ -58,7 +58,7 @@ import {FindAllBody, FindAllResponse, FindOneQuery, SearchBody} from "./CurdDefi
 import {AbstractCurdService} from "./AbstractCurdService";
 import {DeepPartial, ObjectLiteral} from "typeorm";
 
-export class AbstractController<T extends ObjectLiteral = any> {
+export class AbstractCurdController<T extends ObjectLiteral = any> {
     protected _services: AbstractCurdService<T>;
 
     /** 创建/更新使用的DTO类 */
