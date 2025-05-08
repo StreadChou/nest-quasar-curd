@@ -15,7 +15,10 @@ export class UserController extends AbstractCurdController<UserEntity> {
         // CUSTOMER CONSTRUCTOR END
     ) {
         super(userService);
-        // CUSTOMER CONTENT START
-        // CUSTOMER CONTENT END
+        // CUSTOMER CONTENT_CONTENT START
+        // CUSTOMER CONTENT_CONTENT END
     }
+
+    // CUSTOMER CONTENT START
+    // CUSTOMER CONTENT END
 }

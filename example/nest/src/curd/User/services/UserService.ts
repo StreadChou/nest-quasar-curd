@@ -16,6 +16,8 @@ export class UserService extends AbstractCurdService<UserEntity> {
         // CUSTOMER CONSTRUCTOR END
     ) {
         super(userEntityRepository);
+        // CUSTOMER CONTENT_CONTENT START
+        // CUSTOMER CONTENT_CONTENT END
     }
 
     // CUSTOMER CONTENT START
