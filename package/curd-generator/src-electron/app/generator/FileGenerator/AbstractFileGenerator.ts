@@ -1,6 +1,6 @@
 import path from "path";
 import fs from "fs";
-import {getImportPath} from "app/src-electron/helper/PathHelper";
+import {getImportPath, getTwoTsFileImportPath} from "app/src-electron/helper/PathHelper";
 
 export abstract class AbstractFileGenerator {
   /** 导入: ImportType.ImportAnyAs */
@@ -88,8 +88,18 @@ export abstract class AbstractFileGenerator {
     this.addImport("@nestjs/common", importTpe, name);
   }
 
+  public addImportFromNestjsTypeorm(name: string, importTpe: ImportType = ImportType.ImportItem) {
+    this.addImport("@nestjs/typeorm", importTpe, name);
+  }
+
   public addImportFromTypeOrm(name: string, importTpe: ImportType = ImportType.ImportItem) {
     this.addImport("typeorm", importTpe, name);
+  }
+
+
+  public addImportFromFileGenerator(target: AbstractFileGenerator, importTpe: ImportType = ImportType.ImportItem) {
+    const importPath = getTwoTsFileImportPath(this.getFilePath(), target.getFilePath());
+    this.addImport(importPath, importTpe, target.getBaseName());
   }
 
   /** 增加一个导入, 如果对方是TS文件, 则是TS的绝对路径, 如果对方是 package 包, 则是包的名字 */
