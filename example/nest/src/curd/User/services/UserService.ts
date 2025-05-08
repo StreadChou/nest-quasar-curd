@@ -10,13 +10,13 @@ import {Repository} from 'typeorm'
 // CUSTOMER DECORATOR START
 // CUSTOMER DECORATOR END
 export class UserService extends AbstractCurdService<UserEntity> {
-  constructor(
+    constructor(
         @InjectRepository(UserEntity) private userEntityRepository: Repository<UserEntity>
-      // CUSTOMER CONSTRUCTOR START
+        // CUSTOMER CONSTRUCTOR START
         // CUSTOMER CONSTRUCTOR END
-  ) {
+    ) {
         super(userEntityRepository);
-  }
+    }
 
     // CUSTOMER CONTENT START
     // CUSTOMER CONTENT END

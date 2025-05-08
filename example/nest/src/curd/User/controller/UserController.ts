@@ -9,13 +9,13 @@ import {UserEntity} from '../entity/UserEntity'
 // CUSTOMER DECORATOR START
 // CUSTOMER DECORATOR END
 export class UserController extends AbstractCurdController<UserEntity> {
-  constructor(
+    constructor(
         private readonly userService: UserService
-      // CUSTOMER CONSTRUCTOR START
+        // CUSTOMER CONSTRUCTOR START
         // CUSTOMER CONSTRUCTOR END
-  ) {
+    ) {
         super(userService);
-    // CUSTOMER CONTENT START
-    // CUSTOMER CONTENT END
-  }
+        // CUSTOMER CONTENT START
+        // CUSTOMER CONTENT END
+    }
 }
