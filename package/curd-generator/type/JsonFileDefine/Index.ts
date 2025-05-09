@@ -57,4 +57,13 @@ export interface ModelsItem {
   /** 是否加入到 module 的 exports 中 */
   joinModuleExports?: boolean;
 
+  /** 字段列表 */
+  attrs?: Array<ModelAttrItem>;
+}
+
+
+export interface ModelAttrItem {
+  name?: string;
+  mark?: string;
+  type?: string;
 }

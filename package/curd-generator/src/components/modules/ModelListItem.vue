@@ -62,6 +62,9 @@ const data = ref<ModelsItem>(dataStore.getModel(props.module, props.model));
       <q-btn flat dense color="primary" label="编辑"
              :to="`/model/form/${module}/${model}`"
       ></q-btn>
+      <q-btn flat dense color="primary" label="处理字段"
+             :to="`/model/attr/${module}/${model}`"
+      ></q-btn>
     </q-card-actions>
   </q-card>
 </template>

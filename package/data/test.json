@@ -13,7 +13,21 @@
           "controllerClassName": "UserController",
           "curdPath": "curd/User",
           "serviceName": "UserService",
-          "entityClassName": "UserEntity"
+          "entityClassName": "UserEntity",
+          "attrs": [
+            {
+              "name": "createdAt",
+              "mark": "创建时间"
+            },
+            {
+              "name": "updatedAt",
+              "mark": "更新时间"
+            },
+            {
+              "name": "deletedAt",
+              "mark": "删除时间"
+            }
+          ]
         }
       }
     }
