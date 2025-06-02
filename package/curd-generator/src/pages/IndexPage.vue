@@ -1,45 +1,27 @@
 <template>
-  <q-page class="q-pa-md">
-    <div class="q-gutter-y-md">
-      <q-input standout dense :model-value="dataStore.json_file_path" label="JSON文件位置">
-        <template v-slot:after>
-          <q-btn color="primary" @click="openJsonFileSelectDialog()" label="选择"></q-btn>
-        </template>
-      </q-input>
-
-      <div class="q-gutter-y-xs">
-        <q-input standout dense :model-value="dataStore.backend_path" label="后端文件夹位置">
-        </q-input>
-        <q-input standout dense :model-value="dataStore.frontend_path" label="前端文件夹位置">
-        </q-input>
-        <q-btn class="full-width" color="primary" @click="startExport()" label="导出"></q-btn>
+  <q-page>
+    <div class="column">
+      <div>
+        <q-tabs v-model="tab" dense no-caps inline-label align="left" class="bg-purple text-white shadow-2">
+          <q-tab name="mails" icon="home"/>
+          <q-tab name="alarms" label="模型: User"/>
+          <q-tab name="movies" label="模型: User"/>
+        </q-tabs>
       </div>
-
-
-    </div>
-    <q-separator class="q-my-md"></q-separator>
-    <div v-if="dataStore.json_file_path">
-      <ModulesList></ModulesList>
+      <div class="col">
+        <HomePage></HomePage>
+      </div>
     </div>
   </q-page>
 </template>
 
 <script setup lang="ts">
-import ModulesList from "components/modules/ModulesList.vue";
-import {useDataStore} from "stores/data-store";
-import {InvokeProxy} from "src/library/InvokeProxy";
+import {ref} from 'vue'
+import HomePage from "components/HomePage.vue";
 
+const tab = ref('mails')
 
-const dataStore = useDataStore()
-
-
-const openJsonFileSelectDialog = async () => {
-  dataStore.json_file_path = await InvokeProxy("FileHandler.openFileDialog")
-  await dataStore.loadData();
-}
-
-const startExport = async () => {
-  await dataStore.startExport();
-}
 
 </script>
+
+

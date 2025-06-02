@@ -2,9 +2,8 @@ import {ipcMain, dialog, type IpcMainInvokeEvent} from 'electron'
 import fs from 'fs'
 import {IpcMainRegister} from "app/src-electron/handler/HandlerLoader";
 import {Generator} from "app/src-electron/app/Generator";
+import path from "path";
 
-
-const defaultJsonPath = "/Volumes/Project/003_Stread/nest-quasar-curd/package/data/test.json";
 
 export class FileHandler {
 
@@ -28,9 +27,15 @@ export class FileHandler {
   })
   public async openDirSelectDialog(): Promise<string> {
     const result = await dialog.showOpenDialog({
-      properties: ['openDirectory']
+      properties: ['openDirectory'],
     })
-    return result.filePaths[0] as string // 返回第一个选中的文件路径
+    // 返回第一个选中的文件路径
+    return {
+      code: 0,
+      data: {
+        dir: result.filePaths[0] as string
+      }
+    }
   }
 
 
@@ -39,9 +44,14 @@ export class FileHandler {
     type: ipcMain.handle
   })
   public async loadJsonFile(event: IpcMainInvokeEvent, _p: string) {
-    _p = _p || defaultJsonPath;
-    const str = fs.readFileSync(_p).toString();
-    return JSON.parse(str);
+    if (!fs.existsSync(_p)) return {message: "文件不存在", code: 500}
+    if (!_p.endsWith(".nqcurd")) return {message: "文件类型不是指定类型", code: 500}
+    try {
+      const str = fs.readFileSync(_p).toString();
+      return {data: JSON.parse(str), code: 0};
+    } catch (e) {
+      return {message: "文件不是标准JSON", code: 500}
+    }
   }
 
 

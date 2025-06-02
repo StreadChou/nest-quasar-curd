@@ -29,3 +29,4 @@
  */
 
 export * from "./handler/FileHandler/FileHandlerRoute"
+export * from "./handler/FileHandler/AppHandlerRoute"
