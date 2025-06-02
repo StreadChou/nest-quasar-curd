@@ -2,8 +2,9 @@
 import {onMounted, ref, watch} from "vue";
 import {useRoute} from "vue-router";
 import {useDataStore} from "stores/data-store";
-import {ModelsItem} from "app/type/JsonFileDefine/Index";
+import {ModelAttrItem, ModelsItem} from "app/type/JsonFileDefine/Index";
 import {useQuasar} from "quasar";
+import AttrEditorDialog from "components/attr/AttrEditorDialog.vue";
 
 const route = useRoute();
 
@@ -111,8 +112,16 @@ const deleteAttr = (index: number) => {
 
 const editorAttr = (index: number) => {
   if (!form.value?.attrs) return null;
-  $q.dialog({}).onOk((data: string) => {
-    form.value.attrs[index] = data;
+  if (!form.value?.attrs) return null;
+  const raw = form.value.attrs[index];
+
+  $q.dialog({
+    component: AttrEditorDialog,
+    componentProps: {data: raw},
+  }).onOk((target: ModelAttrItem) => {
+    if (!form.value?.attrs) return null;
+    form.value.attrs[index] = target;
+    save();
   })
 }
 
@@ -150,7 +159,8 @@ onMounted(() => {
             <tr>
               <th>字段名称</th>
               <th>备注</th>
-              <th>类型</th>
+              <th>字段类型</th>
+              <th>数据类型</th>
               <th>排序</th>
               <th>操作</th>
             </tr>
@@ -160,7 +170,10 @@ onMounted(() => {
               <tr>
                 <td>{{ attr.name }}</td>
                 <td>{{ attr.mark }}</td>
-                <td>{{ attr.type }}</td>
+                <td>{{ attr.columnsType }}</td>
+                <td>
+
+                </td>
                 <td>
                   <q-btn flat dense icon="expand_less" @click="moveTop(key)"></q-btn>
                   <q-btn flat dense icon="expand_more" @click="moveBottom(key)"></q-btn>
@@ -178,7 +191,7 @@ onMounted(() => {
               </tr>
             </template>
             <tr>
-              <td colspan="5">
+              <td colspan="6">
                 <q-btn class="full-width" color="positive" flat dense label="新增" @click="addAttr()"></q-btn>
               </td>
             </tr>

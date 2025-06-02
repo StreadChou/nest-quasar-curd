@@ -65,5 +65,129 @@ export interface ModelsItem {
 export interface ModelAttrItem {
   name?: string;
   mark?: string;
-  type?: string;
+  /** 字段类型 */
+  columnsType?: ColumnsType;
+  /** 是否使用自定义的option */
+  useCustomerOption?: boolean;
+  /** 自定义的option */
+  customerOption?: string;
+  /** 通用数据列 */
+  columnCommonOptions?: {
+    select?: boolean;
+    name?: string;
+    primary?: boolean;
+    generated?: boolean | "increment" | "uuid" | "rowid" | "identity";
+    unique?: boolean;
+    nullable?: boolean;
+    default?: any;
+    onUpdate?: string;
+    comment?: string;
+    array?: boolean;
+    transformer?: string;
+  };
+  ColumnWithLengthOptions?: {
+    length?: string | number;
+  }
+  ColumnWithWidthOptions?: {
+    width?: number;
+    zerofill?: boolean;
+    unsigned?: boolean;
+  }
+  ColumnNumericOptions?: {
+    precision?: number;
+    scale?: number;
+    zerofill?: boolean;
+    unsigned?: boolean;
+  }
+
+
+  /** columnsType 为 Column 的时候需要一个数据类型 */
+  column_Type?: WithLengthColumnType | WithWidthColumnType;
+
+
+}
+
+
+/** 字段类型 */
+export enum ColumnsType {
+  Column = "Column",
+  CreateDateColumn = "CreateDateColumn",
+  DeleteDateColumn = "DeleteDateColumn",
+  ObjectIdColumn = "ObjectIdColumn",
+  PrimaryColumn = "PrimaryColumn",
+  PrimaryGeneratedColumn = "PrimaryGeneratedColumn",
+  UpdateDateColumn = "UpdateDateColumn",
+  VersionColumn = "VersionColumn",
+  ViewColumn = "ViewColumn",
+  VirtualColumn = "VirtualColumn",
+}
+
+export const ColumnsTypeOption: { [key in ColumnsType]: { value: key, label: string } } = {
+  [ColumnsType.Column]: {value: ColumnsType.Column, label: "普通列"},
+  [ColumnsType.CreateDateColumn]: {value: ColumnsType.CreateDateColumn, label: "创建时间列"},
+  [ColumnsType.DeleteDateColumn]: {value: ColumnsType.DeleteDateColumn, label: "软删除时间列"},
+  [ColumnsType.ObjectIdColumn]: {value: ColumnsType.ObjectIdColumn, label: "MongoDB ObjectId 列"},
+  [ColumnsType.PrimaryColumn]: {value: ColumnsType.PrimaryColumn, label: "主键列"},
+  [ColumnsType.PrimaryGeneratedColumn]: {value: ColumnsType.PrimaryGeneratedColumn, label: "自增主键列"},
+  [ColumnsType.UpdateDateColumn]: {value: ColumnsType.UpdateDateColumn, label: "更新时间列"},
+  [ColumnsType.VersionColumn]: {value: ColumnsType.VersionColumn, label: "版本号列（用于乐观锁）"},
+  [ColumnsType.ViewColumn]: {value: ColumnsType.ViewColumn, label: "视图列"},
+  [ColumnsType.VirtualColumn]: {value: ColumnsType.VirtualColumn, label: "虚拟列（不会持久化）"},
+};
+
+
+/** 带有长度的数据类型 */
+export enum WithLengthColumnType {
+  CharacterVarying = "character varying",
+  VaryingCharacter = "varying character",
+  CharVarying = "char varying",
+  Nvarchar = "nvarchar",
+  NationalVarchar = "national varchar",
+  Character = "character",
+  NativeCharacter = "native character",
+  Varchar = "varchar",
+  Char = "char",
+  Nchar = "nchar",
+  NationalChar = "national char",
+  Varchar2 = 'varchar2',
+  Nvarchar2 = 'nvarchar2',
+  Alphanum = 'alphanum',
+  Shorttext = 'shorttext',
+  Raw = 'raw',
+  Binary = 'binary',
+  Varbinary = 'varbinary',
+  String = 'string',
+}
+
+
+/** 带有宽度的数据类型 */
+export enum WithWidthColumnType {
+  Tinyint = "tinyint",
+  Smallint = "smallint",
+  Mediumint = "mediumint",
+  Int = "int",
+  Bigint = "bigint",
+}
+
+export enum WithPrecisionColumnType {
+  Float = 'float',
+  Double = 'double',
+  Dec = 'dec',
+  Decimal = 'decimal',
+  Smalldecimal = 'smalldecimal',
+  Fixed = 'fixed',
+  Numeric = 'numeric',
+  Real = 'real',
+  DoublePrecision = 'double precision',
+  Number = 'number',
+  Datetime = 'datetime',
+  Datetime2 = 'datetime2',
+  Datetimeoffset = 'datetimeoffset',
+  Time = 'time',
+  TimeWithTimeZone = 'time with time zone',
+  TimeWithoutTimeZone = 'time without time zone',
+  Timestamp = 'timestamp',
+  TimestampWithoutTimeZone = 'timestamp without time zone',
+  TimestampWithTimeZone = 'timestamp with time zone',
+  TimestampWithLocalTimeZone = 'timestamp with local time zone',
 }

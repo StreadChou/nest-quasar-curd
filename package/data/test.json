@@ -16,16 +16,61 @@
           "entityClassName": "UserEntity",
           "attrs": [
             {
+              "name": "nickname",
+              "useCustomerOption": false,
+              "columnCommonOptions": {
+                "select": true,
+                "primary": false,
+                "generated": false,
+                "unique": false,
+                "nullable": true,
+                "array": false
+              },
+              "mark": "昵称",
+              "columnsType": "Column",
+              "column_Type": "text"
+            },
+            {
               "name": "createdAt",
-              "mark": "创建时间"
+              "mark": "创建时间",
+              "useCustomerOption": false,
+              "columnCommonOptions": {
+                "select": true,
+                "primary": false,
+                "generated": false,
+                "unique": false,
+                "nullable": false,
+                "array": false
+              },
+              "columnsType": "CreateDateColumn"
             },
             {
               "name": "updatedAt",
-              "mark": "更新时间"
+              "mark": "更新时间",
+              "useCustomerOption": false,
+              "columnCommonOptions": {
+                "select": true,
+                "primary": false,
+                "generated": false,
+                "unique": false,
+                "nullable": false,
+                "array": false
+              },
+              "columnsType": "UpdateDateColumn"
             },
             {
               "name": "deletedAt",
-              "mark": "删除时间"
+              "mark": "删除时间",
+              "useCustomerOption": false,
+              "columnCommonOptions": {
+                "select": true,
+                "primary": false,
+                "generated": false,
+                "unique": false,
+                "nullable": false,
+                "array": false
+              },
+              "columnsType": "DeleteDateColumn"
             }
           ]
         }
