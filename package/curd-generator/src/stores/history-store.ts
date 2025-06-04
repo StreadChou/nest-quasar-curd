@@ -23,13 +23,21 @@ export const useHistoryStore = defineStore('history', {
     },
     async pushOrUpdate(item: ProjectHistoryItem) {
       if (!this.loaded) await this.loadFromStorage();
-      const exist = this.historyData.find(ele => ele.project == item.project);
+      const exist = this.historyData.find(ele => ele.file_path == item.file_path);
       if (!exist) this.historyData.push(item);
       else Object.assign(exist, item)
 
       const key = this.key;
       LocalStorage.set(key, this.historyData);
-    }
+    },
+    async removeItem(item: ProjectHistoryItem) {
+      if (!this.loaded) await this.loadFromStorage();
+      const index = this.historyData.findIndex(ele => ele.file_path == item.file_path);
+      if (index >= 0) this.historyData.splice(index, 1);
+
+      const key = this.key;
+      LocalStorage.set(key, this.historyData);
+    },
   },
 });
 

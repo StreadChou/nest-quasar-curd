@@ -1,8 +1,8 @@
 import {IpcMainRegister} from "app/src-electron/handler/HandlerLoader";
 import {ipcMain, type IpcMainInvokeEvent} from "electron";
 import path from "path";
-import {JsonFile} from "app/type/JsonFileDefine";
 import fs from "fs";
+import {JsonFile} from "app/type/JsonFileDefine/Index";
 
 export class AppHandler {
   @IpcMainRegister({
@@ -20,15 +20,23 @@ export class AppHandler {
     desc: "创建一个项目",
   })
   createProject(event: IpcMainInvokeEvent, target: string, name: string) {
-    const target_json_path = path.join(target, "project.nqcurd")
+    const stat = fs.statSync(target);
+    if (stat.isDirectory()) target = path.join(target, "project.nqcurd")
+
     const data: JsonFile = {
-      name: name,
-      created_at: Date.now(),
-      updated_at: Date.now(),
+      project: {
+        name: name,
+        created_at: Date.now(),
+        updated_at: Date.now(),
+      },
+      collect: {
+        toModulesList: true,
+        toEntityList: true,
+      },
       modules: {},
     }
-    fs.writeFileSync(target_json_path, JSON.stringify(data, null, 2))
-    return {code: 0, data: {targetPath: target_json_path, targetContent: data}}
+    fs.writeFileSync(target, JSON.stringify(data, null, 2))
+    return {code: 0, data: {targetPath: target, targetContent: data}}
   }
 
   private static _instance: AppHandler;

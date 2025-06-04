@@ -1,0 +1,58 @@
+<script setup lang="ts">
+import CreateModules from "components/CreateModules.vue";
+import {useViewStore} from "stores/view-store";
+import {ref} from "vue";
+import {useDataStore} from "stores/data-store";
+import {ProjectConfig} from "app/type/JsonFileDefine/Project";
+
+const props = defineProps<{
+  count: number,
+  viewId: string,
+}>()
+const dataStore = useDataStore();
+
+const viewStore = useViewStore();
+const projectRecord = ref(dataStore.getProjectRecord(props.count));
+
+const form = ref<Partial<ProjectConfig>>({
+  name: projectRecord.value.json_data.project.name,
+})
+
+const save = () => {
+  dataStore.updateProject(props.count, form.value)
+}
+
+</script>
+
+<template>
+  <div>
+    <div class="row class bg-grey q-pa-sm">
+      <q-space></q-space>
+      <div class="q-gutter-x-sm">
+        <CreateModules :count="count"></CreateModules>
+        <q-btn color="negative" dense size="sm" icon="close" @click="viewStore.closePanel(viewId)"></q-btn>
+      </div>
+    </div>
+    <div class="q-gutter-y-md">
+      <q-input standout dense v-model="form.name" label="名称"></q-input>
+      <q-btn class="full-width" color="primary" @click="save" label="保存"></q-btn>
+    </div>
+    <div class="q-pa-md">
+      <q-markup-table flat separator="cell" class="bg-none" dense bordered>
+        <tbody class="text-center">
+        <tr>
+          <td colspan="2">文件路径: {{ projectRecord.file_path }}</td>
+        </tr>
+        <tr>
+          <td>创建时间: {{ projectRecord.json_data.project.created_at }}</td>
+          <td>更新时间: {{ projectRecord.json_data.project.updated_at }}</td>
+        </tr>
+        </tbody>
+      </q-markup-table>
+    </div>
+  </div>
+</template>
+
+<style scoped>
+
+</style>

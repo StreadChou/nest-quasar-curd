@@ -9,21 +9,23 @@ const dialog = ref(false);
 
 const form = ref({
   name: "项目1",
-  dir: "/Users/stread/Project/002_Stread/nest-quasar-curd/package/data/project1"
+  dir: ""
 })
 
 const selectDir = async () => {
-  const reply = await InvokeProxy("FileHandler.openDirSelectDialog")
+  const reply = await InvokeProxy("FileHandler.openFileDialog")
+  console.log(reply);
   if (reply.code != 0) return InvokeErrorHandler(reply);
-  const dir = reply?.data?.dir;
-  if (!dir) return null;
-  form.value.dir = dir;
+  const file = reply?.data?.file;
+  if (!file) return null;
+  form.value.dir = file;
 }
 
 const clickOk = async () => {
   const reply = await InvokeProxy("AppHandler.createProject", form.value.dir, form.value.name)
   if (reply.code != 0) return InvokeErrorHandler(reply);
   await dataStore.openProject(reply.data.targetPath)
+  dialog.value = false;
 }
 </script>
 
@@ -47,7 +49,7 @@ const clickOk = async () => {
                  label="请设置项目名称(请尽量保证唯一)"
         />
         <q-input standout v-model="form.dir"
-                 label="请选择项目路径"
+                 label="请选择项目文件文件路径"
         >
           <template #append>
             <q-btn flat dense label="选择" @click="selectDir"/>

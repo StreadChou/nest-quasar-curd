@@ -1,0 +1,35 @@
+{
+  "project": {
+    "name": "测试项目",
+    "created_at": 1749002620187,
+    "updated_at": 1749014159212
+  },
+  "collect": {
+    "toModulesList": true,
+    "toEntityList": true
+  },
+  "modules": {
+    "UserModule": {
+      "name": "UserModule",
+      "isExport": true,
+      "toList": true,
+      "isGlobal": true,
+      "models": {
+        "UserModel": {
+          "name": "UserModel",
+          "dbName": "UserModel",
+          "joinModuleImports": true,
+          "exportController": true,
+          "exportService": true,
+          "attrs": {},
+          "controllerClassName": "",
+          "curdPath": "",
+          "joinModuleControllers": true,
+          "serviceName": "",
+          "joinModuleProviders": true,
+          "joinModuleExports": true
+        }
+      }
+    }
+  }
+}

@@ -1,4 +1,4 @@
-<template>
+`<template>
   <q-layout view="hHh lpR fFf" class="bg-grey-1">
     <q-header elevated class="bg-white text-grey-8 q-py-xs" height-hint="58">
       <q-toolbar>
@@ -9,7 +9,7 @@
 
         <div class="q-gutter-sm row items-center no-wrap">
           <CreateProject></CreateProject>
-          <q-btn round dense flat color="grey-8" icon="home" to="/">
+          <q-btn round dense flat color="grey-8" icon="home" @click="viewStore.openHomePanel()">
             <q-tooltip>主页</q-tooltip>
           </q-btn>
         </div>
@@ -20,7 +20,7 @@
       <q-scroll-area class="fit">
         <q-tree
           :nodes="dataStore.treeNodes"
-          node-key="label"
+          node-key="viewId"
           selected-color="primary"
           v-model:selected="dataStore.treeSelected"
           default-expand-all
@@ -36,11 +36,11 @@
 
 <script lang="ts" setup>
 import {useDataStore} from "stores/data-store";
-import {useQuasar} from "quasar";
 import CreateProject from "components/CreateProject.vue";
+import {useViewStore} from "stores/view-store";
 
-const $q = useQuasar();
 const dataStore = useDataStore();
+const viewStore = useViewStore();
 
 </script>
 
@@ -68,3 +68,4 @@ const dataStore = useDataStore();
     &:hover
       color: #000
 </style>
+`

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {ref} from "vue";
+import {onMounted, ref} from "vue";
 import {useDataStore} from "stores/data-store";
 import {useHistoryStore} from "stores/history-store";
 
@@ -29,6 +29,10 @@ const selectFile = () => {
   console.log('文件选择按钮点击')
 }
 
+onMounted(() => {
+  historyStore.loadFromStorage();
+})
+
 </script>
 
 <template>
@@ -46,8 +50,8 @@ const selectFile = () => {
 
       <q-btn label="选择文件" color="primary" @click="selectFile"/>
     </div>
-    <div class="q-mt-md">
-      <q-markup-table class="bg-none" flat separator="cell" bordered>
+    <div class="q-mt-md row">
+      <q-markup-table class="bg-none" flat separator="cell" bordered wrap-cells>
         <thead>
         <tr>
           <th colspan="7" class="text-center">
@@ -67,21 +71,25 @@ const selectFile = () => {
         </tr>
         </thead>
         <tbody class="text-left">
-        <tr>
-          <td>项目名字</td>
-          <td>/User/..../test.nqcurd</td>
-          <td>1</td>
-          <td>1</td>
-          <td>2025-05-01 23:00:00</td>
-          <td>2025-05-01 23:00:00</td>
-          <td>
-            <q-btn flat dense label="打开" color="primary"/>
-            <q-btn flat dense label="移除" color="primary"/>
-          </td>
-        </tr>
+        <template v-for="item of historyStore.historyData">
+          <tr>
+            <td>{{ item.project }}</td>
+            <td>
+              {{ item.file_path }}
+            </td>
+            <td>{{ item.modules_number }}</td>
+            <td>{{ item.models_number }}</td>
+            <td>{{ item.updated_at }}</td>
+            <td>{{ item.created_at }}</td>
+            <td>
+              <q-btn flat dense label="打开" color="primary" @click="dataStore.openProject(item.file_path)"/>
+              <q-btn flat dense label="移除" color="primary" @click="historyStore.removeItem(item)"/>
+            </td>
+          </tr>
+        </template>
+
         </tbody>
       </q-markup-table>
-      {{ historyStore.historyData }}
     </div>
   </div>
 </template>

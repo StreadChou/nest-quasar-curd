@@ -16,7 +16,12 @@ export class FileHandler {
     const result = await dialog.showOpenDialog({
       properties: ['openFile']
     })
-    return result.filePaths[0] as string// 返回第一个选中的文件路径
+    return {
+      code: 0,
+      data: {
+        file: result.filePaths[0] as string,
+      }
+    }
   }
 
 
