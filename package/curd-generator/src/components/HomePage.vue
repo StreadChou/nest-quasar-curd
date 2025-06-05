@@ -2,6 +2,8 @@
 import {onMounted, ref} from "vue";
 import {useDataStore} from "stores/data-store";
 import {useHistoryStore} from "stores/history-store";
+import {InvokeProxy} from "src/library/InvokeProxy";
+import {InvokeErrorHandler} from "src/helper/ErrorHelper";
 
 const dataStore = useDataStore();
 const historyStore = useHistoryStore();
@@ -21,12 +23,16 @@ const drop = async (e: DragEvent) => {
   const files = e.dataTransfer?.files
   if (!files || files.length === 0) return
 
-  console.log(files[0].path)
+  console.log(files[0])
 }
 
-const selectFile = () => {
-  dataStore.openPoject();
-  console.log('文件选择按钮点击')
+const selectFile = async () => {
+  const reply = await InvokeProxy("FileHandler.openFileDialog")
+  console.log(reply);
+  if (reply.code != 0) return InvokeErrorHandler(reply);
+  const file = reply?.data?.file;
+  if (!file) return null;
+  await dataStore.openProject(reply.data.file)
 }
 
 onMounted(() => {

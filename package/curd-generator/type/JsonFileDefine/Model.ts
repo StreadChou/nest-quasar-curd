@@ -29,5 +29,5 @@ export interface ModelConfig {
   joinModuleExports?: boolean;
 
   /** 字段列表 */
-  attrs: Record<string, AttrConfig>;
+  attrs: Array<AttrConfig>;
 }

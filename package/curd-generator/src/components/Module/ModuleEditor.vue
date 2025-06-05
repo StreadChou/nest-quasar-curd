@@ -3,7 +3,7 @@ import {useViewStore} from "stores/view-store";
 import {ref} from "vue";
 import {ProjectRecord, useDataStore} from "stores/data-store";
 import {ModuleConfig} from "app/type/JsonFileDefine/Module";
-import CreateModel from "components/CreateModel.vue";
+import CreateModel from "components/Model/CreateModel.vue";
 
 const props = defineProps<{
   count: number,

@@ -1,15 +1,18 @@
 /** 字段类型 */
 export enum ColumnsType {
   Column = "Column",
-  CreateDateColumn = "CreateDateColumn",
-  DeleteDateColumn = "DeleteDateColumn",
+
+
   ObjectIdColumn = "ObjectIdColumn",
-  PrimaryColumn = "PrimaryColumn",
   PrimaryGeneratedColumn = "PrimaryGeneratedColumn",
-  UpdateDateColumn = "UpdateDateColumn",
+  PrimaryColumn = "PrimaryColumn",
   VersionColumn = "VersionColumn",
   ViewColumn = "ViewColumn",
   VirtualColumn = "VirtualColumn",
+
+  CreateDateColumn = "CreateDateColumn",
+  UpdateDateColumn = "UpdateDateColumn",
+  DeleteDateColumn = "DeleteDateColumn",
 }
 
 

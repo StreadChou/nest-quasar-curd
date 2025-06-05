@@ -23,6 +23,7 @@
           node-key="viewId"
           selected-color="primary"
           v-model:selected="dataStore.treeSelected"
+          v-model:expanded="dataStore.treeExpanded"
           default-expand-all
         />
       </q-scroll-area>
@@ -36,7 +37,7 @@
 
 <script lang="ts" setup>
 import {useDataStore} from "stores/data-store";
-import CreateProject from "components/CreateProject.vue";
+import CreateProject from "components/Project/CreateProject.vue";
 import {useViewStore} from "stores/view-store";
 
 const dataStore = useDataStore();

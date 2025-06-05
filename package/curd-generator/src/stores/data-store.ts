@@ -8,10 +8,10 @@ import type {QTreeNode} from "quasar";
 import {ModuleConfig} from "app/type/JsonFileDefine/Module";
 import {ModelConfig} from "app/type/JsonFileDefine/Model";
 import {useViewStore} from "stores/view-store";
-import ProjectEditor from "components/ProjectEditor.vue";
+import ProjectEditor from "components/Project/ProjectEditor.vue";
 import {ProjectConfig} from "app/type/JsonFileDefine/Project";
-import ModuleEditor from "components/ModuleEditor.vue";
-import ModelEditor from "components/ModelEditor.vue";
+import ModuleEditor from "components/Module/ModuleEditor.vue";
+import ModelEditor from "components/Model/ModelEditor.vue";
 
 export interface ProjectRecord {
   json_data: JsonFile,
@@ -27,6 +27,8 @@ export const useDataStore = defineStore('data', {
     treeNodes: [] as Array<QTreeNode & { viewId: string }>,
     /** 左侧选择 */
     treeSelected: "",
+    /** 左侧展开 */
+    treeExpanded: [] as string[],
 
     /** 打开项目的计数器: 避免项目名字不唯一导致的问题 */
     counter: 0,
@@ -141,7 +143,7 @@ export const useDataStore = defineStore('data', {
         joinModuleImports: true,
         exportController: false,
         exportService: false,
-        attrs: {},
+        attrs: [],
       }
       module_data.models[item.name] = item;
       json_data.project.updated_at = Date.now();
@@ -193,6 +195,9 @@ export const useDataStore = defineStore('data', {
       const viewStore = useViewStore();
       const count = parseInt(node.body as string);
       const viewId = `project_${count}:${data.project.name}`;
+      if (!this.treeExpanded.includes(viewId)) this.treeExpanded.push(viewId);
+      else this.treeExpanded = this.treeExpanded.filter(ele => !ele.startsWith(viewId));
+
       viewStore.openOrChangePanel({
         name: `项目: ${data.project.name}`,
         id: viewId,
@@ -206,6 +211,9 @@ export const useDataStore = defineStore('data', {
       const viewStore = useViewStore();
       const count = parseInt(node.body as string);
       const viewId = `project_${count}:${data.project.name}:${module.name}`;
+      if (!this.treeExpanded.includes(viewId)) this.treeExpanded.push(viewId);
+      else this.treeExpanded = this.treeExpanded.filter(ele => !ele.startsWith(viewId));
+
       viewStore.openOrChangePanel({
         name: `${module.name}`,
         id: viewId,
@@ -219,6 +227,9 @@ export const useDataStore = defineStore('data', {
       const viewStore = useViewStore();
       const count = parseInt(node.body as string);
       const viewId = `project_${count}:${data.project.name}:${module.name}:${model.name}`
+      if (!this.treeExpanded.includes(viewId)) this.treeExpanded.push(viewId);
+      else this.treeExpanded = this.treeExpanded.filter(ele => !ele.startsWith(viewId));
+
       viewStore.openOrChangePanel({
         name: `${model.name}`,
         id: viewId,

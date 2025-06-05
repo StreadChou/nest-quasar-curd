@@ -72,7 +72,6 @@
 
 <script lang="ts" setup>
 import {useDialogPluginComponent, useQuasar} from 'quasar'
-import {ColumnsType, ColumnsTypeOption, ModelAttrItem} from "app/type/JsonFileDefine/Index";
 import {ref} from "vue";
 
 const $q = useQuasar();

@@ -21,7 +21,23 @@
           "joinModuleImports": true,
           "exportController": true,
           "exportService": true,
-          "attrs": {},
+          "attrs": [
+            {
+              "name": "createdAt",
+              "mark": "创建时间",
+              "columnsType": "CreateDateColumn"
+            },
+            {
+              "name": "updatedAt",
+              "mark": "更新时间",
+              "columnsType": "UpdateDateColumn"
+            },
+            {
+              "name": "deletedAt",
+              "mark": "删除时间",
+              "columnsType": "DeleteDateColumn"
+            }
+          ],
           "controllerClassName": "",
           "curdPath": "",
           "joinModuleControllers": true,

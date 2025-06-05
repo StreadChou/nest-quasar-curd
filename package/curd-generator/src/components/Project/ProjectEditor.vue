@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import CreateModules from "components/CreateModules.vue";
+import CreateModule from "components/Module/CreateModule.vue";
 import {useViewStore} from "stores/view-store";
 import {ref} from "vue";
 import {useDataStore} from "stores/data-store";
@@ -29,7 +29,7 @@ const save = () => {
     <div class="row class bg-grey q-pa-sm">
       <q-space></q-space>
       <div class="q-gutter-x-sm">
-        <CreateModules :count="count"></CreateModules>
+        <CreateModule :count="count"></CreateModule>
         <q-btn color="negative" dense size="sm" icon="close" @click="viewStore.closePanel(viewId)"></q-btn>
       </div>
     </div>
