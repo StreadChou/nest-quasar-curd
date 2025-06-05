@@ -9,6 +9,8 @@ import AttrList from "components/Attr/AttrList.vue";
 import {AttrConfig} from "app/type/JsonFileDefine/Attr";
 import ModelBaseInfo from "components/Model/ModelBaseInfo.vue";
 import ControllerSetting from "components/Model/ControllerSetting.vue";
+import ServiceSetting from "components/Model/ServiceSetting.vue";
+import ConstantSetting from "components/Model/ConstantSetting.vue";
 
 const props = defineProps<{
   count: number,
@@ -42,6 +44,7 @@ const form = ref<ModelConfig>({
   exportInterface: modelConfig.value.exportInterface,
 
   attrs: modelConfig.value.attrs || [],
+  constant: modelConfig.value.constant || [],
 })
 
 const save = () => {
@@ -82,6 +85,8 @@ const tab = ref("ModelBaseInfo");
               <q-tab name="InterfaceSetting" label="Interface设置" no-caps/>
             </template>
 
+
+            <q-tab name="ConstantSetting" label="宏定义设置" no-caps/>
           </q-tabs>
         </template>
 
@@ -104,11 +109,15 @@ const tab = ref("ModelBaseInfo");
             </q-tab-panel>
 
             <q-tab-panel name="ServiceSetting" class="q-gutter-y-md">
-              <AttrList v-model="form.attrs as Array<AttrConfig>"/>
+              <ServiceSetting v-model="form"/>
             </q-tab-panel>
 
 
             <q-tab-panel name="InterfaceSetting" class="q-gutter-y-md">
+            </q-tab-panel>
+
+            <q-tab-panel name="ConstantSetting" class="q-gutter-y-md">
+              <ConstantSetting v-model="form"></ConstantSetting>
             </q-tab-panel>
 
           </q-tab-panels>

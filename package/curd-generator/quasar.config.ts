@@ -15,6 +15,7 @@ export default defineConfig((ctx) => {
     boot: [
       'i18n',
       'error',
+      'monaco',
     ],
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-file#css

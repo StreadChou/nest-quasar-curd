@@ -61,7 +61,14 @@
           "joinModuleControllers": true,
           "serviceName": "",
           "joinModuleProviders": true,
-          "joinModuleExports": true
+          "joinModuleExports": true,
+          "constant": [
+            {
+              "name": "user.constant.ts",
+              "value": "",
+              "exports": []
+            }
+          ]
         }
       }
     }

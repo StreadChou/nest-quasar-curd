@@ -34,4 +34,14 @@ export interface ModelConfig {
 
   /** 字段列表 */
   attrs: Array<AttrConfig>;
+
+  /** 宏定义 */
+  constant: Array<ConstantConfig>
+}
+
+
+export interface ConstantConfig{
+  name: string;
+  value: string;
+  exports: Array<{ name: string, isDefault: boolean }>
 }
