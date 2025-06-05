@@ -1,9 +1,10 @@
 import {Generator} from "app/src-electron/app/Generator";
-import {AbstractFileGenerator, ImportType} from "app/src-electron/app/generator/FileGenerator/AbstractFileGenerator";
+import {AbstractFileGenerator} from "app/src-electron/app/generator/FileGenerator/AbstractFileGenerator";
 import path from "path";
 import {getTwoTsFileImportPath} from "app/src-electron/helper/PathHelper";
 import {ModulesGenerator} from "app/src-electron/app/ModulesGenerator";
 import {ModelGenerator} from "app/src-electron/app/ModelGenerator";
+import {ImportType} from "app/type/TypescriptImport/ImportType";
 
 /** entityList 文件生成 */
 export class EntityListFileGeneratorBackend extends AbstractFileGenerator {

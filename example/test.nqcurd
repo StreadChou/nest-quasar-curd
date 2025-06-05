@@ -26,7 +26,15 @@
               "name": "name",
               "attrTpe": "Column",
               "attrDecoratorType": "Column",
-              "columnOptions": {},
+              "columnOptions": {
+                "select": true,
+                "primary": false,
+                "unique": false,
+                "nullable": true,
+                "array": false,
+                "type": "varchar",
+                "length": "3000"
+              },
               "mark": "名称"
             },
             {

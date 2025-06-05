@@ -12,7 +12,7 @@ export interface AttrConfig {
   attrDecoratorType: AttrColumnDecoratorType | AttrRelationDecoratorType;
 
   /** 如果属数据, 则使用的option */
-  columnOptions?: ColumnOptions;
+  columnOptions: ColumnOptions;
 
 
   /** 字段备注 */

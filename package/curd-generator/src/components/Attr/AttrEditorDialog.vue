@@ -28,7 +28,7 @@
               </q-select>
             </div>
             <div class="col">
-              <q-select v-model="form.attrDecoratorType" standout dense label="字段类型"
+              <q-select v-model="form.attrDecoratorType" standout dense label="装饰器类型"
                         :options="attrDecoratorTypeOption"
               >
               </q-select>
@@ -37,6 +37,16 @@
 
 
           <div v-if="form.attrTpe == AttrType.Column">
+
+            <!-- 如果是普通的字段 -->
+            <template v-if="form.attrDecoratorType == AttrColumnDecoratorType.Column">
+              <div class="bg-white border-title-box">
+                <div class="title">Column数据附加定义</div>
+                <div class="q-gutter-y-md">
+                  <DataTypeOptions v-model="form.columnOptions"/>
+                </div>
+              </div>
+            </template>
 
 
             <div class="bg-white border-title-box">
@@ -69,10 +79,13 @@ import {computed, ref, watch} from "vue";
 import {AttrConfig} from "app/type/JsonFileDefine/Attr";
 import {AttrType, AttrTypeArray} from "app/type/JsonFileDefine/Columns/AttrType/AttrType";
 import {
+  AttrColumnDecoratorType,
   AttrColumnDecoratorTypeArray,
   AttrRelationDecoratorTypeArray
 } from "app/type/JsonFileDefine/Columns/ColumnsType";
 import ColumnCommonOptions from "components/Attr/option/ColumnCommonOptions.vue";
+import {ColumnTypeArr} from "app/type/JsonFileDefine/Columns/AttrType/AttrTypeColumn/ColumnType";
+import DataTypeOptions from "components/Attr/option/DataTypeOptions.vue";
 
 const $q = useQuasar();
 const props = defineProps<{ data: AttrConfig }>()

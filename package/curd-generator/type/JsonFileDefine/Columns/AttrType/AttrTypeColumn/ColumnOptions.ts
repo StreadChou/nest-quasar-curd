@@ -5,6 +5,13 @@ import {ColumnCommonOptions} from "app/type/JsonFileDefine/Columns/AttrType/Attr
  * Describes all column's options.
  */
 export interface ColumnOptions extends ColumnCommonOptions {
+  /** typescript的类型定义: JSON/Enum都很有用 */
+  typescriptType?: {
+    /** 数据类型: 默认 any */
+    type?: string,
+    /** 需要导入的内容 */
+    import?: [string, string, string][],
+  }
   /**
    * Column type. Must be one of the value from the ColumnTypes class.
    */

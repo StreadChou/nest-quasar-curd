@@ -1,8 +1,9 @@
 import {Generator} from "app/src-electron/app/Generator";
-import {AbstractFileGenerator, ImportType} from "app/src-electron/app/generator/FileGenerator/AbstractFileGenerator";
+import {AbstractFileGenerator} from "app/src-electron/app/generator/FileGenerator/AbstractFileGenerator";
 import path from "path";
 import {ModulesGenerator} from "app/src-electron/app/ModulesGenerator";
 import {getTwoTsFileImportPath} from "app/src-electron/helper/PathHelper";
+import {ImportType} from "app/type/TypescriptImport/ImportType";
 
 /** moduleList 文件生成 */
 export class ModuleListFileGeneratorBackend extends AbstractFileGenerator {

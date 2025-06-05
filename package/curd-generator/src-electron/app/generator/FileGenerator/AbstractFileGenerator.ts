@@ -1,6 +1,7 @@
 import path from "path";
 import fs from "fs";
 import {getImportPath, getTwoTsFileImportPath} from "app/src-electron/helper/PathHelper";
+import {ImportType} from "app/type/TypescriptImport/ImportType";
 
 export abstract class AbstractFileGenerator {
   /** 导入: ImportType.ImportAnyAs */
@@ -137,14 +138,5 @@ export abstract class AbstractFileGenerator {
         throw new Error(`导入了未知的类型: ${importTpe}`);
     }
   }
-}
-
-export enum ImportType {
-  /** import * as xxx from 'xxx' */
-  ImportAnyAs = "ImportAnyAs",
-  /** import xxx from 'xxx' */
-  ImportDefault = "ImportDefault",
-  /** import { xxx } from 'xxx' */
-  ImportItem = "ImportItem",
 }
 

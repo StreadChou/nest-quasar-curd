@@ -1,4 +1,4 @@
-import {CreateDateColumn, Entity} from 'typeorm'
+import {Column, CreateDateColumn, Entity} from 'typeorm'
 // CUSTOMER IMPORT START
 // CUSTOMER IMPORT END
 
@@ -13,6 +13,6 @@ export class UserEntity {
 // CUSTOMER CONTENT END
 
 
-    @CreateDateColumn()
+    @Column({type: "string"})
     createdAt: Date;
 }
