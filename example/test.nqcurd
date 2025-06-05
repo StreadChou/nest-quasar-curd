@@ -32,7 +32,7 @@
                 "unique": false,
                 "nullable": true,
                 "array": false,
-                "type": "varchar",
+                "type": "json",
                 "length": "3000"
               },
               "mark": "名称"

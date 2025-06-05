@@ -1,5 +1,42 @@
+<script lang="ts" setup>
+import {useDialogPluginComponent, useQuasar} from 'quasar'
+import {ref} from "vue";
+import {AttrConfig} from "app/type/JsonFileDefine/Attr";
+import {AttrType} from "app/type/JsonFileDefine/Columns/AttrType/AttrType";
+import ColumnCommonOptions from "components/Attr/option/ColumnCommonOptions.vue";
+import AttrBaseInfo from "components/Attr/AttrBaseInfo.vue";
+import ColumnOptions from "components/Attr/option/ColumnOptions.vue";
+import {
+  ColumnType,
+  ColumnTypeConfig,
+  WithLengthColumnType,
+  WithWidthColumnType
+} from "app/type/JsonFileDefine/Columns/AttrType/AttrTypeColumn/ColumnType";
+import WithLengthColumnOptions from "components/Attr/option/WithLengthColumnOptions.vue";
+import WithWidthColumnOptions from "components/Attr/option/WithWidthColumnOptions.vue";
+import ImportSetting from "components/ImportSetting.vue";
+
+const $q = useQuasar();
+const props = defineProps<{ data: AttrConfig }>()
+defineEmits([
+  ...useDialogPluginComponent.emits
+])
+
+const form = ref<AttrConfig>(JSON.parse(JSON.stringify(props.data)));
+
+const {dialogRef, onDialogHide, onDialogOK} = useDialogPluginComponent()
+
+async function onOKClick() {
+  onDialogOK(form.value)
+}
+
+const tab = ref("BaseInfo");
+
+</script>
+
 <template>
   <q-dialog ref="dialogRef" @hide="onDialogHide" persistent full-width>
+
     <q-card class="full-width">
       <q-card-section>
         <div class="text-h6">增加Table</div>
@@ -9,60 +46,70 @@
 
       <q-form @submit="onOKClick">
 
-        <q-card-section style="max-height: 50vh" class="scroll q-gutter-y-md">
+        <q-card-section>
+          <q-splitter :model-value="10" style="max-height: 50vh" class="scroll">
 
-          <div class="row q-gutter-x-md">
-            <div class="col">
-              <q-input v-model="form.name" standout dense label="名称"/>
-            </div>
-            <div class="col">
-              <q-input v-model="form.mark" standout dense label="备注"/>
-            </div>
-          </div>
-
-          <div class="row q-gutter-x-md">
-            <div class="col">
-              <q-select v-model="form.attrTpe" standout dense label="字段类型"
-                        :options="AttrTypeArray"
-              >
-              </q-select>
-            </div>
-            <div class="col">
-              <q-select v-model="form.attrDecoratorType" standout dense label="装饰器类型"
-                        :options="attrDecoratorTypeOption"
-              >
-              </q-select>
-            </div>
-          </div>
+            <template v-slot:before>
+              <q-tabs v-model="tab" vertical class="text-teal">
+                <q-tab name="BaseInfo" label="基础信息"/>
 
 
-          <div v-if="form.attrTpe == AttrType.Column">
+                <template v-if="form.attrTpe == AttrType.Column">
+                  <q-tab name="ColumnOptions" label="字段设置"/>
+                  <q-tab name="CommonOptions" label="通用设置"/>
 
-            <!-- 如果是普通的字段 -->
-            <template v-if="form.attrDecoratorType == AttrColumnDecoratorType.Column">
-              <div class="bg-white border-title-box">
-                <div class="title">Column数据附加定义</div>
-                <div class="q-gutter-y-md">
-                  <DataTypeOptions v-model="form.columnOptions"/>
-                </div>
-              </div>
+                  <template v-if="WithLengthColumnType.includes(form.columnOptions.type as string)">
+                    <q-tab name="WithLengthColumnOptions" label="WithLength" no-caps/>
+                  </template>
+
+                  <template v-if="WithWidthColumnType.includes(form.columnOptions.type as string)">
+                    <q-tab name="WithWidthColumnOptions" label="WithWidth" no-caps/>
+                  </template>
+
+                  <template v-if="ColumnTypeConfig[form.columnOptions.type as ColumnType].needImport">
+                    <q-tab name="ImportSetting" label="导入设置" no-caps/>
+                  </template>
+
+                </template>
+
+
+              </q-tabs>
             </template>
 
+            <template v-slot:after>
+              <q-tab-panels v-model="tab" animated swipeable vertical transition-prev="jump-up"
+                            transition-next="jump-up">
 
-            <div class="bg-white border-title-box">
-              <div class="title">通用数据定义</div>
-              <div class="q-gutter-y-md">
-                <ColumnCommonOptions v-model="form.columnOptions"/>
-              </div>
-            </div>
+                <q-tab-panel name="BaseInfo" class="q-gutter-y-md">
+                  <AttrBaseInfo v-model="form"/>
+                </q-tab-panel>
+
+                <q-tab-panel name="ColumnOptions">
+                  <ColumnOptions v-model="form.columnOptions"/>
+                </q-tab-panel>
+
+                <q-tab-panel name="CommonOptions">
+                  <ColumnCommonOptions v-model="form.columnOptions"/>
+                </q-tab-panel>
+
+                <q-tab-panel name="WithLengthColumnOptions">
+                  <WithLengthColumnOptions v-model="form.columnOptions"/>
+                </q-tab-panel>
+
+                <q-tab-panel name="WithWidthColumnOptions">
+                  <WithWidthColumnOptions v-model="form.columnOptions"/>
+                </q-tab-panel>
+
+                <q-tab-panel name="ImportSetting">
+                  <ImportSetting v-model="form.columnOptions.typescriptType"/>
+                </q-tab-panel>
 
 
-          </div>
+              </q-tab-panels>
+            </template>
 
-
+          </q-splitter>
         </q-card-section>
-
-        <q-separator/>
 
         <q-card-actions align="right">
           <q-btn flat label="关闭" color="dark" v-close-popup/>
@@ -70,62 +117,6 @@
         </q-card-actions>
       </q-form>
     </q-card>
+
   </q-dialog>
 </template>
-
-<script lang="ts" setup>
-import {useDialogPluginComponent, useQuasar} from 'quasar'
-import {computed, ref, watch} from "vue";
-import {AttrConfig} from "app/type/JsonFileDefine/Attr";
-import {AttrType, AttrTypeArray} from "app/type/JsonFileDefine/Columns/AttrType/AttrType";
-import {
-  AttrColumnDecoratorType,
-  AttrColumnDecoratorTypeArray,
-  AttrRelationDecoratorTypeArray
-} from "app/type/JsonFileDefine/Columns/ColumnsType";
-import ColumnCommonOptions from "components/Attr/option/ColumnCommonOptions.vue";
-import {ColumnTypeArr} from "app/type/JsonFileDefine/Columns/AttrType/AttrTypeColumn/ColumnType";
-import DataTypeOptions from "components/Attr/option/DataTypeOptions.vue";
-
-const $q = useQuasar();
-const props = defineProps<{ data: AttrConfig }>()
-defineEmits([
-  ...useDialogPluginComponent.emits
-])
-
-const form = ref<AttrConfig>(JSON.parse(JSON.stringify(props.data)));
-if (!("columnOptions" in form.value)) form.value.columnOptions = {};
-
-const {dialogRef, onDialogHide, onDialogOK} = useDialogPluginComponent()
-
-watch(() => form.value.attrTpe, (newVal, oldVal) => {
-  // 如果字段类型改变, 需要更新选择项
-  if (newVal != oldVal) {
-    const options = attrDecoratorTypeOption;
-    if (options.value && options.value[0]) {
-      form.value.attrDecoratorType = options.value[0];
-    }
-  }
-  if (newVal != AttrType.Column) {
-    form.value.columnOptions = {};
-  }
-
-
-}, {deep: true})
-
-const attrDecoratorTypeOption = computed<AttrConfig["attrDecoratorType"][]>(() => {
-  switch (form.value.attrTpe) {
-    case AttrType.Column:
-      return AttrColumnDecoratorTypeArray;
-    case AttrType.Relation:
-      return AttrRelationDecoratorTypeArray;
-    default:
-      return [];
-  }
-})
-
-
-async function onOKClick() {
-  onDialogOK(form.value)
-}
-</script>
