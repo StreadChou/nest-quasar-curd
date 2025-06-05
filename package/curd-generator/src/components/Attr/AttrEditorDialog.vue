@@ -9,53 +9,46 @@
 
       <q-form @submit="onOKClick">
 
-        <q-card-section style="max-height: 50vh" class="scroll">
+        <q-card-section style="max-height: 50vh" class="scroll q-gutter-y-md">
 
-          <div class="q-gutter-y-sm">
-            <q-input v-model="form.name" standout dense label="名称" :disable="true"/>
-            <q-input v-model="form.mark" standout dense label="备注"/>
-            <q-select v-model="form.columnsType" standout dense label="字段类型"
-                      :options="ColumnsTypeOptionArr" emit-value map-options
-            >
-            </q-select>
-            <q-checkbox v-model="form.useCustomerOption" label="使用自定义的option"/>
+          <div class="row q-gutter-x-md">
+            <div class="col">
+              <q-input v-model="form.name" standout dense label="名称"/>
+            </div>
+            <div class="col">
+              <q-input v-model="form.mark" standout dense label="备注"/>
+            </div>
           </div>
 
-          <div v-if="!form.useCustomerOption && form.columnsType">
-            <div class="bg-white border-title-box">
-              <div class="title">{{ ColumnsTypeOption[form?.columnsType]?.label }}数据定义</div>
-              <div class="q-gutter-y-md" v-if="form.columnsType == ColumnsType.Column">
-                <q-select v-model="form.column_Type" label="数据类型"
-                          dense standout :options="SimpleColumnTypeOptionArr" emit-value map-options/>
-              </div>
+          <div class="row q-gutter-x-md">
+            <div class="col">
+              <q-select v-model="form.attrTpe" standout dense label="字段类型"
+                        :options="AttrTypeArray"
+              >
+              </q-select>
             </div>
+            <div class="col">
+              <q-select v-model="form.attrDecoratorType" standout dense label="字段类型"
+                        :options="attrDecoratorTypeOption"
+              >
+              </q-select>
+            </div>
+          </div>
+
+
+          <div v-if="form.attrTpe == AttrType.Column">
+
 
             <div class="bg-white border-title-box">
               <div class="title">通用数据定义</div>
-              <div class="q-gutter-y-md" v-if="form.columnCommonOptions">
-                <q-input v-model="form.columnCommonOptions.name" label="字段名 (name)" dense standout/>
-
-                <q-checkbox v-model="form.columnCommonOptions.select" label="是否参与查询 (select)"/>
-                <q-checkbox v-model="form.columnCommonOptions.primary" label="是否为主键 (primary)"/>
-                <q-select v-model="form.columnCommonOptions.generated" label="是否自动生成 (generated)"
-                          dense standout :options="GeneratedColumnOptionArr" emit-value map-options/>
-
-                <q-checkbox v-model="form.columnCommonOptions.unique" label="唯一约束 (unique)"/>
-                <q-checkbox v-model="form.columnCommonOptions.nullable" label="可为空 (nullable)"/>
-                <q-input v-model="form.columnCommonOptions.default" label="默认值 (default)" dense standout/>
-                <q-input v-model="form.columnCommonOptions.onUpdate" label="更新时设置 (onUpdate)" dense standout/>
-                <q-input v-model="form.columnCommonOptions.comment" label="注释 (comment)" dense standout/>
-                <q-checkbox v-model="form.columnCommonOptions.array" label="是否数组 (array)"/>
-                <q-input v-model="form.columnCommonOptions.transformer" label="Transformer" type="textarea" autogrow
-                         dense standout/>
+              <div class="q-gutter-y-md">
+                <ColumnCommonOptions v-model="form.columnOptions"/>
               </div>
             </div>
 
 
           </div>
-          <div v-if="form.useCustomerOption">
-            <q-input v-model="form.customerOption" standout type="textarea" autogrow label="自定义option"></q-input>
-          </div>
+
 
         </q-card-section>
 
@@ -72,40 +65,51 @@
 
 <script lang="ts" setup>
 import {useDialogPluginComponent, useQuasar} from 'quasar'
-import {ref} from "vue";
+import {computed, ref, watch} from "vue";
+import {AttrConfig} from "app/type/JsonFileDefine/Attr";
+import {AttrType, AttrTypeArray} from "app/type/JsonFileDefine/Columns/AttrType/AttrType";
+import {
+  AttrColumnDecoratorTypeArray,
+  AttrRelationDecoratorTypeArray
+} from "app/type/JsonFileDefine/Columns/ColumnsType";
+import ColumnCommonOptions from "components/Attr/option/ColumnCommonOptions.vue";
 
 const $q = useQuasar();
-const props = defineProps<{ data: ModelAttrItem }>()
+const props = defineProps<{ data: AttrConfig }>()
 defineEmits([
   ...useDialogPluginComponent.emits
 ])
 
-const form = ref<ModelAttrItem>(JSON.parse(JSON.stringify(props.data)));
-if (!("useCustomerOption" in form.value)) form.value.useCustomerOption = false;
-if (!("columnCommonOptions" in form.value)) form.value.columnCommonOptions = {};
-
-
-const commonOptions = form.value.columnCommonOptions;
-// 设定默认值（TypeORM 有默认值的字段）
-if (!("select" in commonOptions)) commonOptions.select = true;
-if (!("primary" in commonOptions)) commonOptions.primary = false;
-if (!("generated" in commonOptions)) commonOptions.generated = false;
-if (!("unique" in commonOptions)) commonOptions.unique = false;
-if (!("nullable" in commonOptions)) commonOptions.nullable = false;
-if (!("array" in commonOptions)) commonOptions.array = false;
+const form = ref<AttrConfig>(JSON.parse(JSON.stringify(props.data)));
+if (!("columnOptions" in form.value)) form.value.columnOptions = {};
 
 const {dialogRef, onDialogHide, onDialogOK} = useDialogPluginComponent()
 
+watch(() => form.value.attrTpe, (newVal, oldVal) => {
+  // 如果字段类型改变, 需要更新选择项
+  if (newVal != oldVal) {
+    const options = attrDecoratorTypeOption;
+    if (options.value && options.value[0]) {
+      form.value.attrDecoratorType = options.value[0];
+    }
+  }
+  if (newVal != AttrType.Column) {
+    form.value.columnOptions = {};
+  }
 
-const ColumnsTypeOptionArr = ref(Object.values(ColumnsTypeOption))
-const SimpleColumnTypeOptionArr = ref([]);
-const GeneratedColumnOptionArr = ref([
-  {label: '关闭', value: false},
-  {label: 'increment', value: 'increment'},
-  {label: 'uuid', value: 'uuid'},
-  {label: 'rowid', value: 'rowid'},
-  {label: 'identity', value: 'identity'}
-])
+
+}, {deep: true})
+
+const attrDecoratorTypeOption = computed<AttrConfig["attrDecoratorType"][]>(() => {
+  switch (form.value.attrTpe) {
+    case AttrType.Column:
+      return AttrColumnDecoratorTypeArray;
+    case AttrType.Relation:
+      return AttrRelationDecoratorTypeArray;
+    default:
+      return [];
+  }
+})
 
 
 async function onOKClick() {

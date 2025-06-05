@@ -23,19 +23,29 @@
           "exportService": true,
           "attrs": [
             {
+              "name": "name",
+              "attrTpe": "Column",
+              "attrDecoratorType": "Column",
+              "columnOptions": {},
+              "mark": "名称"
+            },
+            {
               "name": "createdAt",
               "mark": "创建时间",
-              "columnsType": "CreateDateColumn"
+              "attrTpe": "Column",
+              "attrDecoratorType": "CreateDateColumn"
             },
             {
               "name": "updatedAt",
               "mark": "更新时间",
-              "columnsType": "UpdateDateColumn"
+              "attrTpe": "Column",
+              "attrDecoratorType": "UpdateDateColumn"
             },
             {
               "name": "deletedAt",
               "mark": "删除时间",
-              "columnsType": "DeleteDateColumn"
+              "attrTpe": "Column",
+              "attrDecoratorType": "DeleteDateColumn"
             }
           ],
           "controllerClassName": "",

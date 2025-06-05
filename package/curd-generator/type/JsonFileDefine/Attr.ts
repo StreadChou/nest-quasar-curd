@@ -1,45 +1,20 @@
-import {ColumnsType} from "app/type/JsonFileDefine/Columns/ColumnsType";
+import {ColumnOptions} from "app/type/JsonFileDefine/Columns/AttrType/AttrTypeColumn/ColumnOptions";
+import {AttrType} from "app/type/JsonFileDefine/Columns/AttrType/AttrType";
+import {AttrColumnDecoratorType, AttrRelationDecoratorType} from "app/type/JsonFileDefine/Columns/ColumnsType";
 
 export interface AttrConfig {
-  name?: string;
+  /** 字段名 */
+  name: string;
+  /** 字段类型-普通字段还是关系字段 */
+  attrTpe: AttrType;
+
+  /** 装饰器类型 */
+  attrDecoratorType: AttrColumnDecoratorType | AttrRelationDecoratorType;
+
+  /** 如果属数据, 则使用的option */
+  columnOptions?: ColumnOptions;
+
+
+  /** 字段备注 */
   mark?: string;
-  /** 字段类型 */
-  columnsType?: ColumnsType;
-  /** 是否使用自定义的option */
-  useCustomerOption?: boolean;
-  /** 自定义的option */
-  customerOption?: string;
-  /** 通用数据列 */
-  columnCommonOptions?: {
-    select?: boolean;
-    name?: string;
-    primary?: boolean;
-    generated?: boolean | "increment" | "uuid" | "rowid" | "identity";
-    unique?: boolean;
-    nullable?: boolean;
-    default?: any;
-    onUpdate?: string;
-    comment?: string;
-    array?: boolean;
-    transformer?: string;
-  };
-  ColumnWithLengthOptions?: {
-    length?: string | number;
-  }
-  ColumnWithWidthOptions?: {
-    width?: number;
-    zerofill?: boolean;
-    unsigned?: boolean;
-  }
-  ColumnNumericOptions?: {
-    precision?: number;
-    scale?: number;
-    zerofill?: boolean;
-    unsigned?: boolean;
-  }
-
-
-  /** columnsType 为 Column 的时候需要一个数据类型 */
-  column_Type?: string;
-
 }

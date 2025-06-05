@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import {useQuasar} from "quasar";
-import {onMounted, ref, watch} from "vue";
+import {ref, watch} from "vue";
 import {AttrConfig} from "app/type/JsonFileDefine/Attr";
 import {UserInputError} from "src/app/ErrorHandler/UserInputError";
-import {ColumnsType} from "app/type/JsonFileDefine/Columns/ColumnsType";
 import AttrEditorDialog from "components/Attr/AttrEditorDialog.vue";
+import {AttrType} from "app/type/JsonFileDefine/Columns/AttrType/AttrType";
+import {AttrColumnDecoratorType} from "app/type/JsonFileDefine/Columns/ColumnsType";
 
 
 const $q = useQuasar();
@@ -22,7 +23,7 @@ watch(model, () => {
 
 
 // 增加字段
-const addAttr = (data: Partial<AttrConfig>, index?: number, type?: "top" | "bottom") => {
+const addAttr = (data: AttrConfig, index?: number, type?: "top" | "bottom") => {
   if (!data.name) throw new UserInputError('请输入字段名称');
   if (model.value.find(item => item.name === data.name)) throw new UserInputError('该字段已经存在');
   if (typeof index == "number" && type) {
@@ -36,7 +37,14 @@ const addAttr = (data: Partial<AttrConfig>, index?: number, type?: "top" | "bott
 // 增加字段
 const addAttrDialog = (index?: number, type?: "top" | "bottom") => {
   $q.dialog({title: '请输入', message: '请输入字段名称?', prompt: {model: '', type: 'text', standout: true,},})
-    .onOk((data: string) => addAttr({name: data}, index, type))
+    .onOk((data: string) => {
+      const item: AttrConfig = {
+        name: data,
+        attrTpe: AttrType.Column,
+        attrDecoratorType: AttrColumnDecoratorType.Column,
+      };
+      addAttr(item, index, type)
+    })
 }
 
 // 向上移动
@@ -85,7 +93,7 @@ const editorAttr = (index: number) => {
               <th>字段名称</th>
               <th>备注</th>
               <th>字段类型</th>
-              <th>数据类型</th>
+              <th>装饰器类型</th>
               <th>排序</th>
               <th>操作</th>
             </tr>
@@ -95,10 +103,8 @@ const editorAttr = (index: number) => {
               <tr>
                 <td>{{ attr.name }}</td>
                 <td>{{ attr.mark }}</td>
-                <td>{{ attr.columnsType }}</td>
-                <td>
-
-                </td>
+                <td>{{ attr.attrTpe }}</td>
+                <td>{{ attr.attrDecoratorType }}</td>
                 <td>
                   <q-btn flat dense icon="expand_less" @click="moveTop(key)"></q-btn>
                   <q-btn flat dense icon="expand_more" @click="moveBottom(key)"></q-btn>
@@ -123,11 +129,26 @@ const editorAttr = (index: number) => {
             <tr>
               <td colspan="6" class="">
                 <q-btn label="增加createdAt" flat dense no-caps
-                       @click="addAttr({name: `createdAt`, mark: `创建时间`, columnsType: ColumnsType.CreateDateColumn})"/>
+                       @click="addAttr({
+                         name: `createdAt`,
+                         mark: `创建时间`,
+                         attrTpe: AttrType.Column,
+                         attrDecoratorType: AttrColumnDecoratorType.CreateDateColumn
+                       })"/>
                 <q-btn label="增加updatedAt" flat dense no-caps
-                       @click="addAttr({name: `updatedAt`, mark: `更新时间`, columnsType: ColumnsType.UpdateDateColumn})"/>
+                       @click="addAttr({
+                          name: `updatedAt`,
+                          mark: `更新时间`,
+                          attrTpe: AttrType.Column,
+                          attrDecoratorType: AttrColumnDecoratorType.UpdateDateColumn
+                       })"/>
                 <q-btn label="增加deletedAt" flat dense no-caps
-                       @click="addAttr({name: `deletedAt`, mark: `删除时间`, columnsType: ColumnsType.DeleteDateColumn})"/>
+                       @click="addAttr({
+                         name: `deletedAt`,
+                         mark: `删除时间`,
+                         attrTpe: AttrType.Column,
+                         attrDecoratorType: AttrColumnDecoratorType.DeleteDateColumn}
+                       )"/>
               </td>
             </tr>
 
