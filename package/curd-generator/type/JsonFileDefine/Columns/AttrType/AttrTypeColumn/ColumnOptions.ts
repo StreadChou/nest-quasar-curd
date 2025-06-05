@@ -1,17 +1,30 @@
 import {ColumnType} from "app/type/JsonFileDefine/Columns/AttrType/AttrTypeColumn/ColumnType";
 import {ColumnCommonOptions} from "app/type/JsonFileDefine/Columns/AttrType/AttrTypeColumn/ColumnCommonOptions";
+import {ImportType} from "app/type/TypescriptImport/ImportType";
 
 /**
  * Describes all column's options.
  */
 export interface ColumnOptions extends ColumnCommonOptions {
   /** typescript的类型定义: JSON/Enum都很有用 */
-  typescriptType?: {
+  typescriptType?: undefined | {
     /** 数据类型: 默认 any */
-    type?: string,
+    type: string,
     /** 需要导入的内容 */
-    import?: [string, string, string][],
-  }
+    import: Array<
+      {
+        from: "project",
+        type: string,
+      }
+      |
+      {
+        from: "file",
+        name: string,
+        file: string,
+        type: ImportType,
+      }
+    >,
+  };
   /**
    * Column type. Must be one of the value from the ColumnTypes class.
    */

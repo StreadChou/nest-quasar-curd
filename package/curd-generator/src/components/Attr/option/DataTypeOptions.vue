@@ -3,8 +3,8 @@ import {ref, watch} from "vue";
 import {ColumnOptions} from "app/type/JsonFileDefine/Columns/AttrType/AttrTypeColumn/ColumnOptions";
 import {
   ColumnType,
-  ColumnTypeArr,
-  ColumnTypeConfig, WithLengthColumnType, WithWidthColumnType
+  ColumnTypeArr, ColumnTypeConfig,
+  WithLengthColumnType, WithWidthColumnType
 } from "app/type/JsonFileDefine/Columns/AttrType/AttrTypeColumn/ColumnType";
 
 const props = defineProps<{
@@ -25,6 +25,18 @@ const filterFn = (val: string, update: any, abort: any) => {
     options.value = ColumnTypeArr.filter(v => v.toLocaleLowerCase().indexOf(needle) > -1)
   })
 }
+
+watch(() => model.value.type, (newVal: ColumnType, oldVal: ColumnType) => {
+  if (!ColumnTypeConfig[newVal as ColumnType]) return null;
+  if (!ColumnTypeConfig[newVal as ColumnType].needImport) {
+    model.value.typescriptType = undefined;
+  } else {
+    model.value.typescriptType = {
+      type: "any",
+      import: [],
+    }
+  }
+}, {deep: true})
 
 </script>
 
@@ -54,6 +66,35 @@ const filterFn = (val: string, update: any, abort: any) => {
         <q-checkbox v-model="model.zerofill" label="填充0 (zerofill)"/>
         <q-checkbox v-model="model.unsigned" label="无符号 (unsigned)"/>
       </div>
+    </div>
+  </template>
+
+
+  <template v-if="model.typescriptType != undefined">
+    <div>
+      <q-markup-table flat bordered>
+        <tbody>
+        <tr>
+          <td colspan="4">
+            <q-input v-model="model.typescriptType.type" label="字段类型" dense standout/>
+          </td>
+        </tr>
+        <template v-for="item of model.typescriptType.import">
+          <tr>
+            <td>{{ item.from }}</td>
+            <td>{{ item.type || item.name }}</td>
+            <td></td>
+            <td></td>
+          </tr>
+        </template>
+        <tr>
+          <td colspan="4">
+            <q-btn flat dense label="从项目中导入"></q-btn>
+            <q-btn flat dense label="从文件中导入"></q-btn>
+          </td>
+        </tr>
+        </tbody>
+      </q-markup-table>
     </div>
   </template>
 
