@@ -28,6 +28,10 @@ export interface ModelConfig {
   /** 是否加入到 module 的 exports 中 */
   joinModuleExports?: boolean;
 
+
+  /** 是否导出 Interface  */
+  exportInterface: boolean;
+
   /** 字段列表 */
   attrs: Array<AttrConfig>;
 }

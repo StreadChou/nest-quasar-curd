@@ -2,12 +2,13 @@
 import {useViewStore} from "stores/view-store";
 import {ref} from "vue";
 import {ProjectRecord, useDataStore} from "stores/data-store";
-import {ProjectConfig} from "app/type/JsonFileDefine/Project";
 import {ModuleConfig} from "app/type/JsonFileDefine/Module";
 import {ModelConfig} from "app/type/JsonFileDefine/Model";
 import CreateModel from "components/Model/CreateModel.vue";
 import AttrList from "components/Attr/AttrList.vue";
 import {AttrConfig} from "app/type/JsonFileDefine/Attr";
+import ModelBaseInfo from "components/Model/ModelBaseInfo.vue";
+import ControllerSetting from "components/Model/ControllerSetting.vue";
 
 const props = defineProps<{
   count: number,
@@ -23,7 +24,7 @@ const projectRecord = ref<ProjectRecord>(dataStore.getProjectRecord(props.count)
 const moduleConfig = ref<ModuleConfig>(projectRecord.value.json_data.modules[props.module.name] as ModuleConfig);
 const modelConfig = ref<ModelConfig>(moduleConfig.value.models[props.model.name] as ModelConfig)
 
-const form = ref<Partial<ModelConfig>>({
+const form = ref<ModelConfig>({
   name: modelConfig.value.name,
   dbName: modelConfig.value.dbName,
   joinModuleImports: modelConfig.value.joinModuleImports,
@@ -38,12 +39,16 @@ const form = ref<Partial<ModelConfig>>({
   joinModuleProviders: modelConfig.value.joinModuleProviders || true,
   joinModuleExports: modelConfig.value.joinModuleExports || true,
 
+  exportInterface: modelConfig.value.exportInterface,
+
   attrs: modelConfig.value.attrs || [],
 })
 
 const save = () => {
   dataStore.updateModel(props.count, props.module.name, form.value)
 }
+
+const tab = ref("ModelBaseInfo");
 
 </script>
 
@@ -52,74 +57,64 @@ const save = () => {
     <div class="row class bg-grey q-pa-sm">
       <q-space></q-space>
       <div class="q-gutter-x-sm">
+        <q-btn color="primary" dense size="sm" icon="save" @click="save"></q-btn>
         <CreateModel :count="count" :module="module"></CreateModel>
         <q-btn color="negative" dense size="sm" icon="close" @click="viewStore.closePanel(viewId)"></q-btn>
       </div>
     </div>
-    <div class="row q-col-gutter-x-md">
-      <div class="col">
-        <AttrList v-model="form.attrs as Array<AttrConfig>"/>
-      </div>
+    <div>
+      <q-splitter :model-value="10">
+        <template v-slot:before>
+          <q-tabs v-model="tab" vertical class="text-teal">
 
-      <div class="col-3">
-        <div>
-          <q-input standout dense v-model="form.name" label="名称" :disable="true"></q-input>
-        </div>
+            <q-tab name="ModelBaseInfo" label="基础信息"/>
+            <q-tab name="AttrList" label="字段列表"/>
 
-        <div>
-          <q-input standout v-model="form.dbName" label="数据名字"/>
-        </div>
+            <template v-if="form.exportController">
+              <q-tab name="ControllerSetting" label="Controller设置" no-caps/>
+            </template>
 
-        <div class="bg-grey-2 q-py-sm">
-          <q-checkbox v-model="form.exportController" label="是否导出controller"></q-checkbox>
-          <q-checkbox v-model="form.exportService" label="是否导出service"></q-checkbox>
-        </div>
+            <template v-if="form.exportService">
+              <q-tab name="ServiceSetting" label="Service设置" no-caps/>
+            </template>
 
+            <template v-if="form.exportInterface">
+              <q-tab name="InterfaceSetting" label="Interface设置" no-caps/>
+            </template>
 
-        <div class="bg-white border-title-box">
-          <div class="title">Model定义</div>
-          <div class="q-gutter-y-md">
-            <q-input standout v-model="form.dbName" label="数据库的表名"/>
-          </div>
-        </div>
+          </q-tabs>
+        </template>
 
-
-        <div class="bg-white border-title-box" v-if="form.exportController">
-          <div class="title">Controller定义</div>
-          <div class="q-gutter-y-md">
-
-            <q-input dense standout v-model="form.controllerClassName" label="controller名称">
-              <template #after>
-                <q-btn class="full-height" color="primary" label="自动推算" @click="autoCalcControllerName"></q-btn>
-              </template>
-            </q-input>
-
-            <q-input dense standout v-model="form.curdPath" label="Curd的路径">
-              <template #after>
-                <q-btn class="full-height" color="primary" label="自动推算" @click="autoCalcCurdPath"></q-btn>
-              </template>
-            </q-input>
-          </div>
-        </div>
-
-        <div class="bg-white border-title-box" v-if="form.exportService">
-          <div class="title">Service定义</div>
-          <div class="q-gutter-y-md">
-            <q-input standout dense v-model="form.serviceName" label="service的名字">
-              <template #after>
-                <q-btn class="full-height" color="primary" label="自动推算" @click="autoCalcServiceName"></q-btn>
-              </template>
-            </q-input>
-          </div>
-        </div>
+        <template v-slot:after>
+          <q-tab-panels v-model="tab" animated swipeable vertical
+                        transition-prev="jump-up" transition-next="jump-up"
+          >
 
 
-      </div>
+            <q-tab-panel name="ModelBaseInfo" class="q-gutter-y-md">
+              <ModelBaseInfo v-model="form"/>
+            </q-tab-panel>
 
-    </div>
+            <q-tab-panel name="AttrList" class="q-gutter-y-md">
+              <AttrList v-model="form.attrs as Array<AttrConfig>"/>
+            </q-tab-panel>
 
-    <div class="q-mt-md">
-      <q-btn class="full-width" label="保存" color="primary" @click="save"></q-btn>
+            <q-tab-panel name="ControllerSetting" class="q-gutter-y-md">
+              <ControllerSetting v-model="form"/>
+            </q-tab-panel>
+
+            <q-tab-panel name="ServiceSetting" class="q-gutter-y-md">
+              <AttrList v-model="form.attrs as Array<AttrConfig>"/>
+            </q-tab-panel>
+
+
+            <q-tab-panel name="InterfaceSetting" class="q-gutter-y-md">
+            </q-tab-panel>
+
+          </q-tab-panels>
+        </template>
+
+      </q-splitter>
     </div>
   </div>
 </template>
