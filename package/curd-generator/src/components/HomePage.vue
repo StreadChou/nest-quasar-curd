@@ -23,7 +23,8 @@ const drop = async (e: DragEvent) => {
   const files = e.dataTransfer?.files
   if (!files || files.length === 0) return
 
-  console.log(files[0])
+
+  console.log(files[0].path)
 }
 
 const selectFile = async () => {
