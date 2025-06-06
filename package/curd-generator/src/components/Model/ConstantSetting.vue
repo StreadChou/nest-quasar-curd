@@ -4,6 +4,9 @@ import {ConstantConfig, ModelConfig} from "app/type/JsonFileDefine/Model";
 import {useQuasar} from "quasar";
 import {UserInputError} from "src/app/ErrorHandler/UserInputError";
 import MonacoEditorDialog from "components/MonacoEditorDialog.vue";
+import MonacoEditor from "components/VMonacoEditor.vue";
+import {InvokeProxy} from "src/library/InvokeProxy";
+import {InvokeErrorHandler} from "src/helper/ErrorHelper";
 
 const $q = useQuasar();
 const props = defineProps<{
@@ -40,14 +43,23 @@ const add = () => {
   })
 }
 
-const startEditor = (item: ConstantConfig) => {
-  $q.dialog({
-    component: MonacoEditorDialog,
-    componentProps: {
-      data: item.value,
+const form = ref<ConstantConfig | undefined>(undefined);
+const startEndEditor = async (item?: ConstantConfig) => {
+  if (item) {
+    form.value = item;
+    return null;
+  } else if (form.value) {
+    const old = model.value.constant.find(ele => ele.name == form.value?.name);
+    if (old) {
+      const reply = await InvokeProxy("AppHandler.analysisTsExport", form.value.value)
+      if (reply.code != 0) return InvokeErrorHandler(reply);
+      form.value.exports = reply.data.exports;
+      old.value = form.value.value;
     }
-  })
+    form.value = undefined;
+  }
 }
+
 
 </script>
 
@@ -59,9 +71,16 @@ const startEditor = (item: ConstantConfig) => {
       <template v-for="item of model.constant">
         <tr>
           <td>{{ item.name }}</td>
-          <td>{{ item.exports }}</td>
+          <td>{{ item.exports.map(ele=> ele.name) }}</td>
           <td>
-            <q-btn label="编辑" @click="startEditor(item)"></q-btn>
+            <template v-if="form">
+              <template v-if="form.name == item.name">
+                <q-btn flat dense color="default" label="退出编辑" @click="startEndEditor()"></q-btn>
+              </template>
+            </template>
+            <template v-else>
+              <q-btn flat dense color="primary" label="编辑" @click="startEndEditor(item)"></q-btn>
+            </template>
           </td>
         </tr>
       </template>
@@ -72,6 +91,15 @@ const startEditor = (item: ConstantConfig) => {
       </tr>
       </tbody>
     </q-markup-table>
+    <div style="background: rgb(30,30,30)" v-if="form">
+      <div class="text-white q-px-md">文件:</div>
+      <MonacoEditor
+        v-model="form.value"
+        language="typescript"
+        height="500px"
+      ></MonacoEditor>
+    </div>
+
   </div>
 </template>
 

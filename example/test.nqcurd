@@ -65,7 +65,7 @@
           "constant": [
             {
               "name": "user.constant.ts",
-              "value": "",
+              "value": "export const a: string = \"123\";\nexport const b: string = \"123\";",
               "exports": []
             }
           ]

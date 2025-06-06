@@ -3,6 +3,7 @@ import {ipcMain, type IpcMainInvokeEvent} from "electron";
 import path from "path";
 import fs from "fs";
 import {JsonFile} from "app/type/JsonFileDefine/Index";
+import ts from "typescript";
 
 export class AppHandler {
   @IpcMainRegister({
@@ -39,10 +40,79 @@ export class AppHandler {
     return {code: 0, data: {targetPath: target, targetContent: data}}
   }
 
+  @IpcMainRegister({
+    name: "AppHandler.analysisTsExport",
+    type: ipcMain.handle,
+    desc: "创建一个项目",
+  })
+  analysisTsExport(event: IpcMainInvokeEvent, target: string) {
+    const reply = analyzeExports(target)
+    return {code: 0, data: {exports: reply}}
+  }
+
   private static _instance: AppHandler;
 
   public get Instance(): AppHandler {
     if (!AppHandler._instance) AppHandler._instance = new AppHandler()
     return AppHandler._instance
   }
+}
+
+
+function analyzeExports(code: string) {
+  const sourceFile = ts.createSourceFile(
+    "temp.ts",
+    code,
+    ts.ScriptTarget.Latest,
+    true,
+    ts.ScriptKind.TS
+  );
+
+  const exports: { name: string; isDefault?: boolean }[] = [];
+
+  sourceFile.forEachChild(node => {
+    const isExported = node.modifiers?.some(mod => mod.kind === ts.SyntaxKind.ExportKeyword);
+    const isDefault = node.modifiers?.some(mod => mod.kind === ts.SyntaxKind.DefaultKeyword);
+
+    if (isExported) {
+
+      // 变量声明（如 export const a = ...）
+      if (ts.isVariableStatement(node)) {
+        for (const declaration of node.declarationList.declarations) {
+          if (ts.isIdentifier(declaration.name)) {
+            exports.push({
+              name: declaration.name.text,
+              isDefault
+            });
+          }
+        }
+      }
+
+      // 函数、类、接口等
+      else if (
+        ts.isFunctionDeclaration(node) ||
+        ts.isClassDeclaration(node) ||
+        ts.isInterfaceDeclaration(node) ||
+        ts.isEnumDeclaration(node) ||
+        ts.isTypeAliasDeclaration(node)
+      ) {
+        if (node.name) {
+          exports.push({
+            name: node.name.text,
+            isDefault
+          });
+        }
+      }
+    }
+
+    // 处理 `export { a, b }`
+    if (ts.isExportDeclaration(node) && node.exportClause && ts.isNamedExports(node.exportClause)) {
+      for (const element of node.exportClause.elements) {
+        const name = element.name.text;
+        exports.push({name});
+      }
+    }
+  });
+
+  return exports;
 }
