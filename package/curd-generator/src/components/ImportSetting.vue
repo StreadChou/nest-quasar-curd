@@ -1,9 +1,13 @@
 <script setup lang="ts">
 import {ref, watch} from "vue";
-import {ImportDataConfig} from "app/type/TypescriptImport/ImportType";
+import {ImportDataConfig, ImportDataIc} from "app/type/TypescriptImport/ImportType";
+import {useQuasar} from "quasar";
+import ProjectImportExportDialog from "components/ProjectImportExportDialog.vue";
 
+const $q = useQuasar();
 const props = defineProps<{
-  modelValue: ImportDataConfig | undefined
+  count: number,
+  modelValue: ImportDataConfig | undefined,
 }>()
 
 const emit = defineEmits(["update:modelValue"])
@@ -12,6 +16,15 @@ watch(model, () => {
   emit("update:modelValue", model.value)
 }, {deep: true})
 
+
+const openProjectImport = () => {
+  $q.dialog({
+    component: ProjectImportExportDialog,
+    componentProps: {count: props.count}
+  }).onOk((data: ImportDataIc) => {
+    model.value.imports.push(data);
+  })
+}
 
 </script>
 
@@ -36,7 +49,7 @@ watch(model, () => {
     </template>
     <tr>
       <td colspan="5">
-        <q-btn flat dense label="从项目中导入"></q-btn>
+        <q-btn flat dense label="从项目中导入" @click="openProjectImport"></q-btn>
         <q-btn flat dense label="从文件中导入"></q-btn>
       </td>
     </tr>

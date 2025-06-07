@@ -38,6 +38,14 @@
               "mark": "名称"
             },
             {
+              "name": "test",
+              "attrTpe": "Column",
+              "attrDecoratorType": "Column",
+              "columnOptions": {
+                "type": "enum"
+              }
+            },
+            {
               "name": "createdAt",
               "mark": "创建时间",
               "attrTpe": "Column",
@@ -65,8 +73,21 @@
           "constant": [
             {
               "name": "user.constant.ts",
-              "value": "export const a: string = \"123\";\nexport const b: string = \"123\";",
-              "exports": []
+              "value": "export const a: string = \"123\";\nexport const b: string = \"123\";\nexport interface TestInterface{\n    name: string;\n}",
+              "exports": [
+                {
+                  "name": "a",
+                  "isDefault": false
+                },
+                {
+                  "name": "b",
+                  "isDefault": false
+                },
+                {
+                  "name": "TestInterface",
+                  "isDefault": false
+                }
+              ]
             }
           ]
         }

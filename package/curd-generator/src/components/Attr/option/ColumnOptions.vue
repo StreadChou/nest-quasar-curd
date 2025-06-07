@@ -14,17 +14,6 @@ watch(model, () => {
   emit("update:modelValue", model.value)
 }, {deep: true})
 
-
-const GeneratedColumnOptionArr = ref([
-  {label: "True", value: true},
-  {label: "False", value: false},
-  {label: "increment", value: "increment"},
-  {label: "uuid", value: "uuid"},
-  {label: "rowid", value: "rowid"},
-  {label: "identity", value: "identity"},
-])
-
-
 </script>
 
 <template>

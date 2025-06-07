@@ -11,7 +11,8 @@ import AttrBaseInfo from "components/Attr/AttrBaseInfo.vue";
 
 const $q = useQuasar();
 const props = defineProps<{
-  modelValue: Array<AttrConfig>
+  modelValue: Array<AttrConfig>,
+  count: number,
 }>()
 
 const emit = defineEmits(["update:modelValue"])
@@ -67,13 +68,16 @@ const deleteAttr = (index: number) => {
   model.value.splice(index, 1);
 }
 
-// 编辑自动
+// 编辑字段
 const editorAttr = (index: number) => {
   const raw = model.value[index];
 
   $q.dialog({
     component: AttrEditorDialog,
-    componentProps: {data: raw},
+    componentProps: {
+      data: raw,
+      count: props.count,
+    },
   }).onOk((target: AttrConfig) => {
     model.value[index] = target;
   })

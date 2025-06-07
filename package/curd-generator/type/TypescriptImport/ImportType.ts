@@ -19,10 +19,16 @@ export interface ImportDataConfig {
   /** 数据类型: 默认 any */
   type: string,
   /** 需要导入的内容 */
-  imports: Array<{
-    from: "project" | "file",
-    name: string,
-    file: string,
-    type: ImportType,
-  }>,
+  imports: Array<ImportDataIc>,
+}
+
+export interface ImportDataIc {
+  /** 从哪里导入 */
+  from: "project" | "file",
+  /** 导入的名字是啥 */
+  name: string,
+  /** 导入的路径是啥 */
+  file: string,
+  /** 导入类型 */
+  type: ImportType,
 }

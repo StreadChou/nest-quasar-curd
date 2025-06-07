@@ -21,7 +21,6 @@ async function createWindow() {
     height: 1080,
     useContentSize: true,
     webPreferences: {
-      contextIsolation: false,
       nodeIntegration: true,
       sandbox: false,
       // More info: https://v2.quasar.dev/quasar-cli-vite/developing-electron-apps/electron-preload-script

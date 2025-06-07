@@ -17,7 +17,10 @@ import WithWidthColumnOptions from "components/Attr/option/WithWidthColumnOption
 import ImportSetting from "components/ImportSetting.vue";
 
 const $q = useQuasar();
-const props = defineProps<{ data: AttrConfig }>()
+const props = defineProps<{
+  data: AttrConfig,
+  count: number,
+}>()
 defineEmits([
   ...useDialogPluginComponent.emits
 ])
@@ -58,15 +61,15 @@ const tab = ref("BaseInfo");
                   <q-tab name="ColumnOptions" label="字段设置"/>
                   <q-tab name="CommonOptions" label="通用设置"/>
 
-                  <template v-if="WithLengthColumnType.includes(form.columnOptions.type as string)">
+                  <template v-if="form.columnOptions?.type && WithLengthColumnType.includes(form.columnOptions.type as string)">
                     <q-tab name="WithLengthColumnOptions" label="WithLength" no-caps/>
                   </template>
 
-                  <template v-if="WithWidthColumnType.includes(form.columnOptions.type as string)">
+                  <template v-if="form.columnOptions?.type && WithWidthColumnType.includes(form.columnOptions.type as string)">
                     <q-tab name="WithWidthColumnOptions" label="WithWidth" no-caps/>
                   </template>
 
-                  <template v-if="ColumnTypeConfig[form.columnOptions.type as ColumnType].needImport">
+                  <template v-if="form.columnOptions?.type && ColumnTypeConfig[form.columnOptions.type as ColumnType].needImport">
                     <q-tab name="ImportSetting" label="导入设置" no-caps/>
                   </template>
 
@@ -101,7 +104,7 @@ const tab = ref("BaseInfo");
                 </q-tab-panel>
 
                 <q-tab-panel name="ImportSetting">
-                  <ImportSetting v-model="form.columnOptions.typescriptType"/>
+                  <ImportSetting :count="count" v-model="form.columnOptions.typescriptType"/>
                 </q-tab-panel>
 
 

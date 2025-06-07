@@ -101,7 +101,7 @@ const tab = ref("ModelBaseInfo");
             </q-tab-panel>
 
             <q-tab-panel name="AttrList" class="q-gutter-y-md">
-              <AttrList v-model="form.attrs as Array<AttrConfig>"/>
+              <AttrList :count="count" v-model="form.attrs as Array<AttrConfig>"/>
             </q-tab-panel>
 
             <q-tab-panel name="ControllerSetting" class="q-gutter-y-md">

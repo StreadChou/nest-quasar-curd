@@ -1,9 +1,9 @@
-import {defineStore, acceptHMRUpdate} from 'pinia';
+import {acceptHMRUpdate, defineStore} from 'pinia';
 import {InvokeProxy} from "src/library/InvokeProxy";
 import {JsonFile} from "app/type/JsonFileDefine/Index";
 import {useHistoryStore} from "stores/history-store";
 import {ProjectHistoryItem} from "app/type/Project";
-import {InvokeErrorHandler, ShowMessage} from "src/helper/ErrorHelper";
+import {InvokeErrorHandler} from "src/helper/ErrorHelper";
 import type {QTreeNode} from "quasar";
 import {ModuleConfig} from "app/type/JsonFileDefine/Module";
 import {ModelConfig} from "app/type/JsonFileDefine/Model";
@@ -12,6 +12,7 @@ import ProjectEditor from "components/Project/ProjectEditor.vue";
 import {ProjectConfig} from "app/type/JsonFileDefine/Project";
 import ModuleEditor from "components/Module/ModuleEditor.vue";
 import ModelEditor from "components/Model/ModelEditor.vue";
+import {ImportDataIc, ImportType} from "app/type/TypescriptImport/ImportType";
 
 export interface ProjectRecord {
   json_data: JsonFile,
@@ -275,6 +276,55 @@ export const useDataStore = defineStore('data', {
         body: count.toString(),
         handler: (node) => this.selectModel(node, json_data, module, model),
       }
+    },
+
+    getJsonDataAsSelectOptions(count: number) {
+      let options: Array<{ label: string, value: ImportDataIc }> = [];
+      console.log({projectRecord: this.projectRecord})
+      console.log({count})
+      const jsonData = this.getJsonData(count);
+      for (const module_name in jsonData.modules) {
+        const module = jsonData.modules[module_name];
+        options.push({
+          label: `[${module.name}]`,
+          value: {
+            from: "project",
+            name: module_name,
+            file: module_name,
+            type: ImportType.ImportItem
+          }
+        })
+
+        for (const model_name in module.models) {
+          const model = module.models[model_name];
+          options.push({
+            label: `[${module.name}] - [${model.name}]`,
+            value: {
+              from: "project",
+              name: model_name,
+              file: `${module.name}.${model.name}`,
+              type: ImportType.ImportItem
+            }
+          })
+
+          for (const constant of model.constant) {
+
+            for (const item of constant.exports) {
+              options.push({
+                label: `[${module.name}] - [${model.name}] - [${constant.name}] - [${item.name}]`,
+                value: {
+                  from: "project",
+                  name: item.name,
+                  file: `${module.name}.${model.name}.${constant.name}.${item.name}`,
+                  type: item.isDefault ? ImportType.ImportDefault : ImportType.ImportItem,
+                }
+              })
+            }
+
+          }
+        }
+      }
+      return options;
     },
 
     // async loadData() {

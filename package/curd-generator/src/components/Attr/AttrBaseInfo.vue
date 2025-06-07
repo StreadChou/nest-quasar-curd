@@ -40,10 +40,9 @@ watch(() => model.value.attrTpe, (newVal, oldVal) => {
       model.value.attrDecoratorType = options.value[0];
     }
   }
-  if (newVal != AttrType.Column) {
-    model.value.columnOptions = {};
-  }
-}, {deep: true})
+  model.value.columnOptions = model.value.columnOptions || {};
+
+}, {deep: true, immediate: true})
 
 
 const options = ref<ColumnType[]>([...ColumnTypeArr]);
