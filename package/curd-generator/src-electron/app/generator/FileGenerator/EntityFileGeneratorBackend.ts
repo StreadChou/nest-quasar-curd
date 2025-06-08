@@ -1,6 +1,5 @@
 import {Generator} from "app/src-electron/app/Generator";
 import {AbstractFileGenerator} from "app/src-electron/app/generator/FileGenerator/AbstractFileGenerator";
-import {ModelsItem, ModulesItem} from "app/type/JsonFileDefine/Index";
 import path from "path";
 import {ModelGenerator} from "app/src-electron/app/ModelGenerator";
 

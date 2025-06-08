@@ -29,13 +29,13 @@ const save = () => {
     <div class="row class bg-grey q-pa-sm">
       <q-space></q-space>
       <div class="q-gutter-x-sm">
+        <q-btn color="primary" dense size="sm" icon="save" @click="save"></q-btn>
         <CreateModule :count="count"></CreateModule>
         <q-btn color="negative" dense size="sm" icon="close" @click="viewStore.closePanel(viewId)"></q-btn>
       </div>
     </div>
     <div class="q-gutter-y-md">
       <q-input standout dense v-model="form.name" label="名称"></q-input>
-      <q-btn class="full-width" color="primary" @click="save" label="保存"></q-btn>
     </div>
     <div class="q-pa-md">
       <q-markup-table flat separator="cell" class="bg-none" dense bordered>

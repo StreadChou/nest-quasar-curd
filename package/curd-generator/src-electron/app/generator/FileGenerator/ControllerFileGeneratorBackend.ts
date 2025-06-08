@@ -1,9 +1,10 @@
 import {Generator} from "app/src-electron/app/Generator";
 import {AbstractFileGenerator} from "app/src-electron/app/generator/FileGenerator/AbstractFileGenerator";
-import {ModelsItem, ModulesItem} from "app/type/JsonFileDefine/Index";
 import path from "path";
 import {ModelGenerator} from "app/src-electron/app/ModelGenerator";
 import {lowercaseFirstLetter} from "app/src-electron/helper/TxtHelper";
+import {ModuleConfig} from "app/type/JsonFileDefine/Module";
+import {ModelConfig} from "app/type/JsonFileDefine/Model";
 
 /** controller 文件生成 */
 export class ControllerFileGeneratorBackend extends AbstractFileGenerator {
@@ -20,11 +21,11 @@ export class ControllerFileGeneratorBackend extends AbstractFileGenerator {
     this.modelGenerator = modulesGenerator;
   }
 
-  get moduleData(): ModulesItem {
+  get moduleData(): ModuleConfig {
     return this.modelGenerator.modulesGenerator.moduleData;
   }
 
-  get modelData(): ModelsItem {
+  get modelData(): ModelConfig {
     return this.modelGenerator.modelData;
   }
 

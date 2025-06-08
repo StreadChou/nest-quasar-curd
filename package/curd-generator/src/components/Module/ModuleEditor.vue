@@ -34,6 +34,7 @@ const save = () => {
     <div class="row class bg-grey q-pa-sm">
       <q-space></q-space>
       <div class="q-gutter-x-sm">
+        <q-btn color="primary" dense size="sm" icon="save" @click="save"></q-btn>
         <CreateModel :count="count" :module="module"></CreateModel>
         <q-btn color="negative" dense size="sm" icon="close" @click="viewStore.closePanel(viewId)"></q-btn>
       </div>
@@ -41,7 +42,7 @@ const save = () => {
     <div class="q-gutter-y-md">
       <div>
         <q-input standout dense v-model="form.name" label="名称" :disable="true"></q-input>
-      </div>
+    </div>
 
       <div class="bg-grey-2 q-py-sm">
         <q-checkbox v-model="form.isExport" label="是否导出"></q-checkbox>
@@ -49,9 +50,6 @@ const save = () => {
         <q-checkbox v-model="form.isGlobal" label="是否全局 "></q-checkbox>
       </div>
 
-      <div class="q-mt-md">
-        <q-btn class="full-width" label="保存" color="primary" @click="save"></q-btn>
-      </div>
     </div>
   </div>
 </template>

@@ -1,18 +1,19 @@
 import {Generator} from "app/src-electron/app/Generator";
-import {ModelsItem, ModulesItem} from "app/type/JsonFileDefine/Index";
 import {ModelGenerator} from "app/src-electron/app/ModelGenerator";
 import {ModuleFileGeneratorBackend} from "app/src-electron/app/generator/FileGenerator/ModuleFileGeneratorBackend";
+import {ModuleConfig} from "app/type/JsonFileDefine/Module";
+import {ModelConfig} from "app/type/JsonFileDefine/Model";
 
 export class ModulesGenerator {
   generator: Generator
-  moduleData: ModulesItem
+  moduleData: ModuleConfig
 
   /** 模型列表 */
   models: Record<string, ModelGenerator> = {};
   /** 文件生成器 */
   moduleFileGeneratorBackend!: ModuleFileGeneratorBackend;
 
-  constructor(generator: Generator, module: ModulesItem) {
+  constructor(generator: Generator, module: ModuleConfig) {
     this.generator = generator;
     this.moduleData = module;
     this.initInstance();
@@ -22,7 +23,7 @@ export class ModulesGenerator {
     this.moduleData = this.moduleData || {};
     this.moduleData.models = this.moduleData.models || {};
     for (const model_name in this.moduleData.models) {
-      const model = this.moduleData.models[model_name] as ModelsItem;
+      const model = this.moduleData.models[model_name] as ModelConfig;
       const instance = new ModelGenerator(this.generator, this, model)
       this.models[instance.modelData.name as string] = instance;
     }

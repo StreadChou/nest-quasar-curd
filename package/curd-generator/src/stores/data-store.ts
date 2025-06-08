@@ -78,6 +78,13 @@ export const useDataStore = defineStore('data', {
       await historyStore.pushOrUpdate(item);
     },
 
+    async startExport(count: number) {
+      await this.saveData(count);
+      const projectRecord = this.getProjectRecord(count)
+      const data = await InvokeProxy("FileHandler.startExport", projectRecord.file_path)
+    },
+
+
     async updateProject(count: number, data: Partial<ProjectConfig>) {
       const json_data = this.getJsonData(count);
       Object.assign(json_data.project, data);
@@ -331,15 +338,6 @@ export const useDataStore = defineStore('data', {
     //   const data = await InvokeProxy("FileHandler.loadJsonFile")
     //   this.initData(data)
     // },
-    // async startExport() {
-    //   const info = JSON.stringify({
-    //     json_file_path: this.json_file_path,
-    //     backend_path: this.backend_path,
-    //     frontend_path: this.frontend_path,
-    //   })
-    //   const data = await InvokeProxy("FileHandler.startExport", info)
-    // },
-    // async saveData() {
 
     // },
     // initData(data: JsonFile) {

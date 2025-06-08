@@ -1,5 +1,5 @@
 import fs from "fs";
-import {JsonFile, ModulesItem} from "app/type/JsonFileDefine/Index";
+import {JsonFile} from "app/type/JsonFileDefine/Index";
 import {ModulesGenerator} from "app/src-electron/app/ModulesGenerator";
 import {
   ModuleListFileGeneratorBackend
@@ -16,11 +16,10 @@ import {
 import {
   CurdDefineFileGeneratorBackend
 } from "app/src-electron/app/generator/FileGenerator/CurdDefineFileGeneratorBackend";
+import {ModuleConfig} from "app/type/JsonFileDefine/Module";
 
 export class Generator {
   json_file_path: string
-  backend_path: string
-  frontend_path: string
   data: JsonFile;
 
   /** 所有的模块 */
@@ -35,12 +34,18 @@ export class Generator {
   /** entity 列表生成 */
   entityListFileGeneratorBackend!: EntityListFileGeneratorBackend;
 
-  constructor(data: { json_file_path: string, backend_path: string, frontend_path: string }) {
-    this.json_file_path = data.json_file_path
-    this.backend_path = data.backend_path
-    this.frontend_path = data.frontend_path
-    this.data = JSON.parse(fs.readFileSync(this.json_file_path, "utf-8").toString());
+  constructor(json_file_path: string, data: JsonFile) {
+    this.json_file_path = json_file_path
+    this.data = data;
     this.initInstance();
+  }
+
+  get backend_path() {
+    return "";
+  }
+
+  get frontend_path() {
+    return "";
   }
 
 
@@ -52,7 +57,7 @@ export class Generator {
     this.data = this.data || {};
     this.data.modules = this.data.modules || {};
     for (const module_name in this.data.modules) {
-      const module = this.data.modules[module_name] as ModulesItem;
+      const module = this.data.modules[module_name] as ModuleConfig;
       const instance = new ModulesGenerator(this, module);
       this.modules[instance.moduleData.name as string] = instance;
     }
