@@ -2,7 +2,7 @@
   "project": {
     "name": "测试项目",
     "created_at": 1749002620187,
-    "updated_at": 1749367433432
+    "updated_at": 1749373397305
   },
   "collect": {
     "toModulesList": true,
@@ -38,9 +38,9 @@
               "mark": "名称"
             },
             {
-              "name": "test",
-              "attrTpe": "Column",
-              "attrDecoratorType": "Column",
+              "name": "info",
+              "attrTpe": "Relation",
+              "attrDecoratorType": "OneToOne",
               "columnOptions": {
                 "type": "enum",
                 "typescriptType": {
@@ -60,6 +60,32 @@
                     }
                   ]
                 }
+              },
+              "relationOptions": {},
+              "relationExtension": {
+                "target": {
+                  "from": "project",
+                  "name": "UserInfoModel",
+                  "file": "UserModule.UserInfoModel",
+                  "type": "ImportItem"
+                },
+                "JoinColumn": true
+              }
+            },
+            {
+              "name": "posts",
+              "attrTpe": "Relation",
+              "attrDecoratorType": "OneToMany",
+              "columnOptions": {},
+              "relationOptions": {},
+              "relationExtension": {
+                "target": {
+                  "from": "project",
+                  "name": "PostModel",
+                  "file": "PostModule.PostModel",
+                  "type": "ImportItem"
+                },
+                "targetKey": "user"
               }
             },
             {
@@ -116,14 +142,56 @@
           "exportService": false,
           "attrs": [
             {
+              "name": "createdAt",
+              "mark": "创建时间",
+              "attrTpe": "Column",
+              "attrDecoratorType": "CreateDateColumn",
+              "columnOptions": {}
+            },
+            {
+              "name": "updatedAt",
+              "mark": "更新时间",
+              "attrTpe": "Column",
+              "attrDecoratorType": "UpdateDateColumn",
+              "columnOptions": {}
+            },
+            {
+              "name": "deletedAt",
+              "mark": "删除时间",
+              "attrTpe": "Column",
+              "attrDecoratorType": "DeleteDateColumn",
+              "columnOptions": {}
+            }
+          ],
+          "controllerClassName": "",
+          "curdPath": "",
+          "joinModuleControllers": true,
+          "serviceName": "",
+          "joinModuleProviders": true,
+          "joinModuleExports": true,
+          "constant": []
+        }
+      }
+    },
+    "PostModule": {
+      "name": "PostModule",
+      "isExport": true,
+      "toList": true,
+      "isGlobal": false,
+      "models": {
+        "PostModel": {
+          "name": "PostModel",
+          "dbName": "PostModel",
+          "joinModuleImports": true,
+          "exportController": false,
+          "exportService": false,
+          "attrs": [
+            {
               "name": "user",
               "attrTpe": "Relation",
-              "attrDecoratorType": "OneToOne",
+              "attrDecoratorType": "ManyToOne",
               "columnOptions": {},
-              "relationOptions": {
-                "lazy": false,
-                "eager": true
-              },
+              "relationOptions": {},
               "relationExtension": {
                 "target": {
                   "from": "project",
@@ -131,8 +199,7 @@
                   "file": "UserModule.UserModel",
                   "type": "ImportItem"
                 },
-                "JoinColumn": true,
-                "targetKey": "id"
+                "targetKey": "posts"
               }
             },
             {

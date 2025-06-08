@@ -83,16 +83,8 @@ const tab = ref("BaseInfo");
 
                 <template v-if="form.attrTpe == AttrType.Relation">
 
-                  <template v-if="form.attrDecoratorType == AttrRelationDecoratorType.OneToOne">
-
-                  </template>
-
-                  <template v-if="[
-                      AttrRelationDecoratorType.OneToOne
-                    ].includes(form.attrDecoratorType)">
-                    <q-tab name="RelationSetting" label="关系设置" no-caps/>
-                    <q-tab name="RelationOptionSetting" label="关系参数" no-caps/>
-                  </template>
+                  <q-tab name="RelationSetting" label="关系设置" no-caps/>
+                  <q-tab name="RelationOptionSetting" label="关系参数" no-caps/>
 
                 </template>
 

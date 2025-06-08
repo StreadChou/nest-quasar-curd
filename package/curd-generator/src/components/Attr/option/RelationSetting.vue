@@ -5,6 +5,7 @@ import {AttrConfig} from "app/type/JsonFileDefine/Attr";
 import ProjectImportExportDialog from "components/ImportSetting/ProjectImportExportDialog.vue";
 import {ImportDataIc} from "app/type/TypescriptImport/ImportType";
 import FileImportExportDialog from "components/ImportSetting/FileImportExportDialog.vue";
+import {AttrRelationDecoratorType} from "app/type/JsonFileDefine/Columns/ColumnsType";
 
 const $q = useQuasar();
 const props = defineProps<{
@@ -51,15 +52,24 @@ const openFileImport = () => {
         <td class="text-white" style="background: rgb(30,30,30)">
           <div class="text-grey-7"># 示例如下:</div>
           <div v-if="model.relationExtension.targetKey">
-            @OneToOne(() => {{ model.relationExtension.target.name }}, target =>
+            @{{ model.attrDecoratorType }}(() => {{ model.relationExtension.target.name }}, target =>
             target.{{ model.relationExtension.targetKey }})
           </div>
           <div v-else>
-            @OneToOne(() => {{ model.relationExtension.target.name }})
+            @{{ model.attrDecoratorType }}(() => {{ model.relationExtension.target.name }})
           </div>
 
           <div v-if="model.relationExtension.JoinColumn">@JoinColumn()</div>
-          <div>user: {{ model.relationExtension.target.name }};</div>
+          <div>{{ model.name }}:
+            <template
+              v-if="[AttrRelationDecoratorType.ManyToMany, AttrRelationDecoratorType.OneToMany].includes(model.attrDecoratorType)">
+              Array<{{ model.relationExtension.target.name }}>;
+            </template>
+            <template v-else>
+              {{ model.relationExtension.target.name }};
+            </template>
+
+          </div>
         </td>
       </tr>
     </template>

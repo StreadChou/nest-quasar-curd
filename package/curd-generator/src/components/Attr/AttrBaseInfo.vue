@@ -16,6 +16,7 @@ const props = defineProps<{
 
 const emit = defineEmits(["update:modelValue"])
 const model = ref<AttrConfig>(props.modelValue);
+model.value.columnOptions = model.value.columnOptions || {};
 watch(model, () => {
   emit("update:modelValue", model.value)
 }, {deep: true})
@@ -34,14 +35,12 @@ const attrDecoratorTypeOption = computed<AttrConfig["attrDecoratorType"][]>(() =
 
 watch(() => model.value.attrTpe, (newVal, oldVal) => {
   // 如果字段类型改变, 需要更新选择项
-  if (newVal != oldVal) {
+  if (oldVal && newVal != oldVal) {
     const options = attrDecoratorTypeOption;
     if (options.value && options.value[0]) {
       model.value.attrDecoratorType = options.value[0];
     }
   }
-  model.value.columnOptions = model.value.columnOptions || {};
-
 }, {deep: true, immediate: true})
 
 
