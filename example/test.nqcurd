@@ -89,6 +89,22 @@
               }
             },
             {
+              "name": "testEntity",
+              "attrTpe": "Relation",
+              "attrDecoratorType": "OneToOne",
+              "columnOptions": {},
+              "relationOptions": {},
+              "relationExtension": {
+                "target": {
+                  "from": "file",
+                  "name": "TestEntity",
+                  "file": "./nest/src/modules/TestEntity",
+                  "type": "ImportItem"
+                },
+                "targetKey": "id"
+              }
+            },
+            {
               "name": "createdAt",
               "mark": "创建时间",
               "attrTpe": "Column",
