@@ -70,7 +70,7 @@ const tab = ref("BaseInfo");
                   </template>
 
                   <template v-if="form.columnOptions?.type && ColumnTypeConfig[form.columnOptions.type as ColumnType].needImport">
-                    <q-tab name="ImportSetting" label="导入设置" no-caps/>
+                    <q-tab name="ImportSetting" label="类型导入设置" no-caps/>
                   </template>
 
                 </template>

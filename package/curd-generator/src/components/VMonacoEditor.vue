@@ -2,83 +2,83 @@
   <div ref="codeEditBox" class="codeEditBox"></div>
 </template>
 
-<script lang="ts">
-import {defineComponent, onBeforeUnmount, onMounted, ref, watch} from 'vue'
-
+<script lang="ts" setup>
+import { onMounted, onBeforeUnmount, ref, watch } from 'vue'
 import * as monaco from 'monaco-editor'
-import {editorProps} from "components/editorProps";
+import { editorProps } from 'components/editorProps'
 
-export default defineComponent({
-  name: 'MonacoEditor',
-  props: editorProps,
-  emits: ['update:modelValue', 'change', 'editor-mounted'],
-  setup(props, {emit}) {
-    let editor: monaco.editor.IStandaloneCodeEditor
-    const codeEditBox = ref()
+// 接收 props 和 emits
+const props = defineProps(editorProps)
+const emit = defineEmits(['update:modelValue', 'change', 'editor-mounted'])
 
-    const init = () => {
-      monaco.languages.typescript.javascriptDefaults.setDiagnosticsOptions({
-        noSemanticValidation: true,
-        noSyntaxValidation: false
-      })
-      monaco.languages.typescript.javascriptDefaults.setCompilerOptions({
-        target: monaco.languages.typescript.ScriptTarget.ES2020,
-        allowNonTsExtensions: true
-      })
+let editor: monaco.editor.IStandaloneCodeEditor
+const codeEditBox = ref<HTMLDivElement | null>(null)
 
-      editor = monaco.editor.create(codeEditBox.value, {
-        value: props.modelValue,
-        language: props.language,
-        theme: props.theme,
-        ...props.options
-      })
+const init = () => {
+  monaco.languages.typescript.javascriptDefaults.setDiagnosticsOptions({
+    noSemanticValidation: true,
+    noSyntaxValidation: false
+  })
+  monaco.languages.typescript.javascriptDefaults.setCompilerOptions({
+    target: monaco.languages.typescript.ScriptTarget.ES2020,
+    allowNonTsExtensions: true
+  })
 
-      // 监听值的变化
-      editor.onDidChangeModelContent(() => {
-        const value = editor.getValue() //给父组件实时返回最新文本
-        emit('update:modelValue', value)
-        emit('change', value)
-      })
+  editor = monaco.editor.create(codeEditBox.value!, {
+    value: props.modelValue,
+    language: props.language,
+    theme: props.theme,
+    ...props.options
+  })
 
-      emit('editor-mounted', editor)
+  editor.onDidChangeModelContent(() => {
+    const value = editor.getValue()
+    emit('update:modelValue', value)
+    emit('change', value)
+  })
+
+  emit('editor-mounted', editor)
+}
+
+// 同步外部 modelValue
+watch(
+  () => props.modelValue,
+  (newValue) => {
+    if (editor) {
+      const value = editor.getValue()
+      if (newValue !== value) {
+        editor.setValue(newValue)
+      }
     }
-    watch(
-      () => props.modelValue,
-      newValue => {
-        if (editor) {
-          const value = editor.getValue()
-          if (newValue !== value) {
-            editor.setValue(newValue)
-          }
-        }
-      }
-    )
-
-    watch(
-      () => props.options,
-      newValue => {
-        editor.updateOptions(newValue)
-      },
-      {deep: true}
-    )
-
-    watch(
-      () => props.language,
-      newValue => {
-        monaco.editor.setModelLanguage(editor.getModel()!, newValue)
-      }
-    )
-
-    onBeforeUnmount(() => {
-      editor.dispose()
-    })
-
-    onMounted(() => {
-      init()
-    })
-
-    return {codeEditBox}
   }
+)
+
+// 动态更新编辑器配置
+watch(
+  () => props.options,
+  (newOptions) => {
+    editor.updateOptions(newOptions)
+  },
+  { deep: true }
+)
+
+// 切换语言
+watch(
+  () => props.language,
+  (newLang) => {
+    const model = editor.getModel()
+    if (model) {
+      monaco.editor.setModelLanguage(model, newLang)
+    }
+  }
+)
+
+onMounted(() => {
+  init()
+})
+
+onBeforeUnmount(() => {
+  editor.dispose()
 })
 </script>
 

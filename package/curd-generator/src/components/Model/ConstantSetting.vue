@@ -3,8 +3,7 @@ import {ref, watch} from "vue";
 import {ConstantConfig, ModelConfig} from "app/type/JsonFileDefine/Model";
 import {useQuasar} from "quasar";
 import {UserInputError} from "src/app/ErrorHandler/UserInputError";
-import MonacoEditorDialog from "components/MonacoEditorDialog.vue";
-import MonacoEditor from "components/VMonacoEditor.vue";
+import VMonacoEditor from "components/VMonacoEditor.vue";
 import {InvokeProxy} from "src/library/InvokeProxy";
 import {InvokeErrorHandler} from "src/helper/ErrorHelper";
 
@@ -93,11 +92,11 @@ const startEndEditor = async (item?: ConstantConfig) => {
     </q-markup-table>
     <div style="background: rgb(30,30,30)" v-if="form">
       <div class="text-white q-px-md">文件:</div>
-      <MonacoEditor
+      <VMonacoEditor
         v-model="form.value"
         language="typescript"
         height="500px"
-      ></MonacoEditor>
+      ></VMonacoEditor>
     </div>
 
   </div>

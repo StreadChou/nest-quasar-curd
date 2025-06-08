@@ -4,6 +4,7 @@ import {ImportDataConfig, ImportDataIc} from "app/type/TypescriptImport/ImportTy
 import {useQuasar} from "quasar";
 import ProjectImportExportDialog from "components/ImportSetting/ProjectImportExportDialog.vue";
 import FileImportExportDialog from "components/ImportSetting/FileImportExportDialog.vue";
+import VMonacoEditor from "components/VMonacoEditor.vue";
 
 const $q = useQuasar();
 const props = defineProps<{
@@ -39,12 +40,21 @@ const openFileImport = () => {
 </script>
 
 <template>
-  <q-markup-table flat bordered>
+  <q-markup-table flat bordered separator="cell">
     <tbody>
     <tr>
-      <td colspan="5">
-        {{ model }}
-        <q-input v-model="model.type" label="字段 typescript 类型" dense standout/>
+      <td colspan="5" style="background: rgb(30,30,30)">
+        <div class="text-white q-px-md">类型设置:</div>
+        <VMonacoEditor
+          v-model="model.type"
+          language="typescript"
+          height="200px"
+        ></VMonacoEditor>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="5" class="text-center">
+        导入数据类型
       </td>
     </tr>
     <template v-for="item of model.imports">
@@ -60,8 +70,10 @@ const openFileImport = () => {
     </template>
     <tr>
       <td colspan="5">
-        <q-btn flat dense label="从项目中导入" @click="openProjectImport"></q-btn>
-        <q-btn flat dense label="从文件中导入" @click="openFileImport"></q-btn>
+        <div class="row justify-center">
+          <q-btn flat dense label="从项目中导入" @click="openProjectImport"></q-btn>
+          <q-btn flat dense label="从文件中导入" @click="openFileImport"></q-btn>
+        </div>
       </td>
     </tr>
     </tbody>
