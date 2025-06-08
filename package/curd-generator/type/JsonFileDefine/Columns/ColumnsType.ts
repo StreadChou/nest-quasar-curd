@@ -20,6 +20,7 @@ export const AttrColumnDecoratorTypeArray = Object.values(AttrColumnDecoratorTyp
 
 /** 关系装饰器 */
 export enum AttrRelationDecoratorType {
+  OneToOne = "OneToOne",
   JoinColumn = "JoinColumn",
 }
 

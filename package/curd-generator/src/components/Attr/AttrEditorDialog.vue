@@ -15,6 +15,9 @@ import {
 import WithLengthColumnOptions from "components/Attr/option/WithLengthColumnOptions.vue";
 import WithWidthColumnOptions from "components/Attr/option/WithWidthColumnOptions.vue";
 import ImportSetting from "components/ImportSetting/ImportSetting.vue";
+import {AttrRelationDecoratorType} from "app/type/JsonFileDefine/Columns/ColumnsType";
+import RelationOptionSetting from "components/Attr/option/RelationOptionSetting.vue";
+import RelationSetting from "components/Attr/option/RelationSetting.vue";
 
 const $q = useQuasar();
 const props = defineProps<{
@@ -42,7 +45,7 @@ const tab = ref("BaseInfo");
 
     <q-card class="full-width">
       <q-card-section>
-        <div class="text-h6">增加Table</div>
+        <div class="text-h6">字段编辑</div>
       </q-card-section>
 
       <q-separator/>
@@ -61,20 +64,37 @@ const tab = ref("BaseInfo");
                   <q-tab name="ColumnOptions" label="字段设置"/>
                   <q-tab name="CommonOptions" label="通用设置"/>
 
-                  <template v-if="form.columnOptions?.type && WithLengthColumnType.includes(form.columnOptions.type as string)">
+                  <template
+                    v-if="form.columnOptions?.type && WithLengthColumnType.includes(form.columnOptions.type as string)">
                     <q-tab name="WithLengthColumnOptions" label="WithLength" no-caps/>
                   </template>
 
-                  <template v-if="form.columnOptions?.type && WithWidthColumnType.includes(form.columnOptions.type as string)">
+                  <template
+                    v-if="form.columnOptions?.type && WithWidthColumnType.includes(form.columnOptions.type as string)">
                     <q-tab name="WithWidthColumnOptions" label="WithWidth" no-caps/>
                   </template>
 
-                  <template v-if="form.columnOptions?.type && ColumnTypeConfig[form.columnOptions.type as ColumnType].needImport">
+                  <template
+                    v-if="form.columnOptions?.type && ColumnTypeConfig[form.columnOptions.type as ColumnType].needImport">
                     <q-tab name="ImportSetting" label="类型导入设置" no-caps/>
                   </template>
 
                 </template>
 
+                <template v-if="form.attrTpe == AttrType.Relation">
+
+                  <template v-if="form.attrDecoratorType == AttrRelationDecoratorType.OneToOne">
+
+                  </template>
+
+                  <template v-if="[
+                      AttrRelationDecoratorType.OneToOne
+                    ].includes(form.attrDecoratorType)">
+                    <q-tab name="RelationSetting" label="关系设置" no-caps/>
+                    <q-tab name="RelationOptionSetting" label="关系参数" no-caps/>
+                  </template>
+
+                </template>
 
               </q-tabs>
             </template>
@@ -105,6 +125,14 @@ const tab = ref("BaseInfo");
 
                 <q-tab-panel name="ImportSetting">
                   <ImportSetting :count="count" v-model="form.columnOptions.typescriptType"/>
+                </q-tab-panel>
+
+                <q-tab-panel name="RelationSetting">
+                  <RelationSetting :count="count" v-model="form"/>
+                </q-tab-panel>
+
+                <q-tab-panel name="RelationOptionSetting">
+                  <RelationOptionSetting :count="count" v-model="form.relationOptions"/>
                 </q-tab-panel>
 
 

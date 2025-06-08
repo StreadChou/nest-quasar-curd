@@ -2,7 +2,7 @@
   "project": {
     "name": "测试项目",
     "created_at": 1749002620187,
-    "updated_at": 1749014159212
+    "updated_at": 1749367433432
   },
   "collect": {
     "toModulesList": true,
@@ -107,6 +107,63 @@
               ]
             }
           ]
+        },
+        "UserInfoModel": {
+          "name": "UserInfoModel",
+          "dbName": "UserInfoModel",
+          "joinModuleImports": true,
+          "exportController": false,
+          "exportService": false,
+          "attrs": [
+            {
+              "name": "user",
+              "attrTpe": "Relation",
+              "attrDecoratorType": "OneToOne",
+              "columnOptions": {},
+              "relationOptions": {
+                "lazy": false,
+                "eager": true
+              },
+              "relationExtension": {
+                "target": {
+                  "from": "project",
+                  "name": "UserModel",
+                  "file": "UserModule.UserModel",
+                  "type": "ImportItem"
+                },
+                "JoinColumn": true,
+                "targetKey": "id"
+              }
+            },
+            {
+              "name": "createdAt",
+              "mark": "创建时间",
+              "attrTpe": "Column",
+              "attrDecoratorType": "CreateDateColumn",
+              "columnOptions": {}
+            },
+            {
+              "name": "updatedAt",
+              "mark": "更新时间",
+              "attrTpe": "Column",
+              "attrDecoratorType": "UpdateDateColumn",
+              "columnOptions": {}
+            },
+            {
+              "name": "deletedAt",
+              "mark": "删除时间",
+              "attrTpe": "Column",
+              "attrDecoratorType": "DeleteDateColumn",
+              "columnOptions": {}
+            }
+          ],
+          "controllerClassName": "",
+          "curdPath": "",
+          "joinModuleControllers": true,
+          "serviceName": "",
+          "joinModuleProviders": true,
+          "joinModuleExports": true,
+          "constant": []
         }
       }
     }
