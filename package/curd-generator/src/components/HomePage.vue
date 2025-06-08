@@ -4,6 +4,7 @@ import {useDataStore} from "stores/data-store";
 import {useHistoryStore} from "stores/history-store";
 import {InvokeProxy} from "src/library/InvokeProxy";
 import {InvokeErrorHandler} from "src/helper/ErrorHelper";
+import DropSelectFile from "components/DropSelectFile.vue";
 
 const dataStore = useDataStore();
 const historyStore = useHistoryStore();
@@ -26,12 +27,9 @@ const drop = async (e: DragEvent) => {
   await dataStore.openProject(absPath)
 }
 
-const selectFile = async () => {
-  const reply = await InvokeProxy("FileHandler.openFileDialog")
-  if (reply.code != 0) return InvokeErrorHandler(reply);
-  const file = reply?.data?.file;
+const selectFile = async (file: string) => {
   if (!file) return null;
-  await dataStore.openProject(reply.data.file)
+  await dataStore.openProject(file)
 }
 
 onMounted(() => {
@@ -42,19 +40,7 @@ onMounted(() => {
 
 <template>
   <div class="q-pa-md">
-    <div
-      class="drop-zone"
-      @dragover.prevent="onDragOver"
-      @dragleave.prevent="onDragLeave"
-      @drop.prevent="drop"
-      :class="{ 'drag-active': isDragging }"
-    >
-      <q-icon name="cloud_upload" size="48px"/>
-      <div class="text-h6">拖拽文件到此处</div>
-      <div class="text-subtitle1">或点击选择文件</div>
-
-      <q-btn label="选择文件" color="primary" @click="selectFile"/>
-    </div>
+    <DropSelectFile @select-file="selectFile"></DropSelectFile>
     <div class="q-mt-md row">
       <q-markup-table class="bg-none" flat separator="cell" bordered wrap-cells>
         <thead>
