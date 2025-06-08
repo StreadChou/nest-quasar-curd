@@ -42,7 +42,18 @@
               "attrTpe": "Column",
               "attrDecoratorType": "Column",
               "columnOptions": {
-                "type": "enum"
+                "type": "enum",
+                "typescriptType": {
+                  "type": "any",
+                  "imports": [
+                    {
+                      "from": "project",
+                      "name": "TestInterface",
+                      "file": "UserModule.UserModel.user.constant.ts.TestInterface",
+                      "type": "ImportItem"
+                    }
+                  ]
+                }
               }
             },
             {

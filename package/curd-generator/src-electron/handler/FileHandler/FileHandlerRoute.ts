@@ -1,4 +1,4 @@
-import {contextBridge} from 'electron'
+import {contextBridge, webUtils} from 'electron'
 import {InvokeHelper} from "app/src-electron/handler/RendererHelper";
 
 contextBridge.exposeInMainWorld('FileHandler', {
@@ -7,4 +7,7 @@ contextBridge.exposeInMainWorld('FileHandler', {
   loadJsonFile: (...args: any[]) => InvokeHelper("FileHandler.loadJsonFile", args),
   saveJsonFile: (...args: any[]) => InvokeHelper("FileHandler.saveJsonFile", args),
   startExport: (...args: any[]) => InvokeHelper("FileHandler.startExport", args),
+  getPathForFile: (file: File) => {
+    return webUtils.getPathForFile(file)
+  }
 })

@@ -22,9 +22,8 @@ const drop = async (e: DragEvent) => {
   isDragging.value = false
   const files = e.dataTransfer?.files
   if (!files || files.length === 0) return
-
-
-  console.log(files[0].path)
+  const absPath = await InvokeProxy("FileHandler.getPathForFile", files[0])
+  await dataStore.openProject(absPath)
 }
 
 const selectFile = async () => {
