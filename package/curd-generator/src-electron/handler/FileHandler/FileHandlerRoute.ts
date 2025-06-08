@@ -7,6 +7,7 @@ contextBridge.exposeInMainWorld('FileHandler', {
   loadJsonFile: (...args: any[]) => InvokeHelper("FileHandler.loadJsonFile", args),
   saveJsonFile: (...args: any[]) => InvokeHelper("FileHandler.saveJsonFile", args),
   startExport: (...args: any[]) => InvokeHelper("FileHandler.startExport", args),
+  getImportPath: (...args: any[]) => InvokeHelper("FileHandler.getImportPath", args),
   getPathForFile: (file: File) => {
     return webUtils.getPathForFile(file)
   }

@@ -28,7 +28,6 @@ const drop = async (e: DragEvent) => {
 
 const selectFile = async () => {
   const reply = await InvokeProxy("FileHandler.openFileDialog")
-  console.log(reply);
   if (reply.code != 0) return InvokeErrorHandler(reply);
   const file = reply?.data?.file;
   if (!file) return null;

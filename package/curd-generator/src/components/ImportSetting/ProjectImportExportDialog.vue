@@ -3,6 +3,7 @@ import {useDialogPluginComponent, useQuasar} from 'quasar'
 import {ref} from "vue";
 import {ColumnType, ColumnTypeArr,} from "app/type/JsonFileDefine/Columns/AttrType/AttrTypeColumn/ColumnType";
 import {useDataStore} from "stores/data-store";
+import {ImportDataIc} from "app/type/TypescriptImport/ImportType";
 
 const $q = useQuasar();
 const dataStore = useDataStore();
@@ -18,7 +19,7 @@ const {dialogRef, onDialogHide, onDialogOK} = useDialogPluginComponent()
 
 const rawOptions = dataStore.getJsonDataAsSelectOptions(props.count)
 
-const options = ref<ColumnType[]>([...rawOptions]);
+const options = ref<{ value: ImportDataIc, label: string }[]>([...rawOptions]);
 
 const filterFn = (val: string, update: any, abort: any) => {
   update(() => {
@@ -41,7 +42,7 @@ async function onOKClick() {
 
     <q-card class="full-width">
       <q-card-section>
-        <div class="text-h6">增加Table</div>
+        <div class="text-h6">从项目中导入</div>
       </q-card-section>
 
       <q-separator/>

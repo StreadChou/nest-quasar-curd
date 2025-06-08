@@ -43,12 +43,24 @@ export class AppHandler {
   @IpcMainRegister({
     name: "AppHandler.analysisTsExport",
     type: ipcMain.handle,
-    desc: "创建一个项目",
+    desc: "分析TS文本的导出信息",
   })
   analysisTsExport(event: IpcMainInvokeEvent, target: string) {
     const reply = analyzeExports(target)
     return {code: 0, data: {exports: reply}}
   }
+
+  @IpcMainRegister({
+    name: "AppHandler.analysisTsFileExport",
+    type: ipcMain.handle,
+    desc: "分析TS文件的导出信息",
+  })
+  analysisTsFileExport(event: IpcMainInvokeEvent, target: string) {
+    const content = fs.readFileSync(target).toString();
+    const reply = analyzeExports(content)
+    return {code: 0, data: {exports: reply}}
+  }
+
 
   private static _instance: AppHandler;
 

@@ -14,7 +14,7 @@ import {
 } from "app/type/JsonFileDefine/Columns/AttrType/AttrTypeColumn/ColumnType";
 import WithLengthColumnOptions from "components/Attr/option/WithLengthColumnOptions.vue";
 import WithWidthColumnOptions from "components/Attr/option/WithWidthColumnOptions.vue";
-import ImportSetting from "components/ImportSetting.vue";
+import ImportSetting from "components/ImportSetting/ImportSetting.vue";
 
 const $q = useQuasar();
 const props = defineProps<{

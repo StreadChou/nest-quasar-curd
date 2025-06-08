@@ -44,12 +44,18 @@
               "columnOptions": {
                 "type": "enum",
                 "typescriptType": {
-                  "type": "any",
+                  "type": "ProjectInterface<TestInterface>",
                   "imports": [
                     {
                       "from": "project",
                       "name": "TestInterface",
                       "file": "UserModule.UserModel.user.constant.ts.TestInterface",
+                      "type": "ImportItem"
+                    },
+                    {
+                      "from": "file",
+                      "name": "ProjectInterface",
+                      "file": "./nest/src/ProjectInterface",
                       "type": "ImportItem"
                     }
                   ]

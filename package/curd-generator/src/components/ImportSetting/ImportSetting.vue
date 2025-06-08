@@ -2,7 +2,8 @@
 import {ref, watch} from "vue";
 import {ImportDataConfig, ImportDataIc} from "app/type/TypescriptImport/ImportType";
 import {useQuasar} from "quasar";
-import ProjectImportExportDialog from "components/ProjectImportExportDialog.vue";
+import ProjectImportExportDialog from "components/ImportSetting/ProjectImportExportDialog.vue";
+import FileImportExportDialog from "components/ImportSetting/FileImportExportDialog.vue";
 
 const $q = useQuasar();
 const props = defineProps<{
@@ -26,6 +27,15 @@ const openProjectImport = () => {
   })
 }
 
+const openFileImport = () => {
+  $q.dialog({
+    component: FileImportExportDialog,
+    componentProps: {count: props.count}
+  }).onOk((data: ImportDataIc) => {
+    if (data) model.value.imports.push(data);
+  })
+}
+
 </script>
 
 <template>
@@ -33,6 +43,7 @@ const openProjectImport = () => {
     <tbody>
     <tr>
       <td colspan="5">
+        {{ model }}
         <q-input v-model="model.type" label="字段 typescript 类型" dense standout/>
       </td>
     </tr>
@@ -50,7 +61,7 @@ const openProjectImport = () => {
     <tr>
       <td colspan="5">
         <q-btn flat dense label="从项目中导入" @click="openProjectImport"></q-btn>
-        <q-btn flat dense label="从文件中导入"></q-btn>
+        <q-btn flat dense label="从文件中导入" @click="openFileImport"></q-btn>
       </td>
     </tr>
     </tbody>

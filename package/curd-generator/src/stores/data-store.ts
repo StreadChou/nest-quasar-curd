@@ -278,7 +278,7 @@ export const useDataStore = defineStore('data', {
       }
     },
 
-    getJsonDataAsSelectOptions(count: number) {
+    getJsonDataAsSelectOptions(count: number): { value: ImportDataIc, label: string }[] {
       let options: Array<{ label: string, value: ImportDataIc }> = [];
       console.log({projectRecord: this.projectRecord})
       console.log({count})

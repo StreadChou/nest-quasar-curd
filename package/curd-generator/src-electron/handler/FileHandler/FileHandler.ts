@@ -3,6 +3,7 @@ import fs from 'fs'
 import {IpcMainRegister} from "app/src-electron/handler/HandlerLoader";
 import {Generator} from "app/src-electron/app/Generator";
 import path from "path";
+import {getImportPath} from "app/src-electron/helper/PathHelper";
 
 
 export class FileHandler {
@@ -80,6 +81,15 @@ export class FileHandler {
     const generator = new Generator(data);
     generator.start();
     generator.writeToFile();
+  }
+
+  @IpcMainRegister({
+    name: "FileHandler.getImportPath",
+    type: ipcMain.handle
+  })
+  public async getImportPath(event: IpcMainInvokeEvent, from: string, target: string) {
+    const importString = getImportPath(from, target);
+    return {code: 0, data: {importString}}
   }
 
 
