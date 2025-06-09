@@ -1,18 +1,18 @@
-import {Generator} from "app/src-electron/app/Generator";
+import {RootGenerator} from "app/src-electron/app/RootGenerator";
 import {AbstractFileGenerator} from "app/src-electron/app/generator/FileGenerator/AbstractFileGenerator";
 import path from "path";
 import {getTwoTsFileImportPath} from "app/src-electron/helper/PathHelper";
-import {ModulesGenerator} from "app/src-electron/app/ModulesGenerator";
+import {ModuleGenerator} from "app/src-electron/app/ModuleGenerator";
 import {ModelGenerator} from "app/src-electron/app/ModelGenerator";
 import {ImportType} from "app/type/TypescriptImport/ImportType";
 
 /** entityList 文件生成 */
 export class EntityListFileGeneratorBackend extends AbstractFileGenerator {
-  generator: Generator;
+  generator: RootGenerator;
   /** entity 列表 */
   entityStringList: string[] = [];
 
-  constructor(generator: Generator) {
+  constructor(generator: RootGenerator) {
     super();
     this.generator = generator;
   }
@@ -37,7 +37,7 @@ export class EntityListFileGeneratorBackend extends AbstractFileGenerator {
 
   start() {
     for (const module_string in this.generator.modules) {
-      const item = this.generator.modules[module_string] as ModulesGenerator;
+      const item = this.generator.modules[module_string] as ModuleGenerator;
       for (const model_string in item.models) {
         const model = item.models[model_string] as ModelGenerator;
         const entityFileGeneratorBackend = model.entityFileGeneratorBackend;

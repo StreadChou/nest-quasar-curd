@@ -1,4 +1,4 @@
-import {Generator} from "app/src-electron/app/Generator";
+import {RootGenerator} from "app/src-electron/app/RootGenerator";
 import {AbstractFileGenerator, ImportType} from "app/src-electron/app/generator/FileGenerator/AbstractFileGenerator";
 import {ModelsItem, ModulesItem} from "app/type/JsonFileDefine/Index";
 import path from "path";
@@ -8,14 +8,14 @@ import {getTwoTsFileImportPath} from "app/src-electron/helper/PathHelper";
 
 /** service 文件生成 */
 export class ServiceFileGeneratorBackend extends AbstractFileGenerator {
-  generator: Generator;
+  generator: RootGenerator;
   modelGenerator: ModelGenerator;
 
   private __INS_EXTENDS__: string = "";
   private __INS_CONSTRUCTOR__: string[] = [];
   private __INS_CONSTRUCTOR_CONTENT__: string[] = [];
 
-  constructor(generator: Generator, modulesGenerator: ModelGenerator) {
+  constructor(generator: RootGenerator, modulesGenerator: ModelGenerator) {
     super();
     this.generator = generator;
     this.modelGenerator = modulesGenerator;

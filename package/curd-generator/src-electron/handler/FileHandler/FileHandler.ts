@@ -1,7 +1,7 @@
 import {ipcMain, dialog, type IpcMainInvokeEvent} from 'electron'
 import fs from 'fs'
 import {IpcMainRegister} from "app/src-electron/handler/HandlerLoader";
-import {Generator} from "app/src-electron/app/Generator";
+import {RootGenerator} from "app/src-electron/app/RootGenerator";
 import path from "path";
 import {getImportPath} from "app/src-electron/helper/PathHelper";
 import {JsonFile} from "app/type/JsonFileDefine";
@@ -80,7 +80,7 @@ export class FileHandler {
   public async startExport(event: IpcMainInvokeEvent, target: string) {
     const json_string = fs.readFileSync(target).toString();
     const json_data: JsonFile = JSON.parse(json_string);
-    const generator = new Generator(target, json_data);
+    const generator = new RootGenerator(target, json_data);
     generator.start();
     generator.writeToFile();
   }

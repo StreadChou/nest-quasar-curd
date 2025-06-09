@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import CreateModule from "components/Module/CreateModule.vue";
 import {useViewStore} from "stores/view-store";
-import {ref} from "vue";
+import {ref, watch} from "vue";
 import {useDataStore} from "stores/data-store";
 import {ProjectConfig} from "app/type/JsonFileDefine/Project";
+import FolderRelativeInput from "components/Common/FolderRelativeInput.vue";
 
 const props = defineProps<{
   count: number,
@@ -16,7 +17,13 @@ const projectRecord = ref(dataStore.getProjectRecord(props.count));
 
 const form = ref<Partial<ProjectConfig>>({
   name: projectRecord.value.json_data.project.name,
+  backend_path: projectRecord.value.json_data.project.backend_path,
 })
+
+const selectBackendPath = () => {
+
+}
+
 
 const save = () => {
   dataStore.updateProject(props.count, form.value)
@@ -36,6 +43,7 @@ const save = () => {
     </div>
     <div class="q-gutter-y-md">
       <q-input standout dense v-model="form.name" label="名称"></q-input>
+      <FolderRelativeInput :count="count" v-model="form.backend_path"></FolderRelativeInput>
     </div>
     <div class="q-pa-md">
       <q-markup-table flat separator="cell" class="bg-none" dense bordered>

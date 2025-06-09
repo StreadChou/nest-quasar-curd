@@ -1,4 +1,4 @@
-import {Generator} from "app/src-electron/app/Generator";
+import {RootGenerator} from "app/src-electron/app/RootGenerator";
 import {AbstractFileGenerator} from "app/src-electron/app/generator/FileGenerator/AbstractFileGenerator";
 import path from "path";
 import {ModelGenerator} from "app/src-electron/app/ModelGenerator";
@@ -8,14 +8,14 @@ import {ModelConfig} from "app/type/JsonFileDefine/Model";
 
 /** controller 文件生成 */
 export class ControllerFileGeneratorBackend extends AbstractFileGenerator {
-  generator: Generator;
+  generator: RootGenerator;
   modelGenerator: ModelGenerator;
 
   private __INS_EXTENDS__: string = "";
   private __INS_CONSTRUCTOR__: string[] = [];
   private __INS_CONSTRUCTOR_CONTENT__: string[] = [];
 
-  constructor(generator: Generator, modulesGenerator: ModelGenerator) {
+  constructor(generator: RootGenerator, modulesGenerator: ModelGenerator) {
     super();
     this.generator = generator;
     this.modelGenerator = modulesGenerator;

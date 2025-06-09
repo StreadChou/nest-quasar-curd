@@ -1,17 +1,17 @@
-import {Generator} from "app/src-electron/app/Generator";
+import {RootGenerator} from "app/src-electron/app/RootGenerator";
 import {AbstractFileGenerator} from "app/src-electron/app/generator/FileGenerator/AbstractFileGenerator";
 import path from "path";
-import {ModulesGenerator} from "app/src-electron/app/ModulesGenerator";
+import {ModuleGenerator} from "app/src-electron/app/ModuleGenerator";
 import {getTwoTsFileImportPath} from "app/src-electron/helper/PathHelper";
 import {ImportType} from "app/type/TypescriptImport/ImportType";
 
 /** moduleList 文件生成 */
 export class ModuleListFileGeneratorBackend extends AbstractFileGenerator {
-  generator: Generator;
+  generator: RootGenerator;
   /** module 列表 */
   MODULE_LIST_CONTENT: string[] = [];
 
-  constructor(generator: Generator) {
+  constructor(generator: RootGenerator) {
     super();
     this.generator = generator;
   }
@@ -36,7 +36,7 @@ export class ModuleListFileGeneratorBackend extends AbstractFileGenerator {
 
   start() {
     for (const string in this.generator.modules) {
-      const item = this.generator.modules[string] as ModulesGenerator;
+      const item = this.generator.modules[string] as ModuleGenerator;
       const moduleFileGeneratorBackend = item.moduleFileGeneratorBackend;
       const baseName = moduleFileGeneratorBackend.getBaseName();
       const filePath = moduleFileGeneratorBackend.getFilePath();

@@ -5,7 +5,7 @@ export abstract class AFileGenerator {
   importer: Importer;
 
   protected constructor() {
-    this.importer = new Importer();
+    this.importer = new Importer(this);
   }
 
   /** 是否导出 */

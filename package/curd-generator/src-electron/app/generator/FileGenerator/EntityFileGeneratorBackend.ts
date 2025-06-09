@@ -1,14 +1,14 @@
-import {Generator} from "app/src-electron/app/Generator";
+import {RootGenerator} from "app/src-electron/app/RootGenerator";
 import {AbstractFileGenerator} from "app/src-electron/app/generator/FileGenerator/AbstractFileGenerator";
 import path from "path";
 import {ModelGenerator} from "app/src-electron/app/ModelGenerator";
 
 /** model文件生成 */
 export class EntityFileGeneratorBackend extends AbstractFileGenerator {
-  generator: Generator;
+  generator: RootGenerator;
   modelGenerator: ModelGenerator;
 
-  constructor(generator: Generator, modulesGenerator: ModelGenerator) {
+  constructor(generator: RootGenerator, modulesGenerator: ModelGenerator) {
     super();
     this.generator = generator;
     this.modelGenerator = modulesGenerator;

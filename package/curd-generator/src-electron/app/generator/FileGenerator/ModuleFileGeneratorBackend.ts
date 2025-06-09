@@ -1,5 +1,5 @@
-import {Generator} from "app/src-electron/app/Generator";
-import {ModulesGenerator} from "app/src-electron/app/ModulesGenerator";
+import {RootGenerator} from "app/src-electron/app/RootGenerator";
+import {ModuleGenerator} from "app/src-electron/app/ModuleGenerator";
 import {AbstractFileGenerator} from "app/src-electron/app/generator/FileGenerator/AbstractFileGenerator";
 import {ModulesItem} from "app/type/JsonFileDefine/Index";
 import path from "path";
@@ -8,8 +8,8 @@ import {getTwoTsFileImportPath} from "app/src-electron/helper/PathHelper";
 
 /** module文件生成 */
 export class ModuleFileGeneratorBackend extends AbstractFileGenerator {
-  generator: Generator;
-  modulesGenerator: ModulesGenerator
+  generator: RootGenerator;
+  modulesGenerator: ModuleGenerator
 
   TYPE_ORM_FOR_FEATURE: string[] = [];
   IMPORTS_CONTENT: string[] = [];
@@ -18,7 +18,7 @@ export class ModuleFileGeneratorBackend extends AbstractFileGenerator {
   EXPORTS_CONTENT: string[] = [];
 
 
-  constructor(generator: Generator, modulesGenerator: ModulesGenerator) {
+  constructor(generator: RootGenerator, modulesGenerator: ModuleGenerator) {
     super();
     this.generator = generator;
     this.modulesGenerator = modulesGenerator;
