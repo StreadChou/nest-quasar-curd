@@ -2,7 +2,9 @@
   "project": {
     "name": "测试项目",
     "created_at": 1749002620187,
-    "updated_at": 1749373397305
+    "updated_at": 1749373397305,
+    "backend_path": "./nest/nq-curd",
+    "frontend_path": "./quasar/nq-curd"
   },
   "collect": {
     "toModulesList": true,

@@ -34,7 +34,6 @@ onMounted(() => {
   viewStore.openHomePanel();
 })
 
-
 </script>
 
 

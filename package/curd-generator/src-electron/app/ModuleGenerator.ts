@@ -24,8 +24,15 @@ export class ModuleGenerator {
   }
 
   start() {
+    for (const file of this.fileList){
+      file.start();
+    }
   }
 
   writeToFile() {
+    for (const file of this.fileList){
+      file.writeToFile();
+    }
   }
+
 }

@@ -1,8 +1,11 @@
 import path from "path";
 import {Importer} from "app/src-electron/app/generator/Importer";
+import fs from "fs";
 
 export abstract class AFileGenerator {
   importer: Importer;
+  /** 文件的内容 */
+  content_list: string[] = [];
 
   protected constructor() {
     this.importer = new Importer(this);
@@ -23,6 +26,19 @@ export abstract class AFileGenerator {
   /** 获取文件的路径 */
   getFilePath(): string {
     return path.join(this.getDirPath(), this.getFileName());
+  }
+
+
+  /** 开始 */
+  abstract start(): void;
+
+  writeToFile() {
+    const dir_path = this.getDirPath();
+    if (!fs.existsSync(dir_path)) fs.mkdirSync(dir_path, {recursive: true});
+
+    const filePath = this.getFilePath();
+    const content = this.content_list.join("\n");
+    fs.writeFileSync(filePath, content);
   }
 
 }

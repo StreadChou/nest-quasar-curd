@@ -43,7 +43,14 @@ const save = () => {
     </div>
     <div class="q-gutter-y-md">
       <q-input standout dense v-model="form.name" label="名称"></q-input>
-      <FolderRelativeInput :count="count" v-model="form.backend_path"></FolderRelativeInput>
+      <FolderRelativeInput :count="count" v-model="form.backend_path"
+                           label="后端导出路径(相对于配置文件)"
+      ></FolderRelativeInput>
+      <FolderRelativeInput :count="count" v-model="form.frontend_path"
+                           label="前端导出路径(相对于配置文件)"
+      >
+
+      </FolderRelativeInput>
     </div>
     <div class="q-pa-md">
       <q-markup-table flat separator="cell" class="bg-none" dense bordered>

@@ -1,0 +1,30 @@
+// CUSTOMER IMPORT START
+// CUSTOMER IMPORT END
+
+@Module({
+    imports: [
+__IMPORTS_CONTENT__
+        // CUSTOMER IMPORTS START
+        // CUSTOMER IMPORTS END
+    ],
+    controllers: [
+__CONTROLLERS_CONTENT__
+        // CUSTOMER CONTROLLERS START
+        // CUSTOMER CONTROLLERS END
+    ],
+    providers: [
+__PROVIDERS_CONTENT__
+        // CUSTOMER PROVIDERS START
+        // CUSTOMER PROVIDERS END
+    ],
+    exports: [
+__EXPORTS_CONTENT__
+        // CUSTOMER EXPORTS START
+        // CUSTOMER EXPORTS END
+    ],
+})
+// CUSTOMER DECORATOR START
+// CUSTOMER DECORATOR END
+__IS_GLOBAL__
+export class __BASE_NAME__ {
+}

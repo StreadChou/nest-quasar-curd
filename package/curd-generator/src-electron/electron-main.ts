@@ -3,6 +3,7 @@ import path from 'path';
 import os from 'os';
 import {fileURLToPath} from 'url'
 import {initAllHandler} from "app/src-electron/handler/HandlerLoader";
+import {loader} from "app/src-electron/ElectronApi/Loader";
 
 // needed in case process is undefined under Linux
 const platform = process.platform || os.platform();
@@ -55,6 +56,7 @@ async function createWindow() {
 app.whenReady().then(() => {
   createWindow();
   initAllHandler();
+  console.log(`Handler Number: `, loader.length)
 });
 
 app.on('window-all-closed', () => {
