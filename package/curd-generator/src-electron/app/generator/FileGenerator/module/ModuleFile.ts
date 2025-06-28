@@ -21,6 +21,38 @@ export class ModuleFile extends AFileGenerator {
 
   override start() {
     this.content_list.push(...this.getTemplate());
+    for (const index in this.content_list) {
+      const item = this.content_list[index] as string;
+
+      if (item.includes("__MODULE_DECORATOR__")) {
+        this.importer.addImportFromNestjsCommon("Module")
+        this.content_list[index] = item.replace("__MODULE_DECORATOR__", "@Module")
+      }
+
+      if (item.includes("__IMPORTS_CONTENT__")) {
+        this.content_list[index] = item.replace("__IMPORTS_CONTENT__", "")
+      }
+      if (item.includes("__CONTROLLERS_CONTENT__")) {
+        this.content_list[index] = item.replace("__CONTROLLERS_CONTENT__", "")
+      }
+      if (item.includes("__PROVIDERS_CONTENT__")) {
+        this.content_list[index] = item.replace("__PROVIDERS_CONTENT__", "")
+      }
+      if (item.includes("__EXPORTS_CONTENT__")) {
+        this.content_list[index] = item.replace("__EXPORTS_CONTENT__", "")
+      }
+
+      if (item.includes("__GLOBAL_DECORATOR__")) {
+        this.importer.addImportFromNestjsCommon("Global")
+        this.content_list[index] = item.replace("__GLOBAL_DECORATOR__", "@Global()")
+      }
+
+      if (item.includes("__BASE_NAME__")) {
+        this.content_list[index] = item.replace("__BASE_NAME__", this.getBaseName())
+      }
+
+
+    }
   }
 
   /** 是否导出 */
@@ -51,7 +83,7 @@ export class ModuleFile extends AFileGenerator {
     const string = `// CUSTOMER IMPORT START
 // CUSTOMER IMPORT END
 
-@Module({
+__MODULE_DECORATOR__({
     imports: [
 __IMPORTS_CONTENT__
         // CUSTOMER IMPORTS START
@@ -73,9 +105,9 @@ __EXPORTS_CONTENT__
         // CUSTOMER EXPORTS END
     ],
 })
+__GLOBAL_DECORATOR__
 // CUSTOMER DECORATOR START
 // CUSTOMER DECORATOR END
-__IS_GLOBAL__
 export class __BASE_NAME__ {
 }
 `

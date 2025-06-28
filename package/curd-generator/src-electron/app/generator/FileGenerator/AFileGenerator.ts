@@ -33,12 +33,14 @@ export abstract class AFileGenerator {
   abstract start(): void;
 
   writeToFile() {
+    if (!this.isExport()) return null;
     const dir_path = this.getDirPath();
     if (!fs.existsSync(dir_path)) fs.mkdirSync(dir_path, {recursive: true});
 
     const filePath = this.getFilePath();
-    const content = this.content_list.join("\n");
-    fs.writeFileSync(filePath, content);
+    const importString = this.importer.getImportStringList().join("\n");
+    const contentString = this.content_list.join("\n");
+    fs.writeFileSync(filePath, [importString, contentString].join("\n"));
   }
 
 }
