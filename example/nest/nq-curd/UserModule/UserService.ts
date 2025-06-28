@@ -1,20 +1,19 @@
-import {Controller} from '@nestjs/common'
-import {CurdBaseController} from '../CurdBase/CurdBaseController'
-import {UserService} from './UserService'
+import {Injectable} from '@nestjs/common'
+import {CurdBaseServices} from '../CurdBase/CurdBaseServices'
 
 // CUSTOMER IMPORT START
 // CUSTOMER IMPORT END
 
-@Controller()
+@Injectable()
 // CUSTOMER DECORATOR START
 // CUSTOMER DECORATOR END
-export class UserController extends CurdBaseController{
+export class UserService extends CurdBaseServices{
     constructor(
-        public readonly service: UserService,
+
         // CUSTOMER CONSTRUCTOR START
         // CUSTOMER CONSTRUCTOR END
     ) {
-        super(service)
+        super()
         // CUSTOMER CONTENT_CONTENT START
         // CUSTOMER CONTENT_CONTENT END
     }

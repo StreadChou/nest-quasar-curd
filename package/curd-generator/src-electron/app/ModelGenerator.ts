@@ -3,6 +3,7 @@ import {ModelConfig} from "app/type/JsonFileDefine/Model";
 import {AFileGenerator} from "app/src-electron/app/generator/FileGenerator/AFileGenerator";
 import {ControllerFile} from "app/src-electron/app/generator/FileGenerator/model/ControllerFile";
 import {RootGenerator} from "app/src-electron/app/RootGenerator";
+import {ServicesFile} from "app/src-electron/app/generator/FileGenerator/model/ServicesFile";
 
 export class ModelGenerator {
   generator: RootGenerator
@@ -23,6 +24,7 @@ export class ModelGenerator {
 
   initInstance() {
     this.fileList.push(new ControllerFile(this));
+    this.fileList.push(new ServicesFile(this));
   }
 
   start() {

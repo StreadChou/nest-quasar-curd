@@ -128,7 +128,7 @@
           "controllerClassName": "UserController",
           "curdPath": "",
           "joinModuleControllers": true,
-          "serviceName": "",
+          "serviceName": "UserService",
           "joinModuleProviders": true,
           "joinModuleExports": true,
           "constant": [
