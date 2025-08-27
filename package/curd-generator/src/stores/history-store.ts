@@ -38,6 +38,11 @@ export const useHistoryStore = defineStore('history', {
       const key = this.key;
       LocalStorage.set(key, this.historyData);
     },
+    async clearAll() {
+      this.historyData = [];
+      const key = this.key;
+      LocalStorage.set(key, this.historyData);
+    },
   },
 });
 

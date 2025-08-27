@@ -22,7 +22,7 @@ export class AppHandler {
   })
   createProject(event: IpcMainInvokeEvent, target: string, name: string) {
     const stat = fs.statSync(target);
-    if (stat.isDirectory()) target = path.join(target, "project.nqcurd")
+    if (stat.isDirectory()) target = path.join(target, "project.json")
 
     const data: JsonFile = {
       project: {

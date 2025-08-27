@@ -52,7 +52,7 @@ export class FileHandler {
   })
   public async loadJsonFile(event: IpcMainInvokeEvent, _p: string) {
     if (!fs.existsSync(_p)) return {message: "文件不存在", code: 500}
-    if (!_p.endsWith(".nqcurd")) return {message: "文件类型不是指定类型", code: 500}
+    if (!_p.endsWith(".json")) return {message: "文件类型不是指定类型", code: 500}
     try {
       const str = fs.readFileSync(_p).toString();
       return {data: JSON.parse(str), code: 0};

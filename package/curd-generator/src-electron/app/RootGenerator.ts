@@ -74,7 +74,7 @@ export class RootGenerator {
 }
 
 
-const target = `/Users/stread/Project/002_Stread/nest-quasar-curd/example/test.nqcurd`
+const target = `/Volumes/Project/003_Stread/nest-quasar-curd/example/test.json`
 const json_string = fs.readFileSync(target).toString();
 const json_data: JsonFile = JSON.parse(json_string);
 const generator = new RootGenerator(target, json_data);
